@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://cq1tv3ku86ur3"]
+
+[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_babd0"]
+[ext_resource type="PackedScene" uid="uid://i7k6bn7tac3d" path="res://scenes/Double.tscn" id="1_o8umb"]
+[ext_resource type="Texture2D" uid="uid://deluikdxuyi64" path="res://sprites/The sky for bench.png" id="2_0vpuc"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_o8umb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_babd0"]
+shader = ExtResource("1_babd0")
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0vpuc"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_babd0"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ujc8a"]
+normal = Vector2(-1, 0)
+
+[node name="World" type="Node2D" unique_id=1595944957]
+
+[node name="Bottom" type="StaticBody2D" parent="." unique_id=253908665]
+position = Vector2(280, 360)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bottom" unique_id=671447584]
+shape = SubResource("WorldBoundaryShape2D_o8umb")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1390561763]
+material = SubResource("ShaderMaterial_babd0")
+position = Vector2(284, 257)
+texture = ExtResource("2_0vpuc")
+
+[node name="Double" parent="." unique_id=353923736 instance=ExtResource("1_o8umb")]
+position = Vector2(100, 109)
+
+[node name="Camera2D" type="Camera2D" parent="Double" unique_id=1046679172]
+position = Vector2(6, 2)
+zoom = Vector2(1.2, 1.2)
+process_callback = 0
+
+[node name="Left" type="StaticBody2D" parent="." unique_id=481896195]
+position = Vector2(0, 98)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Left" unique_id=471300167]
+shape = SubResource("WorldBoundaryShape2D_0vpuc")
+
+[node name="Top" type="StaticBody2D" parent="." unique_id=572205736]
+position = Vector2(184, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Top" unique_id=62762069]
+shape = SubResource("WorldBoundaryShape2D_babd0")
+
+[node name="Right" type="StaticBody2D" parent="." unique_id=1646090567]
+position = Vector2(373, 102)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Right" unique_id=1442978817]
+shape = SubResource("WorldBoundaryShape2D_ujc8a")
