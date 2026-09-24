@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://i7k6bn7tac3d"]
+
+[ext_resource type="Script" uid="uid://eclbeo44g5uk" path="res://scripts/player.gd" id="1_7xf34"]
+[ext_resource type="Texture2D" uid="uid://dphvo84y80qu8" path="res://sprites/Double.png" id="1_8b3gr"]
+[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="2_7r1i8"]
+[ext_resource type="Script" uid="uid://deyfps0gdfuso" path="res://scripts/hurt_box.gd" id="4_qr83c"]
+[ext_resource type="Script" uid="uid://cimcpu0lm3i5h" path="res://scripts/health_component.gd" id="5_abmxc"]
+[ext_resource type="PackedScene" uid="uid://dtpx4cociiagf" path="res://scenes/gun.tscn" id="6_70d11"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7r1i8"]
+shader = ExtResource("2_7r1i8")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u5qg6"]
+atlas = ExtResource("1_8b3gr")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l3kap"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u5qg6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0cwf8"]
+size = Vector2(12.125, 19.625)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_abmxc"]
+size = Vector2(12, 20)
+
+[node name="Player" type="CharacterBody2D" unique_id=353923736]
+script = ExtResource("1_7xf34")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1338463026]
+material = SubResource("ShaderMaterial_7r1i8")
+sprite_frames = SubResource("SpriteFrames_l3kap")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1455954465]
+position = Vector2(5.0625, -0.1875)
+shape = SubResource("RectangleShape2D_0cwf8")
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=16542959]
+script = ExtResource("4_qr83c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=605539488]
+position = Vector2(5, 0)
+shape = SubResource("RectangleShape2D_abmxc")
+debug_color = Color(0.8139178, 0.30736557, 0.6878569, 0.41960785)
+
+[node name="HealthComponent" type="Node2D" parent="." unique_id=1555621118]
+script = ExtResource("5_abmxc")
+
+[node name="ShieldTimer" type="Timer" parent="." unique_id=1703445016]
+
+[node name="Gun" parent="." unique_id=1295489834 instance=ExtResource("6_70d11")]
+position = Vector2(7, 4)
