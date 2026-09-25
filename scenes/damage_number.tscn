@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bscrltn1af1bx"]
+
+[ext_resource type="FontFile" uid="uid://cfx0v4v24adie" path="res://fonts/Minecraftia-Regular.ttf" id="1_l4fel"]
+[ext_resource type="Script" uid="uid://ikw8o80k0p5e" path="res://scripts/damage_number.gd" id="2_vewc8"]
+
+[node name="Damage Number" type="Label" unique_id=55797089]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8352941)
+theme_override_fonts/font = ExtResource("1_l4fel")
+theme_override_font_sizes/font_size = 8
+script = ExtResource("2_vewc8")
