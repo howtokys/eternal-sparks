@@ -2,11 +2,8 @@ extends Node
 
 const SAVE_PATH: String = "user://savegame.json"
 
-# References assigned dynamically by the scenes themselves
 var world: Node2D = null
 var player: CharacterBody2D = null
-
-# Flag telling the player script whether to restore data
 var is_loading_save: bool = false
 
 # Player data to save/load
@@ -17,8 +14,7 @@ var saved_health: int = 100
 func save_game() -> void:
 	if player:
 		saved_position = player.global_position
-		# If your player has a health variable:
-		# saved_health = player.health
+		
 
 	var save_dict: Dictionary = {
 		"pos_x": saved_position.x,

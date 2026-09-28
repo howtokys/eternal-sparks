@@ -3,10 +3,7 @@ extends CharacterBody2D
 const SPEED = 150.0
 
 func _ready() -> void:
-	# 1. Register this player to GlobalData so other scripts can access it
 	GlobalData.player = self
-	
-	# 2. Check if we arrived here via the Continue button
 	if GlobalData.is_loading_save:
 		global_position = GlobalData.saved_position	
 		GlobalData.is_loading_save = false
