@@ -28,7 +28,7 @@ func decrease_life_points(body):
 func update_hit_display():
 	if not is_instance_valid(active_label):
 		active_label = DAMAGE_NUMBER.instantiate()
-		GlobalData.world.add_child(active_label)
+		get_tree().current_scene.add_child(active_label)
 	
 	var spawn_pos = global_position + Vector2(randf_range(-6, 6), -15)
 	active_label.display(hit_count, spawn_pos)

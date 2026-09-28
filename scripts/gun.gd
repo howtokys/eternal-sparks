@@ -16,4 +16,4 @@ func shoot() -> void:
 	new_bullet.position = marker_2d.global_position
 	new_bullet.target_position = (get_global_mouse_position() - marker_2d.global_position).normalized()
 	new_bullet.rotation = (get_global_mouse_position() - marker_2d.global_position).angle()
-	GlobalData.world.add_child(new_bullet)
+	get_tree().current_scene.add_child(new_bullet)
