@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://brqcsjo4rg7ls"]
 
 [ext_resource type="Script" uid="uid://tou6y4wupefx" path="res://scripts/enemy.gd" id="1_qi2p4"]
+[ext_resource type="Texture2D" uid="uid://bnrv5ee5a5p0r" path="res://sprites/boar.png" id="2_5uy6h"]
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="2_iifgy"]
 [ext_resource type="Texture2D" uid="uid://dphvo84y80qu8" path="res://sprites/Double.png" id="3_epg4t"]
 
@@ -23,22 +24,29 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0cwf8"]
-size = Vector2(12.125, 19.625)
+size = Vector2(32, 25.8125)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qi2p4"]
-size = Vector2(22, 27)
+size = Vector2(36, 26)
 
 [node name="Enemy" type="CharacterBody2D" unique_id=353923736]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_qi2p4")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=187162669]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_5uy6h")
+flip_h = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1338463026]
+visible = false
 material = SubResource("ShaderMaterial_7r1i8")
 sprite_frames = SubResource("SpriteFrames_l3kap")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1455954465]
-position = Vector2(5.0625, -0.1875)
+position = Vector2(0, 4.90625)
 shape = SubResource("RectangleShape2D_0cwf8")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1903171753]
@@ -46,7 +54,7 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=805540452]
-position = Vector2(5, 0.5)
+position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_qi2p4")
 debug_color = Color(0.45268273, 0.48776448, 0.89331657, 0.41960785)
 
