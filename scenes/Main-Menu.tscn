@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cw64lvjtg5wvo"]
 
-[ext_resource type="Script" uid="uid://dk5xtmglx0vej" path="res://scenes/main_menu.gd" id="1_4u1fl"]
+[ext_resource type="Script" uid="uid://dk5xtmglx0vej" path="res://scripts/main_menu.gd" id="1_4u1fl"]
 [ext_resource type="Texture2D" uid="uid://wyldia6g2qu5" path="res://sprites/1000_F_786021765_UsHzxsRmM7JfXczRRdUEzfXwwXYHYpiH.jpg" id="1_ovj3v"]
 [ext_resource type="FontFile" uid="uid://cfx0v4v24adie" path="res://fonts/Minecraftia-Regular.ttf" id="2_4u1fl"]
 
