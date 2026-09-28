@@ -51,13 +51,13 @@ shape = SubResource("WorldBoundaryShape2D_ujc8a")
 position = Vector2(319, 175)
 
 [node name="Enemy" parent="." unique_id=21342073 instance=ExtResource("4_d1c63")]
-position = Vector2(474, 224)
+position = Vector2(186, 177)
 
 [node name="Enemy2" parent="." unique_id=2114173828 instance=ExtResource("4_d1c63")]
-position = Vector2(489, 133)
+position = Vector2(500, 219)
 
 [node name="Enemy3" parent="." unique_id=1571622002 instance=ExtResource("4_d1c63")]
-position = Vector2(393, 140)
+position = Vector2(441, 129)
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=993086526]
 visible = false
