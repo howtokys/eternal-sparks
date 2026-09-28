@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://deluikdxuyi64" path="res://sprites/The sky for bench.png" id="2_d1c63"]
 [ext_resource type="PackedScene" uid="uid://i7k6bn7tac3d" path="res://scenes/Player.tscn" id="3_1lgw5"]
 [ext_resource type="PackedScene" uid="uid://brqcsjo4rg7ls" path="res://scenes/enemy.tscn" id="4_d1c63"]
+[ext_resource type="PackedScene" uid="uid://bnh34ybbgfyg6" path="res://scenes/Pause_scene.tscn" id="5_1lgw5"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_o8umb"]
 
@@ -65,3 +66,5 @@ position = Vector2(98, 84)
 
 [node name="Enemy4" parent="." unique_id=1850229081 instance=ExtResource("4_d1c63")]
 position = Vector2(102, 134)
+
+[node name="PauseScene" parent="." unique_id=273163113 instance=ExtResource("5_1lgw5")]
