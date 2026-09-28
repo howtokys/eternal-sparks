@@ -57,3 +57,6 @@ script = ExtResource("5_abmxc")
 
 [node name="Gun" parent="." unique_id=1295489834 instance=ExtResource("6_70d11")]
 position = Vector2(7, 4)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1614490843]
+position_smoothing_enabled = true
