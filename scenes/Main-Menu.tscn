@@ -1,0 +1,166 @@
+[gd_scene format=3 uid="uid://cw64lvjtg5wvo"]
+
+[ext_resource type="Script" uid="uid://dk5xtmglx0vej" path="res://scenes/main_menu.gd" id="1_4u1fl"]
+[ext_resource type="Texture2D" uid="uid://wyldia6g2qu5" path="res://sprites/1000_F_786021765_UsHzxsRmM7JfXczRRdUEzfXwwXYHYpiH.jpg" id="1_ovj3v"]
+[ext_resource type="FontFile" uid="uid://cfx0v4v24adie" path="res://fonts/Minecraftia-Regular.ttf" id="2_4u1fl"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b08ru"]
+texture = ExtResource("1_ovj3v")
+modulate_color = Color(0.90359825, 0.90359825, 0.9035982, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ovj3v"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0)
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4u1fl"]
+bg_color = Color(1, 1, 1, 0.2)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.20392157)
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nwme3"]
+bg_color = Color(1, 1, 1, 0.11764706)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.39215687)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.20392157)
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7hj8g"]
+
+[node name="MainMenu" type="Control" unique_id=901125856]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4u1fl")
+
+[node name="Panel" type="Panel" parent="." unique_id=1473940889]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_b08ru")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1142759224]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -106.0
+offset_top = -96.0
+offset_right = 191.0
+offset_bottom = 99.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="Button" type="Button" parent="VBoxContainer" unique_id=1264414176]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_4u1fl")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_ovj3v")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_4u1fl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_nwme3")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7hj8g")
+text = "New Game"
+
+[node name="Button2" type="Button" parent="VBoxContainer" unique_id=342867080]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_4u1fl")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_ovj3v")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_4u1fl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_nwme3")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7hj8g")
+text = "Settings"
+
+[node name="Button3" type="Button" parent="VBoxContainer" unique_id=1422218441]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_4u1fl")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_ovj3v")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_4u1fl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_nwme3")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7hj8g")
+text = "Continue"
+
+[node name="Button4" type="Button" parent="VBoxContainer" unique_id=834721448]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_4u1fl")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_ovj3v")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_4u1fl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_nwme3")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7hj8g")
+text = "Quit
+"
+
+[node name="Label" type="Label" parent="." unique_id=28364557]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -317.0
+offset_right = 121.0
+offset_bottom = -250.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1.2017038, 1.2057062, 0.9098564, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 4
+theme_override_fonts/font = ExtResource("2_4u1fl")
+theme_override_font_sizes/font_size = 25
+text = "Eternal Sparks
+"
+
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="VBoxContainer/Button2" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="VBoxContainer/Button3" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="VBoxContainer/Button4" to="." method="_on_exit_pressed"]
