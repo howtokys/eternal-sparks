@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bogu0ck60hput" path="res://scripts/pause_scene.gd" id="1_d76l8"]
 [ext_resource type="Shader" uid="uid://byci8e20ra5lr" path="res://Shaders/Pause_scene.gdshader" id="2_fvkf3"]
+[ext_resource type="FontFile" uid="uid://cfx0v4v24adie" path="res://fonts/Minecraftia-Regular.ttf" id="3_fvkf3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b08ru"]
 shader = ExtResource("2_fvkf3")
@@ -83,16 +84,19 @@ layout_mode = 2
 [node name="Button" type="Button" parent="PanelContainer/VBoxContainer" unique_id=745610303]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_fvkf3")
 text = "Resume"
 
 [node name="Button2" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1901592532]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_fvkf3")
 text = "Restart"
 
 [node name="Button3" type="Button" parent="PanelContainer/VBoxContainer" unique_id=943880222]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_fvkf3")
 text = "Quit"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1823189580]
