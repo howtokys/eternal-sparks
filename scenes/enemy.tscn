@@ -54,7 +54,7 @@ metadata/_edit_group_ = true
 shape = SubResource("CircleShape2D_4ra3w")
 
 [node name="HitCountResetTimer" type="Timer" parent="." unique_id=210750114]
-wait_time = 0.1
+wait_time = 0.6
 one_shot = true
 
 [node name="AttackTimer" type="Timer" parent="." unique_id=1319109147]
