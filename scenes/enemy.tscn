@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://tou6y4wupefx" path="res://scripts/enemy.gd" id="1_qi2p4"]
 [ext_resource type="Texture2D" uid="uid://bnrv5ee5a5p0r" path="res://sprites/boar.png" id="2_5uy6h"]
+[ext_resource type="Script" uid="uid://hap3v5dcihvt" path="res://health_component.gd" id="3_4ra3w"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0cwf8"]
 size = Vector2(32, 25.8125)
@@ -26,14 +27,13 @@ texture = ExtResource("2_5uy6h")
 flip_h = true
 
 [node name="BodyCollisionShape" type="CollisionShape2D" parent="." unique_id=1455954465]
-visible = false
 position = Vector2(0, 4.90625)
 shape = SubResource("RectangleShape2D_0cwf8")
 
 [node name="HurtBox" type="Area2D" parent="." unique_id=1903171753]
 visible = false
 collision_layer = 2
-collision_mask = 2
+collision_mask = 5
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=805540452]
@@ -58,3 +58,7 @@ wait_time = 0.1
 one_shot = true
 
 [node name="AttackTimer" type="Timer" parent="." unique_id=1319109147]
+
+[node name="HealthComponent" type="Node2D" parent="." unique_id=622271987]
+script = ExtResource("3_4ra3w")
+metadata/_custom_type_script = "uid://hap3v5dcihvt"

@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://i7k6bn7tac3d" path="res://scenes/Player.tscn" id="3_1lgw5"]
 [ext_resource type="PackedScene" uid="uid://brqcsjo4rg7ls" path="res://scenes/enemy.tscn" id="4_d1c63"]
 [ext_resource type="PackedScene" uid="uid://bnh34ybbgfyg6" path="res://scenes/Pause_scene.tscn" id="5_1lgw5"]
+[ext_resource type="PackedScene" uid="uid://5daivydu6730" path="res://scenes/HUD.tscn" id="6_hlk0d"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_babd0"]
 shader = ExtResource("1_7g83o")
@@ -66,3 +67,5 @@ visible = false
 [node name="PauseScene" parent="UI" unique_id=273163113 instance=ExtResource("5_1lgw5")]
 offset_top = -1.0
 offset_bottom = -1.0
+
+[node name="CanvasLayer" parent="." unique_id=1979618489 instance=ExtResource("6_hlk0d")]
