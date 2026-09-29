@@ -58,3 +58,4 @@ wait_time = 0.5
 one_shot = true
 
 [node name="AttackTimer" type="Timer" parent="." unique_id=1319109147]
+wait_time = 1.5

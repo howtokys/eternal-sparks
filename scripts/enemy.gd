@@ -53,15 +53,30 @@ func _physics_process(_delta: float) -> void:
 	if not is_instance_valid(player):
 		player = get_tree().get_first_node_in_group("player")
 
-	if is_instance_valid(player) and player_in_detection_range and not player_in_attack_range:
-		var direction := global_position.direction_to(player.global_position)
-		if direction.x != 0:
-			sprite.flip_h = direction.x < 0
-		velocity = direction * move_speed
+	if is_instance_valid(player) and player_in_detection_range:
+		if player_in_attack_range:
+			velocity = Vector2.ZERO
+			if attack_timer.is_stopped():
+				attack_player()
+		else:
+			var direction := global_position.direction_to(player.global_position)
+			if direction.x != 0:
+				sprite.flip_h = direction.x < 0
+			velocity = direction * move_speed
 	else:
 		velocity = Vector2.ZERO
-
 	move_and_slide()
+
+func attack_player() -> void:
+	var player_hurt_box := player.get_node_or_null("HurtBox") as Hurtbox
+
+	if player_hurt_box == null:
+		print("Enemy attack failed: Player HurtBox not found")
+		return
+
+	print("Enemy attacking player")
+	player_hurt_box.take_damage(1)
+	attack_timer.start()
 
 # Cache node references and connect gameplay signals once the enemy enters the scene.
 func _ready() -> void:
