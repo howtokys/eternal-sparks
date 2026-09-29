@@ -7,8 +7,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0cwf8"]
 size = Vector2(32, 25.8125)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qi2p4"]
-size = Vector2(36, 28)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ra3w"]
+size = Vector2(32, 26)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_md0e3"]
 radius = 64.0
@@ -30,16 +30,14 @@ flip_h = true
 position = Vector2(0, 4.90625)
 shape = SubResource("RectangleShape2D_0cwf8")
 
-[node name="HurtBox" type="Area2D" parent="." unique_id=1903171753]
-visible = false
+[node name="HurtBox" type="Area2D" parent="." unique_id=2080208520]
 collision_layer = 2
 collision_mask = 5
-metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=805540452]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1863621846]
 position = Vector2(0, 5)
-shape = SubResource("RectangleShape2D_qi2p4")
-debug_color = Color(0.45268273, 0.48776448, 0.89331657, 0.41960785)
+shape = SubResource("RectangleShape2D_4ra3w")
+debug_color = Color(0.7818304, 0.34878018, 0.6762263, 0.41960785)
 
 [node name="DetectionRadius" type="Area2D" parent="." unique_id=1706838399]
 metadata/_edit_group_ = true
