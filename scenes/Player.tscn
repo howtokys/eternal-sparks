@@ -31,7 +31,7 @@ size = Vector2(12.125, 19.625)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_abmxc"]
 size = Vector2(12, 20)
 
-[node name="Player" type="CharacterBody2D" unique_id=353923736]
+[node name="Player" type="CharacterBody2D" unique_id=353923736 groups=["player"]]
 script = ExtResource("1_7xf34")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1338463026]
@@ -57,3 +57,6 @@ script = ExtResource("5_abmxc")
 
 [node name="Gun" parent="." unique_id=1295489834 instance=ExtResource("6_70d11")]
 position = Vector2(7, 4)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1614490843]
+position_smoothing_enabled = true

@@ -6,65 +6,63 @@
 [ext_resource type="PackedScene" uid="uid://brqcsjo4rg7ls" path="res://scenes/enemy.tscn" id="4_d1c63"]
 [ext_resource type="PackedScene" uid="uid://bnh34ybbgfyg6" path="res://scenes/Pause_scene.tscn" id="5_1lgw5"]
 
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_o8umb"]
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_babd0"]
 shader = ExtResource("1_7g83o")
 
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0vpuc"]
-normal = Vector2(1, 0)
-
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_babd0"]
 normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_o8umb"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0vpuc"]
+normal = Vector2(1, 0)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ujc8a"]
 normal = Vector2(-1, 0)
 
 [node name="World" type="Node2D" unique_id=1595944957]
 
-[node name="Bottom" type="StaticBody2D" parent="." unique_id=253908665]
-position = Vector2(280, 360)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Bottom" unique_id=671447584]
-shape = SubResource("WorldBoundaryShape2D_o8umb")
-
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1390561763]
+[node name="Background" type="Sprite2D" parent="." unique_id=1390561763]
 material = SubResource("ShaderMaterial_babd0")
-position = Vector2(284, 257)
+position = Vector2(344, 178)
 texture = ExtResource("2_d1c63")
 
-[node name="Left" type="StaticBody2D" parent="." unique_id=481896195]
-position = Vector2(0, 98)
+[node name="Bounds" type="StaticBody2D" parent="." unique_id=253908665]
+visible = false
+position = Vector2(280, 360)
+metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Left" unique_id=471300167]
-shape = SubResource("WorldBoundaryShape2D_0vpuc")
-
-[node name="Top" type="StaticBody2D" parent="." unique_id=572205736]
-position = Vector2(184, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Top" unique_id=62762069]
+[node name="top" type="CollisionShape2D" parent="Bounds" unique_id=62762069]
+position = Vector2(63, -277)
 shape = SubResource("WorldBoundaryShape2D_babd0")
 
-[node name="Right" type="StaticBody2D" parent="." unique_id=1646090567]
-position = Vector2(373, 102)
+[node name="bottom" type="CollisionShape2D" parent="Bounds" unique_id=671447584]
+position = Vector2(71, -87)
+shape = SubResource("WorldBoundaryShape2D_o8umb")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Right" unique_id=1442978817]
+[node name="left" type="CollisionShape2D" parent="Bounds" unique_id=471300167]
+position = Vector2(-177, -180)
+shape = SubResource("WorldBoundaryShape2D_0vpuc")
+
+[node name="right" type="CollisionShape2D" parent="Bounds" unique_id=1442978817]
+position = Vector2(305, -183)
 shape = SubResource("WorldBoundaryShape2D_ujc8a")
 
 [node name="Player" parent="." unique_id=353923736 instance=ExtResource("3_1lgw5")]
-
-[node name="Camera2D" type="Camera2D" parent="Player" unique_id=157238489]
+position = Vector2(319, 175)
 
 [node name="Enemy" parent="." unique_id=21342073 instance=ExtResource("4_d1c63")]
-position = Vector2(215, 79)
+position = Vector2(211, 200)
 
 [node name="Enemy2" parent="." unique_id=2114173828 instance=ExtResource("4_d1c63")]
-position = Vector2(163, 132)
+position = Vector2(521, 238)
 
 [node name="Enemy3" parent="." unique_id=1571622002 instance=ExtResource("4_d1c63")]
-position = Vector2(98, 84)
+position = Vector2(428, 121)
 
-[node name="Enemy4" parent="." unique_id=1850229081 instance=ExtResource("4_d1c63")]
-position = Vector2(102, 134)
+[node name="UI" type="CanvasLayer" parent="." unique_id=993086526]
+visible = false
 
-[node name="PauseScene" parent="." unique_id=273163113 instance=ExtResource("5_1lgw5")]
+[node name="PauseScene" parent="UI" unique_id=273163113 instance=ExtResource("5_1lgw5")]
+offset_top = -1.0
+offset_bottom = -1.0
