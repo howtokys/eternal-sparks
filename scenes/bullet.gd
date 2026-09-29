@@ -10,7 +10,9 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	velocity = target_position * speed
-	move_and_slide()
+	var collision := move_and_collide(velocity * delta)
+	if collision:
+		queue_free()
 
 func despawn() -> void:
 	await get_tree().create_timer(despawn_time).timeout

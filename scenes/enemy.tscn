@@ -17,7 +17,7 @@ radius = 27.0
 
 [node name="Enemy" type="CharacterBody2D" unique_id=353923736]
 collision_layer = 2
-collision_mask = 2
+collision_mask = 6
 script = ExtResource("1_qi2p4")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=187162669]
@@ -33,7 +33,7 @@ shape = SubResource("RectangleShape2D_0cwf8")
 [node name="HurtBox" type="Area2D" parent="." unique_id=1903171753]
 visible = false
 collision_layer = 2
-collision_mask = 2
+collision_mask = 8
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=805540452]
