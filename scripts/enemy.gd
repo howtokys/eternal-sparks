@@ -14,6 +14,7 @@ signal attack_requested(target: Node2D)
 @onready var attack_range: Area2D = $AttackRange
 @onready var reset_timer: Timer = $HitCountResetTimer
 @onready var attack_timer: Timer = $AttackTimer
+@onready var sprite: Sprite2D = $Sprite2D
 
 const DAMAGE_NUMBER = preload("uid://bscrltn1af1bx")
 
@@ -25,11 +26,11 @@ var hit_count = 0
 var active_label = null
 
 # Detection areas update these flags as the player enters or leaves each range.
+# *** #
 func _on_detection_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_detection_range = true
 		print("Enemy detected player")
-
 
 func _on_detection_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -41,11 +42,11 @@ func _on_attack_body_entered(body: Node2D) -> void:
 		player_in_attack_range = true
 		print("Player entered attack range")
 
-
 func _on_attack_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_attack_range = false
 		print("Player left attack range")
+# *** #
 
 # Move toward the player only after detection and stop at attack range.
 func _physics_process(_delta: float) -> void:
@@ -54,6 +55,8 @@ func _physics_process(_delta: float) -> void:
 
 	if is_instance_valid(player) and player_in_detection_range and not player_in_attack_range:
 		var direction := global_position.direction_to(player.global_position)
+		if direction.x != 0:
+			sprite.flip_h = direction.x < 0
 		velocity = direction * move_speed
 	else:
 		velocity = Vector2.ZERO
