@@ -43,7 +43,13 @@ shadow_color = Color(0, 0, 0, 0.20392157)
 shadow_size = 5
 shadow_offset = Vector2(0, 3.41)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7hj8g"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_40ee3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7hj8g"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6oi6w"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_884px"]
 
 [sub_resource type="GDScript" id="GDScript_4u1fl"]
 script/source = "extends Control
@@ -79,6 +85,27 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_b08ru")
 
+[node name="Label" type="Label" parent="." unique_id=28364557]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -78.0
+offset_top = -341.0
+offset_right = 154.0
+offset_bottom = -250.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1.2017038, 1.2057062, 0.9098564, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 4
+theme_override_fonts/font = ExtResource("2_4u1fl")
+theme_override_font_sizes/font_size = 25
+text = "Eternal Sparks
+"
+
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1142759224]
 layout_mode = 1
 anchors_preset = 8
@@ -97,6 +124,7 @@ theme_override_constants/separation = 8
 [node name="Button" type="Button" parent="VBoxContainer" unique_id=1264414176]
 layout_mode = 2
 size_flags_vertical = 3
+focus_neighbor_bottom = NodePath("../Button2")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -106,12 +134,13 @@ theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_ovj3v")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_4u1fl")
 theme_override_styles/hover = SubResource("StyleBoxFlat_nwme3")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_7hj8g")
+theme_override_styles/focus = SubResource("StyleBoxFlat_40ee3")
 text = "New Game"
 
 [node name="Button2" type="Button" parent="VBoxContainer" unique_id=342867080]
 layout_mode = 2
 size_flags_vertical = 3
+focus_neighbor_bottom = NodePath("../Button3")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -121,12 +150,13 @@ theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_ovj3v")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_4u1fl")
 theme_override_styles/hover = SubResource("StyleBoxFlat_nwme3")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_7hj8g")
+theme_override_styles/focus = SubResource("StyleBoxFlat_7hj8g")
 text = "Settings"
 
 [node name="Button3" type="Button" parent="VBoxContainer" unique_id=1422218441]
 layout_mode = 2
 size_flags_vertical = 3
+focus_neighbor_bottom = NodePath("../Button4")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -136,7 +166,7 @@ theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_ovj3v")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_4u1fl")
 theme_override_styles/hover = SubResource("StyleBoxFlat_nwme3")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_7hj8g")
+theme_override_styles/focus = SubResource("StyleBoxFlat_6oi6w")
 text = "Continue"
 
 [node name="Button4" type="Button" parent="VBoxContainer" unique_id=834721448]
@@ -151,29 +181,8 @@ theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_ovj3v")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_4u1fl")
 theme_override_styles/hover = SubResource("StyleBoxFlat_nwme3")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_7hj8g")
+theme_override_styles/focus = SubResource("StyleBoxFlat_884px")
 text = "Quit
-"
-
-[node name="Label" type="Label" parent="." unique_id=28364557]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -45.0
-offset_top = -317.0
-offset_right = 121.0
-offset_bottom = -250.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_colors/font_color = Color(1.2017038, 1.2057062, 0.9098564, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_y = 4
-theme_override_fonts/font = ExtResource("2_4u1fl")
-theme_override_font_sizes/font_size = 25
-text = "Eternal Sparks
 "
 
 [node name="SettingsMenu" type="Control" parent="." unique_id=495712345]

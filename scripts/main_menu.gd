@@ -4,10 +4,10 @@ extends Control
 const BGM = preload("res://vsauce.mp3")
 
 
-@onready var start_button = $Start
-@onready var continue_button = $Continue
-@onready var settings_button = $Settings
-@onready var exit_button = $Exit
+@onready var start_button = $VBoxContainer/Button
+@onready var continue_button = $VBoxContainer/Button2
+@onready var settings_button = $VBoxContainer/Button3
+@onready var exit_button = $VBoxContainer/Button4
 
 # Prevents multiple presses while changing scenes
 var is_processing_input: bool = false
@@ -22,7 +22,19 @@ func _ready() -> void:
 	$VBoxContainer.visible = true
 	
 	# Gives the first button focus
-	$VBoxContainer/Button.grab_focus()
+	$VBoxContainer/Button.call_deferred("grab_focus")
+	
+#for the debugging of keyboard navigation 
+	get_tree().process_frame.connect(func():
+		print("Focused node: ", get_viewport().gui_get_focus_owner())
+	, CONNECT_ONE_SHOT)
+
+#for debugging the keyboard navigation 
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed:
+		print("Key pressed: ", OS.get_keycode_string(event.keycode))
+		print("Is ui_down action? ", event.is_action("ui_down"))
+		print("Current focus owner: ", get_viewport().gui_get_focus_owner())
 
 func _on_start_pressed() -> void:
 	if is_processing_input: return
