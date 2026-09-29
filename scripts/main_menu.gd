@@ -116,8 +116,7 @@ func _on_option_button_item_selected(index: int) -> void:
 func _on_mute_toggled(toggled_on: bool) -> void:
 	AudioServer.set_bus_mute(0,toggled_on)
 	
-
-
+	
 func _on_volume_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(0,linear_to_db(value))
 	
