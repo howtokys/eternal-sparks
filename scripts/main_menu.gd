@@ -10,9 +10,13 @@ extends Control
 var is_processing_input: bool = false
 
 func _ready() -> void:
-	# Gives the first button focus so controller/keyboard navigation works immediately
-	if start_button:
-		start_button.grab_focus()
+	# Keep the root MainMenu visible, but ensure settings starts hidden
+	visible = true
+	$SettingsMenu.visible = false
+	$VBoxContainer.visible = true
+	
+	# Gives the first button focus
+	$VBoxContainer/Button.grab_focus()
 
 func _on_start_pressed() -> void:
 	if is_processing_input: return
@@ -40,6 +44,12 @@ func _on_continue_pressed() -> void:
 
 func _on_settings_pressed() -> void:
 	print("Settings pressed")
+	# DO NOT set visible = false here! That hides the entire screen.
+	$VBoxContainer.visible = false
+	$SettingsMenu.visible = true
+	
+	# Focus the back button inside settings for keyboard/controller support
+	$SettingsMenu/VBoxContainer/Button.grab_focus()
 
 func _on_exit_pressed() -> void:
 	if is_processing_input: return
@@ -57,3 +67,29 @@ func show_feedback_dialog(message: String) -> void:
 			continue_button.grab_focus()
 		dialog.queue_free()
 )
+
+
+func _on_back_pressed() -> void:
+	print("Back pressed")
+	# Hide settings and bring back the main menu buttons
+	$SettingsMenu.visible = false
+	$VBoxContainer.visible = true
+	
+	# Return focus to the Settings button
+	$VBoxContainer/Button3.grab_focus()
+	
+
+
+func _on_option_button_item_selected(index: int) -> void:
+	var win = get_window()
+	match index:
+		0:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		1:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			# 2. Explicitly apply your target window dimensions
+			var target_size = Vector2i(800, 450)
+			win.size = target_size
+			
+			# 3. Center the window on the display
+			win.move_to_center()
