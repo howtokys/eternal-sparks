@@ -1,6 +1,9 @@
 extends Control
 
-# Update paths to match your actual scene tree node names
+
+const BGM = preload("res://vsauce.mp3")
+
+
 @onready var start_button = $Start
 @onready var continue_button = $Continue
 @onready var settings_button = $Settings
@@ -10,6 +13,9 @@ extends Control
 var is_processing_input: bool = false
 
 func _ready() -> void:
+	
+	#start continous background music through autoload
+	Audio.play_music(BGM)
 	# Keep the root MainMenu visible, but ensure settings starts hidden
 	visible = true
 	$SettingsMenu.visible = false
@@ -93,3 +99,13 @@ func _on_option_button_item_selected(index: int) -> void:
 			
 			# 3. Center the window on the display
 			win.move_to_center()
+
+
+func _on_mute_toggled(toggled_on: bool) -> void:
+	AudioServer.set_bus_mute(0,toggled_on)
+	
+
+
+func _on_volume_value_changed(value: float) -> void:
+	AudioServer.set_bus_volume_db(0,linear_to_db(value))
+	

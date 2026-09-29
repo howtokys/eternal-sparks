@@ -203,13 +203,28 @@ text = "Settings"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Mute" type="CheckBox" parent="SettingsMenu/VBoxContainer" unique_id=18459376]
+[node name="HBoxContainer2" type="HBoxContainer" parent="SettingsMenu/VBoxContainer" unique_id=1647133749]
+layout_mode = 2
+
+[node name="Mute" type="CheckBox" parent="SettingsMenu/VBoxContainer/HBoxContainer2" unique_id=18459376]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_4u1fl")
 text = "Mute"
 
-[node name="Volume" type="HSlider" parent="SettingsMenu/VBoxContainer" unique_id=1018003129]
+[node name="HBoxContainer3" type="HBoxContainer" parent="SettingsMenu/VBoxContainer" unique_id=2011163277]
 layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsMenu/VBoxContainer/HBoxContainer3" unique_id=909903638]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_4u1fl")
+text = "Volume"
+
+[node name="Volume" type="HSlider" parent="SettingsMenu/VBoxContainer/HBoxContainer3" unique_id=1018003129]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.1
+value = 1.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="SettingsMenu/VBoxContainer" unique_id=1452270985]
 layout_mode = 2
@@ -237,5 +252,7 @@ text = "Back"
 [connection signal="pressed" from="VBoxContainer/Button2" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="VBoxContainer/Button3" to="." method="_on_continue_pressed"]
 [connection signal="pressed" from="VBoxContainer/Button4" to="." method="_on_exit_pressed"]
+[connection signal="toggled" from="SettingsMenu/VBoxContainer/HBoxContainer2/Mute" to="." method="_on_mute_toggled"]
+[connection signal="value_changed" from="SettingsMenu/VBoxContainer/HBoxContainer3/Volume" to="." method="_on_volume_value_changed"]
 [connection signal="item_selected" from="SettingsMenu/VBoxContainer/HBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
 [connection signal="pressed" from="SettingsMenu/VBoxContainer/Button" to="." method="_on_back_pressed"]
