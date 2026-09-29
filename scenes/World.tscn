@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://i7k6bn7tac3d" path="res://scenes/Player.tscn" id="3_1lgw5"]
 [ext_resource type="PackedScene" uid="uid://brqcsjo4rg7ls" path="res://scenes/enemy.tscn" id="4_d1c63"]
 [ext_resource type="PackedScene" uid="uid://bnh34ybbgfyg6" path="res://scenes/Pause_scene.tscn" id="5_1lgw5"]
+[ext_resource type="Texture2D" uid="uid://batgqwd5fi2s8" path="res://sprites/Statue_of_the_Rabbit.png" id="6_hlk0d"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_babd0"]
 shader = ExtResource("1_7g83o")
@@ -19,6 +20,9 @@ normal = Vector2(1, 0)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ujc8a"]
 normal = Vector2(-1, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0uv0p"]
+size = Vector2(18, 39)
 
 [node name="World" type="Node2D" unique_id=1595944957]
 
@@ -66,3 +70,17 @@ visible = false
 [node name="PauseScene" parent="UI" unique_id=273163113 instance=ExtResource("5_1lgw5")]
 offset_top = -1.0
 offset_bottom = -1.0
+
+[node name="Obstacle" type="StaticBody2D" parent="." unique_id=1022458984]
+position = Vector2(288, 136)
+collision_layer = 3
+collision_mask = 3
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Obstacle" unique_id=1249772354]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("6_hlk0d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle" unique_id=1285284052]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_0uv0p")
