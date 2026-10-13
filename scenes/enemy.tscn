@@ -1,55 +1,62 @@
 [gd_scene format=3 uid="uid://brqcsjo4rg7ls"]
 
 [ext_resource type="Script" uid="uid://tou6y4wupefx" path="res://scripts/enemy.gd" id="1_qi2p4"]
-[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="2_iifgy"]
-[ext_resource type="Texture2D" uid="uid://dphvo84y80qu8" path="res://sprites/Double.png" id="3_epg4t"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7r1i8"]
-shader = ExtResource("2_iifgy")
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_u5qg6"]
-atlas = ExtResource("3_epg4t")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_l3kap"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_u5qg6")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
+[ext_resource type="Texture2D" uid="uid://bnrv5ee5a5p0r" path="res://sprites/boar.png" id="2_5uy6h"]
+[ext_resource type="Script" uid="uid://hap3v5dcihvt" path="res://health_component.gd" id="3_4ra3w"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0cwf8"]
-size = Vector2(12.125, 19.625)
+size = Vector2(32, 25.8125)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qi2p4"]
-size = Vector2(22, 27)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ra3w"]
+size = Vector2(46, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_md0e3"]
+radius = 64.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4ra3w"]
+radius = 27.0
 
 [node name="Enemy" type="CharacterBody2D" unique_id=353923736]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_qi2p4")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1338463026]
-material = SubResource("ShaderMaterial_7r1i8")
-sprite_frames = SubResource("SpriteFrames_l3kap")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=187162669]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_5uy6h")
+flip_h = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1455954465]
-position = Vector2(5.0625, -0.1875)
+[node name="BodyCollisionShape" type="CollisionShape2D" parent="." unique_id=1455954465]
+position = Vector2(0, 4.90625)
 shape = SubResource("RectangleShape2D_0cwf8")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1903171753]
+[node name="HurtBox" type="Area2D" parent="." unique_id=2080208520]
 collision_layer = 2
-collision_mask = 2
+collision_mask = 5
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=805540452]
-position = Vector2(5, 0.5)
-shape = SubResource("RectangleShape2D_qi2p4")
-debug_color = Color(0.45268273, 0.48776448, 0.89331657, 0.41960785)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1863621846]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_4ra3w")
+debug_color = Color(0.7818304, 0.34878018, 0.6762263, 0.41960785)
 
-[node name="CountTimer" type="Timer" parent="." unique_id=210750114]
-wait_time = 0.1
+[node name="DetectionRadius" type="Area2D" parent="." unique_id=1706838399]
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRadius" unique_id=1181786764]
+shape = SubResource("CircleShape2D_md0e3")
+
+[node name="AttackRange" type="Area2D" parent="." unique_id=653893445]
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange" unique_id=1748414641]
+shape = SubResource("CircleShape2D_4ra3w")
+
+[node name="HitCountResetTimer" type="Timer" parent="." unique_id=210750114]
+wait_time = 0.5
 one_shot = true
+
+[node name="AttackTimer" type="Timer" parent="." unique_id=1319109147]
+
+[node name="HealthComponent" type="Node2D" parent="." unique_id=622271987]
+script = ExtResource("3_4ra3w")
+metadata/_custom_type_script = "uid://hap3v5dcihvt"

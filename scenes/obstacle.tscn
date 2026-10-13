@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bc50ndyw1mxjx"]
+
+[ext_resource type="Texture2D" uid="uid://batgqwd5fi2s8" path="res://sprites/Statue_of_the_Rabbit.png" id="1_7ukg5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0uv0p"]
+size = Vector2(18, 39)
+
+[node name="Obstacle" type="StaticBody2D" unique_id=1193901425]
+collision_layer = 3
+collision_mask = 3
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=704975732]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_7ukg5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1549676483]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_0uv0p")
