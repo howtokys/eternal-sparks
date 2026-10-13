@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://dphvo84y80qu8" path="res://sprites/Double.png" id="1_8b3gr"]
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="2_7r1i8"]
 [ext_resource type="Script" uid="uid://deyfps0gdfuso" path="res://scripts/hurt_box.gd" id="4_qr83c"]
-[ext_resource type="Script" uid="uid://cimcpu0lm3i5h" path="res://scripts/health_component.gd" id="5_abmxc"]
 [ext_resource type="PackedScene" uid="uid://dtpx4cociiagf" path="res://scenes/gun.tscn" id="6_70d11"]
+[ext_resource type="Script" uid="uid://hap3v5dcihvt" path="res://health_component.gd" id="6_cw2d6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7r1i8"]
 shader = ExtResource("2_7r1i8")
@@ -44,15 +44,13 @@ position = Vector2(5.0625, -0.1875)
 shape = SubResource("RectangleShape2D_0cwf8")
 
 [node name="HurtBox" type="Area2D" parent="." unique_id=16542959]
+collision_mask = 2
 script = ExtResource("4_qr83c")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=605539488]
 position = Vector2(5, 0)
 shape = SubResource("RectangleShape2D_abmxc")
 debug_color = Color(0.8139178, 0.30736557, 0.6878569, 0.41960785)
-
-[node name="HealthComponent" type="Node2D" parent="." unique_id=1555621118]
-script = ExtResource("5_abmxc")
 
 [node name="ShieldTimer" type="Timer" parent="." unique_id=1703445016]
 
@@ -61,3 +59,8 @@ position = Vector2(7, 4)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1614490843]
 position_smoothing_enabled = true
+
+[node name="HealthComponent" type="Node2D" parent="." unique_id=1253734305]
+script = ExtResource("6_cw2d6")
+max_health = 6
+metadata/_custom_type_script = "uid://hap3v5dcihvt"

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bjlscu3tlwgwo"]
 
-[ext_resource type="Script" uid="uid://cm830qmsyb6vf" path="res://scenes/bullet.gd" id="1_l5glv"]
+[ext_resource type="Script" uid="uid://cm830qmsyb6vf" path="res://scripts/bullet.gd" id="1_l5glv"]
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_v8qja"]
 [ext_resource type="Texture2D" uid="uid://dbdeb1dw1amd" path="res://sprites/Bullet.png" id="2_t4vbm"]
 
@@ -11,8 +11,8 @@ size = Vector2(10, 7)
 shader = ExtResource("1_v8qja")
 
 [node name="Bullet" type="CharacterBody2D" unique_id=126307496]
-collision_layer = 8
-collision_mask = 4
+collision_layer = 4
+collision_mask = 2
 script = ExtResource("1_l5glv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=251348689]
