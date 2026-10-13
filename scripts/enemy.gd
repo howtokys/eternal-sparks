@@ -22,7 +22,7 @@ const DAMAGE_NUMBER = preload("uid://bscrltn1af1bx")
 # Runtime state used to control movement and combat.
 var player: Node2D
 var player_in_detection_range := false
-#var player_in_attack_range := false
+var player_in_attack_range := false
 var hit_count = 0
 var active_label = null
 
@@ -48,15 +48,15 @@ func _on_hurt_box_body_entered(body: Node2D) -> void:
 		hit_count += 1
 		update_hit_display()
 		reset_timer.start()
-#func _on_attack_body_entered(body: Node2D) -> void:
-	#if body.is_in_group("player"):
-		#player_in_attack_range = true
-		#print("Player entered attack range")
+func _on_attack_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		player_in_attack_range = true
+		print("Player entered attack range")
 
-#func _on_attack_body_exited(body: Node2D) -> void:
-	#if body.is_in_group("player"):
-		#player_in_attack_range = false
-		#print("Player left attack range")
+func _on_attack_body_exited(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		player_in_attack_range = false
+		print("Player left attack range")
 
 # Move toward the player only after detection and stop at attack range.
 func _physics_process(_delta: float) -> void:
@@ -78,7 +78,7 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func attack_player() -> void:
-	var player_hurt_box := player.get_node_or_null("HurtBox") as Hurtbox
+	var player_hurt_box := player.get_node_or_null("HurtBox") as Area2D
 
 	if player_hurt_box == null:
 		print("Enemy attack failed: Player HurtBox not found")

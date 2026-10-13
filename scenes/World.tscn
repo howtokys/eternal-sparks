@@ -23,6 +23,9 @@ normal = Vector2(1, 0)
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ujc8a"]
 normal = Vector2(-1, 0)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0uv0p"]
+size = Vector2(32, 32)
+
 [node name="World" type="Node2D" unique_id=1595944957]
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1390561763]
@@ -71,7 +74,7 @@ position = Vector2(428, 121)
 offset_top = -1.0
 offset_bottom = -1.0
 
-[node name="CanvasLayer" parent="." unique_id=1979618489 instance=ExtResource("6_hlk0d")]
+[node name="HUD" parent="UI" unique_id=1979618489 instance=ExtResource("7_hud")]
 
 [node name="Obstacle" type="StaticBody2D" parent="." unique_id=1022458984]
 position = Vector2(288, 136)
@@ -81,7 +84,7 @@ metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Obstacle" unique_id=1249772354]
 scale = Vector2(0.1, 0.1)
-texture = ExtResource("7_rabbit")
+texture = ExtResource("8_rabbit")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle" unique_id=1285284052]
 position = Vector2(0, 1.5)
