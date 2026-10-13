@@ -23,8 +23,8 @@ func pause() -> void:
 	show()
 	get_tree().paused = true
 	$AnimationPlayer.play("pause_blur")
-
-
+	$PanelContainer/VBoxContainer/Button.call_deferred("grab_focus")
+	
 func _resume_pressed() -> void:
 	resume()
 

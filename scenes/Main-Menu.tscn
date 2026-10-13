@@ -45,6 +45,20 @@ shadow_offset = Vector2(0, 3.41)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7hj8g"]
 
+[sub_resource type="GDScript" id="GDScript_4u1fl"]
+script/source = "extends Control
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
 [node name="MainMenu" type="Control" unique_id=901125856]
 layout_mode = 3
 anchors_preset = 15
@@ -160,7 +174,83 @@ theme_override_font_sizes/font_size = 25
 text = "Eternal Sparks
 "
 
+[node name="SettingsMenu" type="Control" parent="." unique_id=495712345]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = SubResource("GDScript_4u1fl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsMenu" unique_id=1714752655]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 240.0
+offset_top = 57.0
+offset_right = 522.0
+offset_bottom = 251.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="SettingsMenu/VBoxContainer" unique_id=694125225]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_4u1fl")
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="SettingsMenu/VBoxContainer" unique_id=1647133749]
+layout_mode = 2
+
+[node name="Mute" type="CheckBox" parent="SettingsMenu/VBoxContainer/HBoxContainer2" unique_id=18459376]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_4u1fl")
+text = "Mute"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="SettingsMenu/VBoxContainer" unique_id=2011163277]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SettingsMenu/VBoxContainer/HBoxContainer3" unique_id=909903638]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_4u1fl")
+text = "Volume"
+
+[node name="Volume" type="HSlider" parent="SettingsMenu/VBoxContainer/HBoxContainer3" unique_id=1018003129]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.1
+value = 1.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SettingsMenu/VBoxContainer" unique_id=1452270985]
+layout_mode = 2
+
+[node name="OptionButton" type="OptionButton" parent="SettingsMenu/VBoxContainer/HBoxContainer" unique_id=1201607982]
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "Full Screen"
+popup/item_0/id = 0
+popup/item_1/text = "Windowed"
+popup/item_1/id = 1
+
+[node name="Label" type="Label" parent="SettingsMenu/VBoxContainer/HBoxContainer" unique_id=2009105014]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_4u1fl")
+text = "Screen Mode"
+
+[node name="Button" type="Button" parent="SettingsMenu/VBoxContainer" unique_id=797976030]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_4u1fl")
+text = "Back"
+
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="VBoxContainer/Button2" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="VBoxContainer/Button3" to="." method="_on_continue_pressed"]
 [connection signal="pressed" from="VBoxContainer/Button4" to="." method="_on_exit_pressed"]
+[connection signal="toggled" from="SettingsMenu/VBoxContainer/HBoxContainer2/Mute" to="." method="_on_mute_toggled"]
+[connection signal="value_changed" from="SettingsMenu/VBoxContainer/HBoxContainer3/Volume" to="." method="_on_volume_value_changed"]
+[connection signal="item_selected" from="SettingsMenu/VBoxContainer/HBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="pressed" from="SettingsMenu/VBoxContainer/Button" to="." method="_on_back_pressed"]

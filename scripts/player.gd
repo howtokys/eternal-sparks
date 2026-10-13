@@ -19,6 +19,7 @@ var current_mana: float
 
 
 func _ready() -> void:
+	GlobalData.player = self
 	current_shield = max_shield
 	current_mana = max_mana
 
@@ -28,6 +29,12 @@ func _ready() -> void:
 		shield_timer.wait_time = shield_recharge_delay
 		shield_timer.one_shot = true
 		shield_timer.timeout.connect(_on_shield_recharge_timeout)
+		
+	if GlobalData.is_loading_save:
+		global_position = GlobalData.saved_position	
+		GlobalData.is_loading_save = false
+		
+	GlobalData.save_game()
 
 func _process(delta: float) -> void:
 	# Passive mana regen
