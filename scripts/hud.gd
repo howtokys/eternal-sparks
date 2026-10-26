@@ -18,8 +18,18 @@ func _process(_delta: float) -> void:
 	if is_instance_valid(player):
 		if "current_mana" in player:
 			mana_bar.value = player.current_mana
-		if "current_shield" in player:
+			
+		if "max_shield" in player:
+			shield_bar.max_value = player.max_shield
+		
+		if"current_shield" in player:
 			shield_bar.value = player.current_shield
+			
+		#if "current_mana" in player:
+			#mana_bar.value = player.current_mana
+		#if "current_shield" in player:
+			#shield_bar.value = player.current_shield
+		
 
 func connect_player_signals() -> void:
 	# Set initial max values

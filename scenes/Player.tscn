@@ -3,9 +3,11 @@
 [ext_resource type="Script" uid="uid://eclbeo44g5uk" path="res://scripts/player.gd" id="1_7xf34"]
 [ext_resource type="Texture2D" uid="uid://dphvo84y80qu8" path="res://sprites/Double.png" id="1_8b3gr"]
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="2_7r1i8"]
+[ext_resource type="Resource" uid="uid://b07mgch5us218" path="res://scripts/Buffs/speed_buff.tres" id="2_khinc"]
 [ext_resource type="Script" uid="uid://deyfps0gdfuso" path="res://scripts/hurt_box.gd" id="4_qr83c"]
 [ext_resource type="PackedScene" uid="uid://dtpx4cociiagf" path="res://scenes/gun.tscn" id="6_70d11"]
 [ext_resource type="Script" uid="uid://hap3v5dcihvt" path="res://health_component.gd" id="6_cw2d6"]
+[ext_resource type="Script" uid="uid://bdlnm3owk34dd" path="res://scripts/Buffs/buff_manager.gd" id="7_cw2d6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7r1i8"]
 shader = ExtResource("2_7r1i8")
@@ -34,6 +36,7 @@ size = Vector2(12, 20)
 [node name="Player" type="CharacterBody2D" unique_id=353923736 groups=["player"]]
 collision_mask = 6
 script = ExtResource("1_7xf34")
+starting_buff = ExtResource("2_khinc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1338463026]
 material = SubResource("ShaderMaterial_7r1i8")
@@ -64,3 +67,6 @@ position_smoothing_enabled = true
 script = ExtResource("6_cw2d6")
 max_health = 6
 metadata/_custom_type_script = "uid://hap3v5dcihvt"
+
+[node name="BuffManager" type="Node" parent="." unique_id=736969410]
+script = ExtResource("7_cw2d6")

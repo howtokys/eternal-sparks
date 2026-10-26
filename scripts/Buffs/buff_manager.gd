@@ -64,3 +64,42 @@ func get_active_buffs() -> Array[BuffData]:
 func clear_buffs() -> void:
 	active_buffs.clear()
 	buffs_cleared.emit()
+
+
+# Calculate the movement speed multiplier
+# from the currently active buff.
+func get_speed_multiplier() -> float:
+	var total_bonus: float = 0.0
+
+	for entry in active_buffs.values():
+		var buff: BuffData = entry["data"]
+		var level: int = entry["level"]
+
+		total_bonus += buff.speed_bonus_per_level * level
+
+	return maxf(0.0, 1.0 + total_bonus)
+
+
+# Calculate additional shield capacity from active buffs.
+func get_shield_bonus() -> int:
+	var total_bonus: int = 0
+
+	for entry in active_buffs.values():
+		var buff: BuffData = entry["data"]
+		var level: int = entry["level"]
+
+		total_bonus += buff.shield_bonus_per_level * level
+
+	return total_bonus
+
+# Calculate additional mana regeneration from active buffs
+func get_mana_regen_bonus() -> float:
+	var total_bonus: float = 0.0
+
+	for entry in active_buffs.values():
+		var buff: BuffData = entry["data"]
+		var level: int = entry["level"]
+
+		total_bonus += buff.mana_regen_bonus_per_level * level
+
+	return total_bonus
