@@ -15,3 +15,6 @@ class_name BuffData
 
 #mana regneration per second, per buff level 
 @export var mana_regen_bonus_per_level: float = 0.0
+
+#Icon for the Buff UI
+@export var buff_icon: Texture2D
