@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Eternal Sparks"
-run/main_scene="uid://cq1tv3ku86ur3"
+run/main_scene="uid://cw64lvjtg5wvo"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 

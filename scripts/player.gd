@@ -3,8 +3,8 @@ extends CharacterBody2D
 const SPEED = 150.0
 
 #for the player buff (speed)
-@export_group("Buffs")
-@export var starting_buff: BuffData
+#@export_group("Buffs")
+#@export var starting_buff: BuffData
 
 @export_group("Shield")
 @export var max_shield: int = 5
@@ -44,32 +44,32 @@ func _ready() -> void:
 	buff_manager.buff_upgraded.connect(_on_buff_upgraded)
 	buff_manager.buffs_cleared.connect(_on_buffs_cleared)
 	
-	
+	# for testing the buffs
 	# Assign the starting buff on a new game.
-	if not GlobalData.is_loading_save and starting_buff != null:
-		buff_manager.add_buff(starting_buff)
-		print("Starting buff: ", starting_buff.buff_name)
-		print("Movement speed: ", SPEED * buff_manager.get_speed_multiplier())
-		
-	if not GlobalData.is_loading_save and starting_buff != null:
-		var shield_buff: BuffData = load ("res://scripts/Buffs/shield.tres") as BuffData
-		if shield_buff != null:
-			buff_manager.add_buff(shield_buff)
-			print("Shield Boost level :", buff_manager.get_buff_level((shield_buff.buff_id)))
-		else:
-			push_error("Shield Boost resources couldn't be loaded.")
-			
-	if not GlobalData.is_loading_save and starting_buff !=null:
-		var mana_buff: BuffData = load("res://scripts/Buffs/mana_regen_buff.tres") as BuffData
-		if mana_buff != null:
-			buff_manager.add_buff(mana_buff)
-			print("== Mana regen boost test ==")
-			print("Mana buff level: ", buff_manager.get_buff_level(mana_buff.buff_id)) 
-			print("Mana regeneration rate: ", mana_regen_rate + buff_manager.get_mana_regen_bonus())
-			
-			
-		else:
-			push_error("Mana regenration buff resource could not be loaded")  
+	#if not GlobalData.is_loading_save and starting_buff != null:
+		#buff_manager.add_buff(starting_buff)
+		#print("Starting buff: ", starting_buff.buff_name)
+		#print("Movement speed: ", SPEED * buff_manager.get_speed_multiplier())
+		#
+	#if not GlobalData.is_loading_save and starting_buff != null:
+		#var shield_buff: BuffData = load ("res://scripts/Buffs/shield.tres") as BuffData
+		#if shield_buff != null:
+			#buff_manager.add_buff(shield_buff)
+			#print("Shield Boost level :", buff_manager.get_buff_level((shield_buff.buff_id)))
+		#else:
+			#push_error("Shield Boost resources couldn't be loaded.")
+			#
+	#if not GlobalData.is_loading_save and starting_buff !=null:
+		#var mana_buff: BuffData = load("res://scripts/Buffs/mana_regen_buff.tres") as BuffData
+		#if mana_buff != null:
+			#buff_manager.add_buff(mana_buff)
+			#print("== Mana regen boost test ==")
+			#print("Mana buff level: ", buff_manager.get_buff_level(mana_buff.buff_id)) 
+			#print("Mana regeneration rate: ", mana_regen_rate + buff_manager.get_mana_regen_bonus())
+			#
+			#
+		#else:
+			#push_error("Mana regenration buff resource could not be loaded")  
 		
 	if GlobalData.is_loading_save:
 		global_position = GlobalData.saved_position

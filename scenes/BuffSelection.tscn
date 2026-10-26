@@ -1,0 +1,169 @@
+[gd_scene format=3 uid="uid://dld3t64b8xu2r"]
+
+[ext_resource type="Texture2D" uid="uid://dl4gnens8m6d" path="res://sprites/Ornate Blue Crystal Game UI Frame.png" id="1_sdb71"]
+[ext_resource type="Script" uid="uid://1syf200komjn" path="res://scenes/buff_selection.gd" id="1_xdn2b"]
+[ext_resource type="Resource" uid="uid://b07mgch5us218" path="res://scripts/Buffs/speed_buff.tres" id="2_83u0d"]
+[ext_resource type="FontFile" uid="uid://cfx0v4v24adie" path="res://fonts/Minecraftia-Regular.ttf" id="2_xdn2b"]
+[ext_resource type="Resource" uid="uid://ce2e83ctvtv4v" path="res://scripts/Buffs/shield.tres" id="3_8lcxa"]
+[ext_resource type="Texture2D" uid="uid://dbigfb6kq6a35" path="res://sprites/title_frame.png" id="3_r7lqf"]
+[ext_resource type="Resource" uid="uid://4ums70n3avgd" path="res://scripts/Buffs/mana_regen_buff.tres" id="4_wewda"]
+[ext_resource type="Texture2D" uid="uid://ddnofolt3tt57" path="res://sprites/speed_frame_normal.png" id="4_wn4rp"]
+[ext_resource type="Texture2D" uid="uid://crqr0owqjkaxv" path="res://sprites/speed_frame_pressed.png" id="5_83u0d"]
+[ext_resource type="Texture2D" uid="uid://dri50vus6nnf5" path="res://sprites/speed_frame_hover.png" id="6_8lcxa"]
+[ext_resource type="Texture2D" uid="uid://df36tl7mi7vkf" path="res://sprites/shield_frame_normal.png" id="7_wewda"]
+[ext_resource type="Texture2D" uid="uid://f1sh2lxtq80e" path="res://sprites/shield_frame_pressed.png" id="8_fcuax"]
+[ext_resource type="Texture2D" uid="uid://c8np40wnikfr6" path="res://sprites/shield_frame_hover.png" id="9_ufqiw"]
+[ext_resource type="Texture2D" uid="uid://c6i7sntca6w76" path="res://sprites/mana_frame_normal.png" id="10_nnrlv"]
+[ext_resource type="Texture2D" uid="uid://bm8xhgdl55rpr" path="res://sprites/mana_frame_pressed.png" id="11_6woe2"]
+[ext_resource type="Texture2D" uid="uid://qiswtosqpem5" path="res://sprites/mana_frame_hover.png" id="12_77nab"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b08ru"]
+texture = ExtResource("1_sdb71")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qpiwt"]
+content_margin_left = 25.0
+content_margin_top = 25.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+texture = ExtResource("3_r7lqf")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ewadb"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 0.0
+texture = ExtResource("4_wn4rp")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_clq4i"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+texture = ExtResource("5_83u0d")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r8a6v"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+texture = ExtResource("6_8lcxa")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7yr3h"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+texture = ExtResource("7_wewda")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6vnfb"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+texture = ExtResource("8_fcuax")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_51r2c"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+texture = ExtResource("9_ufqiw")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_66em2"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+texture = ExtResource("10_nnrlv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l02i6"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+texture = ExtResource("11_6woe2")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0aydc"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+texture = ExtResource("12_77nab")
+
+[node name="BuffSelection" type="Control" unique_id=590719702]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xdn2b")
+speed_buff = ExtResource("2_83u0d")
+shield_buff = ExtResource("3_8lcxa")
+mana_buff = ExtResource("4_wewda")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=887517452]
+custom_minimum_size = Vector2(620, 280)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -225.0
+offset_top = -100.0
+offset_right = 225.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_b08ru")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=1568748973]
+layout_mode = 2
+theme_override_constants/margin_left = 45
+theme_override_constants/margin_top = 45
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=774940514]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=596024811]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_xdn2b")
+theme_override_styles/normal = SubResource("StyleBoxTexture_qpiwt")
+text = "CHOOSE YOUR STARTING BUFF"
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1058178019]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_xdn2b")
+text = "Select one buff to begin your run"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=484542458]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="SpeedButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1573211744]
+custom_minimum_size = Vector2(130, 90)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_xdn2b")
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxTexture_ewadb")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_clq4i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_r8a6v")
+text = "Speed Boost"
+
+[node name="ShieldButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=108310150]
+custom_minimum_size = Vector2(130, 90)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_xdn2b")
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxTexture_7yr3h")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_6vnfb")
+theme_override_styles/hover = SubResource("StyleBoxTexture_51r2c")
+text = "Shield Boost"
+
+[node name="ManaButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1593396203]
+custom_minimum_size = Vector2(130, 90)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_xdn2b")
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxTexture_66em2")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_l02i6")
+theme_override_styles/hover = SubResource("StyleBoxTexture_0aydc")
+text = "Mana Regen"
