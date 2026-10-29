@@ -16,6 +16,10 @@
 [ext_resource type="Texture2D" uid="uid://c6i7sntca6w76" path="res://sprites/mana_frame_normal.png" id="10_nnrlv"]
 [ext_resource type="Texture2D" uid="uid://bm8xhgdl55rpr" path="res://sprites/mana_frame_pressed.png" id="11_6woe2"]
 [ext_resource type="Texture2D" uid="uid://qiswtosqpem5" path="res://sprites/mana_frame_hover.png" id="12_77nab"]
+[ext_resource type="AudioStream" uid="uid://rddl3fi31n2o" path="res://speed_boost.wav" id="17_ufqiw"]
+[ext_resource type="AudioStream" uid="uid://dfv7alyjufiwa" path="res://shield_boost.wav" id="18_nnrlv"]
+[ext_resource type="AudioStream" uid="uid://dwe378or7562k" path="res://mana_regen.wav" id="19_6woe2"]
+[ext_resource type="AudioStream" uid="uid://bt630kxexljhh" path="res://buff_select_click.wav" id="20_77nab"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b08ru"]
 texture = ExtResource("1_sdb71")
@@ -167,3 +171,15 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_66em2")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_l02i6")
 theme_override_styles/hover = SubResource("StyleBoxTexture_0aydc")
 text = "Mana Regen"
+
+[node name="Speed" type="AudioStreamPlayer" parent="." unique_id=246271141]
+stream = ExtResource("17_ufqiw")
+
+[node name="Shield" type="AudioStreamPlayer" parent="." unique_id=1196946503]
+stream = ExtResource("18_nnrlv")
+
+[node name="Mana" type="AudioStreamPlayer" parent="." unique_id=1321277382]
+stream = ExtResource("19_6woe2")
+
+[node name="Click" type="AudioStreamPlayer" parent="." unique_id=2050490870]
+stream = ExtResource("20_77nab")
