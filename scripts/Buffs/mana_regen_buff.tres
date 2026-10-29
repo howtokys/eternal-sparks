@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BuffData" format=3 uid="uid://4ums70n3avgd"]
+
+[ext_resource type="Texture2D" uid="uid://cy6v36u2blc8w" path="res://sprites/Boost-UI/mana_regen_icon.png" id="1_a1vni"]
+[ext_resource type="Script" uid="uid://d1g5im1s0vl5" path="res://scripts/Buffs/buff_data.gd" id="1_yfrrm"]
+
+[resource]
+script = ExtResource("1_yfrrm")
+buff_id = &"mana_regen"
+buff_name = "Mana Regen"
+description = "Increases the player's mana regeneration speed."
+max_level = 3
+mana_regen_bonus_per_level = 2.0
+buff_icon = ExtResource("1_a1vni")
+metadata/_custom_type_script = "uid://d1g5im1s0vl5"

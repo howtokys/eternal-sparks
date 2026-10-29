@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://wyldia6g2qu5"
-path="res://.godot/imported/1000_F_786021765_UsHzxsRmM7JfXczRRdUEzfXwwXYHYpiH.jpg-57df65e70598ba3e728645c55dd14cf9.ctex"
+uid="uid://d303crtloslpf"
+path="res://.godot/imported/shield_boost_icon.png-809ff73173ff951bf3113424c6da8971.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/1000_F_786021765_UsHzxsRmM7JfXczRRdUEzfXwwXYHYpiH.jpg"
-dest_files=["res://.godot/imported/1000_F_786021765_UsHzxsRmM7JfXczRRdUEzfXwwXYHYpiH.jpg-57df65e70598ba3e728645c55dd14cf9.ctex"]
+source_file="res://sprites/Boost-UI/shield_boost_icon.png"
+dest_files=["res://.godot/imported/shield_boost_icon.png-809ff73173ff951bf3113424c6da8971.ctex"]
 
 [params]
 

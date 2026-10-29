@@ -1,13 +1,15 @@
 extends Control
 
 
-const BGM = preload("res://vsauce.mp3")
+const BGM = preload("res://dungeon_menu_loop.wav")
 
 
 @onready var start_button = $VBoxContainer/Button
 @onready var continue_button = $VBoxContainer/Button2
 @onready var settings_button = $VBoxContainer/Button3
 @onready var exit_button = $VBoxContainer/Button4
+@onready var HoverSound : AudioStreamPlayer = $HoeverSound
+@onready var ClickSound : AudioStreamPlayer = $ClickSound
 
 # Prevents multiple presses while changing scenes
 var is_processing_input: bool = false
@@ -20,6 +22,7 @@ func _ready() -> void:
 	visible = true
 	$SettingsMenu.visible = false
 	$VBoxContainer.visible = true
+	$TitleFrame.visible = true  #show title on main menu 
 	
 	# Gives the first button focus
 	$VBoxContainer/Button.call_deferred("grab_focus")
@@ -40,12 +43,17 @@ func _on_start_pressed() -> void:
 	if is_processing_input: return
 	is_processing_input = true
 	
+	play_click_sound()
+	await ClickSound.finished  #audio for when clicked
+	
 	GlobalData.is_loading_save = false # Fresh start
 	print("Start pressed")
 	get_tree().change_scene_to_file("res://scenes/World.tscn")
 
 func _on_continue_pressed() -> void:
 	if is_processing_input: return
+	
+	play_click_sound()
 	
 	# Check if the file exists on the disk
 	if FileAccess.file_exists(GlobalData.SAVE_PATH):
@@ -62,14 +70,18 @@ func _on_continue_pressed() -> void:
 
 func _on_settings_pressed() -> void:
 	print("Settings pressed")
+	play_click_sound()
 	# DO NOT set visible = false here! That hides the entire screen.
 	$VBoxContainer.visible = false
+	$TitleFrame.visible = false #hide ternal sparks title
 	$SettingsMenu.visible = true
 	
 	# Focus the back button inside settings for keyboard/controller support
 	$SettingsMenu/VBoxContainer/Button.grab_focus()
 
 func _on_exit_pressed() -> void:
+	
+	play_click_sound()
 	if is_processing_input: return
 	is_processing_input = true
 	get_tree().quit()
@@ -89,9 +101,11 @@ func show_feedback_dialog(message: String) -> void:
 
 func _on_back_pressed() -> void:
 	print("Back pressed")
+	play_click_sound()
 	# Hide settings and bring back the main menu buttons
 	$SettingsMenu.visible = false
 	$VBoxContainer.visible = true
+	$TitleFrame.visible = true #restore eternal sparks title 
 	
 	# Return focus to the Settings button
 	$VBoxContainer/Button3.grab_focus()
@@ -113,9 +127,14 @@ func _on_option_button_item_selected(index: int) -> void:
 			win.move_to_center()
 
 
-func _on_mute_toggled(toggled_on: bool) -> void:
-	AudioServer.set_bus_mute(0,toggled_on)
+#func _on_mute_toggled(toggled_on: bool) -> void:
+	#AudioServer.set_bus_mute(0,toggled_on)
+	#
+func play_hover_sound () -> void:
+	HoverSound.play()
 	
+func play_click_sound () -> void:
+	ClickSound.play()	
 	
 func _on_volume_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(0,linear_to_db(value))

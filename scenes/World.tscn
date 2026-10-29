@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://i7k6bn7tac3d" path="res://scenes/Player.tscn" id="3_1lgw5"]
 [ext_resource type="PackedScene" uid="uid://brqcsjo4rg7ls" path="res://scenes/enemy.tscn" id="4_d1c63"]
 [ext_resource type="PackedScene" uid="uid://bnh34ybbgfyg6" path="res://scenes/Pause_scene.tscn" id="5_1lgw5"]
-[ext_resource type="PackedScene" uid="uid://bc50ndyw1mxjx" path="res://scenes/obstacle.tscn" id="6_hlk0d"]
+[ext_resource type="PackedScene" uid="uid://dld3t64b8xu2r" path="res://scenes/BuffSelection.tscn" id="7_b3faq"]
 [ext_resource type="PackedScene" uid="uid://5daivydu6730" path="res://scenes/HUD.tscn" id="7_hud"]
 [ext_resource type="Texture2D" uid="uid://batgqwd5fi2s8" path="res://sprites/Statue_of_the_Rabbit.png" id="8_rabbit"]
 
@@ -71,10 +71,13 @@ position = Vector2(428, 121)
 [node name="UI" type="CanvasLayer" parent="." unique_id=993086526]
 
 [node name="PauseScene" parent="UI" unique_id=273163113 instance=ExtResource("5_1lgw5")]
+visible = false
 offset_top = -1.0
 offset_bottom = -1.0
 
 [node name="HUD" parent="UI" unique_id=1979618489 instance=ExtResource("7_hud")]
+
+[node name="BuffSelection" parent="UI" unique_id=590719702 instance=ExtResource("7_b3faq")]
 
 [node name="Obstacle" type="StaticBody2D" parent="." unique_id=1022458984]
 position = Vector2(288, 136)

@@ -1,63 +1,139 @@
 [gd_scene format=3 uid="uid://cw64lvjtg5wvo"]
 
 [ext_resource type="Script" uid="uid://dk5xtmglx0vej" path="res://scripts/main_menu.gd" id="1_4u1fl"]
-[ext_resource type="Texture2D" uid="uid://wyldia6g2qu5" path="res://sprites/1000_F_786021765_UsHzxsRmM7JfXczRRdUEzfXwwXYHYpiH.jpg" id="1_ovj3v"]
 [ext_resource type="FontFile" uid="uid://cfx0v4v24adie" path="res://fonts/Minecraftia-Regular.ttf" id="2_4u1fl"]
+[ext_resource type="Texture2D" uid="uid://bgv35iwlxuhip" path="res://scenes/background_concept.png" id="2_nwme3"]
+[ext_resource type="Texture2D" uid="uid://c0xur5jmwi1ob" path="res://sprites/Main-ui/menu_panel.png" id="3_lptr6"]
+[ext_resource type="Texture2D" uid="uid://be3m7ot7wwnim" path="res://sprites/Main-ui/button_normal.png" id="4_884px"]
+[ext_resource type="Texture2D" uid="uid://b8rgyvmltvhfa" path="res://sprites/Main-ui/button_pressed.png" id="5_40ee3"]
+[ext_resource type="Texture2D" uid="uid://1bl16y7oyn14" path="res://sprites/Main-ui/button_hover.png" id="6_lptr6"]
+[ext_resource type="Texture2D" uid="uid://bev3884d5ljw5" path="res://sprites/Main-ui/button_disabled.png" id="7_jdvs2"]
+[ext_resource type="Texture2D" uid="uid://dbigfb6kq6a35" path="res://sprites/Main-ui/title_frame.png" id="8_40ee3"]
+[ext_resource type="Script" uid="uid://dd1j800gqtc4n" path="res://scripts/settings_menu.gd" id="10_2j1qy"]
+[ext_resource type="Texture2D" uid="uid://dfy8fjqw6tsew" path="res://sprites/Main-ui/crystal_emblem.png" id="10_kle1k"]
+[ext_resource type="Texture2D" uid="uid://ctjk5tvnd2jst" path="res://sprites/Main-ui/settings.png" id="10_pgwnv"]
+[ext_resource type="Texture2D" uid="uid://dbejjepguuwf4" path="res://sprites/Main-ui/master_volume_icon.png" id="11_2j1qy"]
+[ext_resource type="Texture2D" uid="uid://nmcfyjc3l1vn" path="res://sprites/Main-ui/divider.png" id="11_h7lvb"]
+[ext_resource type="Texture2D" uid="uid://bmh41yde2o574" path="res://sprites/Main-ui/music_volume_icon.png" id="12_vtt1y"]
+[ext_resource type="AudioStream" uid="uid://ctuar7kq0oro7" path="res://menu_hover.wav" id="16_8sq5u"]
+[ext_resource type="AudioStream" uid="uid://b2locg3j02rw2" path="res://menu_click.wav" id="16_vtt1y"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b08ru"]
-texture = ExtResource("1_ovj3v")
+texture = ExtResource("2_nwme3")
 modulate_color = Color(0.90359825, 0.90359825, 0.9035982, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ovj3v"]
-bg_color = Color(1, 1, 1, 0)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-shadow_color = Color(0, 0, 0, 0)
-shadow_size = 5
-shadow_offset = Vector2(0, 3.41)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_v88s1"]
+texture = ExtResource("4_884px")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4u1fl"]
-bg_color = Color(1, 1, 1, 0.2)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-shadow_color = Color(0, 0, 0, 0.20392157)
-shadow_size = 5
-shadow_offset = Vector2(0, 3.41)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ifa52"]
+texture = ExtResource("5_40ee3")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nwme3"]
-bg_color = Color(1, 1, 1, 0.11764706)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 0.39215687)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-shadow_color = Color(0, 0, 0, 0.20392157)
-shadow_size = 5
-shadow_offset = Vector2(0, 3.41)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_iiqlx"]
+texture = ExtResource("6_lptr6")
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7hj8g"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pbuqv"]
+texture = ExtResource("7_jdvs2")
 
-[sub_resource type="GDScript" id="GDScript_4u1fl"]
-script/source = "extends Control
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_unh1q"]
+texture = ExtResource("4_884px")
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_og273"]
+texture = ExtResource("5_40ee3")
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bj83e"]
+texture = ExtResource("6_lptr6")
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yik05"]
+texture = ExtResource("7_jdvs2")
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-"
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hd7fi"]
+texture = ExtResource("4_884px")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j8ruc"]
+texture = ExtResource("5_40ee3")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mx43p"]
+texture = ExtResource("6_lptr6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0pt06"]
+texture = ExtResource("7_jdvs2")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jvl1x"]
+texture = ExtResource("4_884px")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ofiux"]
+texture = ExtResource("5_40ee3")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3rcjn"]
+texture = ExtResource("6_lptr6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wmm8w"]
+texture = ExtResource("7_jdvs2")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oika7"]
+atlas = ExtResource("10_pgwnv")
+region = Rect2(300, 300, 654, 654)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ffnox"]
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.09019608, 0.21176471, 0.3137255, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xl850"]
+bg_color = Color(0.08627451, 0.72156864, 0.9529412, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kle1k"]
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.09019608, 0.21176471, 0.3137255, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h7lvb"]
+bg_color = Color(0.08627451, 0.72156864, 0.9529412, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b08ru"]
+content_margin_left = 8.0
+content_margin_top = 5.0
+content_margin_right = 8.0
+content_margin_bottom = 5.0
+bg_color = Color(0.039215688, 0.1254902, 0.21176471, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.1254902, 0.72156864, 0.9607843, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oika7"]
+bg_color = Color(0.07058824, 0.23137255, 0.3647059, 1)
+border_color = Color(0.33333334, 0.84705883, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xn8em"]
+texture = ExtResource("4_884px")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7ob2f"]
+texture = ExtResource("5_40ee3")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qi0f3"]
+texture = ExtResource("6_lptr6")
 
 [node name="MainMenu" type="Control" unique_id=901125856]
 layout_mode = 3
@@ -77,7 +153,24 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_b08ru")
 
+[node name="MenuFrame" type="TextureRect" parent="." unique_id=411556434]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -130.0
+offset_top = -188.0
+offset_right = 210.0
+offset_bottom = 142.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_lptr6")
+expand_mode = 1
+
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1142759224]
+custom_minimum_size = Vector2(240, 38)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -85,87 +178,107 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -106.0
-offset_top = -96.0
+offset_top = -82.5
 offset_right = 191.0
-offset_bottom = 99.0
+offset_bottom = 115.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 10
 
 [node name="Button" type="Button" parent="VBoxContainer" unique_id=1264414176]
+custom_minimum_size = Vector2(220, 42)
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.9490196, 0.9607843, 1, 1)
+theme_override_colors/font_focus_color = Color(0.9490196, 0.9607843, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.7176471, 0.84705883, 1, 1)
+theme_override_colors/font_hover_color = Color(0.39607844, 0.9019608, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.5176471, 0.57254905, 0.6509804, 1)
+theme_override_colors/font_outline_color = Color(0.023529412, 0.07058824, 0.14509805, 1)
 theme_override_fonts/font = ExtResource("2_4u1fl")
-theme_override_font_sizes/font_size = 18
-theme_override_styles/normal = SubResource("StyleBoxFlat_ovj3v")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_4u1fl")
-theme_override_styles/hover = SubResource("StyleBoxFlat_nwme3")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_7hj8g")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxTexture_v88s1")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ifa52")
+theme_override_styles/hover = SubResource("StyleBoxTexture_iiqlx")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_pbuqv")
 text = "New Game"
 
 [node name="Button2" type="Button" parent="VBoxContainer" unique_id=342867080]
+custom_minimum_size = Vector2(220, 42)
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.9490196, 0.9607843, 1, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.7176471, 0.84705883, 1, 1)
+theme_override_colors/font_hover_color = Color(0.39607844, 0.9019608, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.5176471, 0.57254905, 0.6509804, 1)
+theme_override_colors/font_outline_color = Color(0.023529412, 0.07058824, 0.14509805, 1)
 theme_override_fonts/font = ExtResource("2_4u1fl")
-theme_override_font_sizes/font_size = 18
-theme_override_styles/normal = SubResource("StyleBoxFlat_ovj3v")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_4u1fl")
-theme_override_styles/hover = SubResource("StyleBoxFlat_nwme3")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_7hj8g")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxTexture_unh1q")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_og273")
+theme_override_styles/hover = SubResource("StyleBoxTexture_bj83e")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_yik05")
 text = "Settings"
 
 [node name="Button3" type="Button" parent="VBoxContainer" unique_id=1422218441]
+custom_minimum_size = Vector2(220, 42)
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.9490196, 0.9607843, 1, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.7176471, 0.84705883, 1, 1)
+theme_override_colors/font_hover_color = Color(0.39607844, 0.9019608, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.5176471, 0.57254905, 0.6509804, 1)
+theme_override_colors/font_outline_color = Color(0.023529412, 0.07058824, 0.14509805, 1)
 theme_override_fonts/font = ExtResource("2_4u1fl")
-theme_override_font_sizes/font_size = 18
-theme_override_styles/normal = SubResource("StyleBoxFlat_ovj3v")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_4u1fl")
-theme_override_styles/hover = SubResource("StyleBoxFlat_nwme3")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_7hj8g")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxTexture_hd7fi")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_j8ruc")
+theme_override_styles/hover = SubResource("StyleBoxTexture_mx43p")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_0pt06")
 text = "Continue"
 
 [node name="Button4" type="Button" parent="VBoxContainer" unique_id=834721448]
+custom_minimum_size = Vector2(220, 42)
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.9490196, 0.9607843, 1, 1)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.7176471, 0.84705883, 1, 1)
+theme_override_colors/font_hover_color = Color(0.39607844, 0.9019608, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.5176471, 0.57254905, 0.6509804, 1)
+theme_override_colors/font_outline_color = Color(0.023529412, 0.07058824, 0.14509805, 1)
 theme_override_fonts/font = ExtResource("2_4u1fl")
-theme_override_font_sizes/font_size = 18
-theme_override_styles/normal = SubResource("StyleBoxFlat_ovj3v")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_4u1fl")
-theme_override_styles/hover = SubResource("StyleBoxFlat_nwme3")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_7hj8g")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxTexture_jvl1x")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ofiux")
+theme_override_styles/hover = SubResource("StyleBoxTexture_3rcjn")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_wmm8w")
 text = "Quit
 "
 
-[node name="Label" type="Label" parent="." unique_id=28364557]
+[node name="TitleFrame" type="TextureRect" parent="." unique_id=367821008]
+layout_mode = 0
+offset_left = 210.0
+offset_top = 5.0
+offset_right = 510.0
+offset_bottom = 95.0
+mouse_filter = 2
+texture = ExtResource("8_40ee3")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="TitleFrame" unique_id=28364557]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -45.0
-offset_top = -317.0
-offset_right = 121.0
-offset_bottom = -250.0
+offset_left = 5.0
+offset_top = 26.0
+offset_right = 5.0
+offset_bottom = 27.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 theme_override_colors/font_color = Color(1.2017038, 1.2057062, 0.9098564, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_y = 4
@@ -173,12 +286,15 @@ theme_override_fonts/font = ExtResource("2_4u1fl")
 theme_override_font_sizes/font_size = 25
 text = "Eternal Sparks
 "
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="SettingsMenu" type="Control" parent="." unique_id=495712345]
+visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = SubResource("GDScript_4u1fl")
+script = ExtResource("10_2j1qy")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingsMenu" unique_id=1714752655]
 layout_mode = 1
@@ -187,48 +303,93 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 240.0
-offset_top = 57.0
-offset_right = 522.0
-offset_bottom = 251.0
+offset_left = 215.0
+offset_top = 25.0
+offset_right = 477.0
+offset_bottom = 253.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 8
 
-[node name="Label" type="Label" parent="SettingsMenu/VBoxContainer" unique_id=694125225]
+[node name="SettingsHeader" type="HBoxContainer" parent="SettingsMenu/VBoxContainer" unique_id=1675007588]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="SettingsIcon" type="TextureRect" parent="SettingsMenu/VBoxContainer/SettingsHeader" unique_id=1260605900]
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 2
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_oika7")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="SettingsMenu/VBoxContainer/SettingsHeader" unique_id=694125225]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_4u1fl")
+theme_override_font_sizes/font_size = 24
 text = "Settings"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="SettingsMenu/VBoxContainer" unique_id=1647133749]
-layout_mode = 2
-
-[node name="Mute" type="CheckBox" parent="SettingsMenu/VBoxContainer/HBoxContainer2" unique_id=18459376]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("2_4u1fl")
-text = "Mute"
-
 [node name="HBoxContainer3" type="HBoxContainer" parent="SettingsMenu/VBoxContainer" unique_id=2011163277]
 layout_mode = 2
+size_flags_vertical = 0
 
-[node name="Label" type="Label" parent="SettingsMenu/VBoxContainer/HBoxContainer3" unique_id=909903638]
+[node name="Label" type="TextureRect" parent="SettingsMenu/VBoxContainer/HBoxContainer3" unique_id=1373739360]
+custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_4u1fl")
-text = "Volume"
+texture = ExtResource("11_2j1qy")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Volume" type="HSlider" parent="SettingsMenu/VBoxContainer/HBoxContainer3" unique_id=1018003129]
+custom_minimum_size = Vector2(150, 20)
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/slider = SubResource("StyleBoxFlat_ffnox")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_xl850")
 max_value = 1.0
-step = 0.1
+step = 0.01
+value = 1.0
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="SettingsMenu/VBoxContainer" unique_id=676843872]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Label" type="TextureRect" parent="SettingsMenu/VBoxContainer/HBoxContainer4" unique_id=1572607189]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("12_vtt1y")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Volume" type="HSlider" parent="SettingsMenu/VBoxContainer/HBoxContainer4" unique_id=933911779]
+custom_minimum_size = Vector2(150, 20)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/slider = SubResource("StyleBoxFlat_kle1k")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_h7lvb")
+max_value = 1.0
+step = 0.01
 value = 1.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="SettingsMenu/VBoxContainer" unique_id=1452270985]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+alignment = 1
+
+[node name="Label" type="Label" parent="SettingsMenu/VBoxContainer/HBoxContainer" unique_id=2009105014]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_4u1fl")
+theme_override_font_sizes/font_size = 16
+text = "Screen Mode"
 
 [node name="OptionButton" type="OptionButton" parent="SettingsMenu/VBoxContainer/HBoxContainer" unique_id=1201607982]
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_b08ru")
+theme_override_styles/hover = SubResource("StyleBoxFlat_oika7")
 selected = 0
 item_count = 2
 popup/item_0/text = "Full Screen"
@@ -236,21 +397,76 @@ popup/item_0/id = 0
 popup/item_1/text = "Windowed"
 popup/item_1/id = 1
 
-[node name="Label" type="Label" parent="SettingsMenu/VBoxContainer/HBoxContainer" unique_id=2009105014]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("2_4u1fl")
-text = "Screen Mode"
-
 [node name="Button" type="Button" parent="SettingsMenu/VBoxContainer" unique_id=797976030]
+custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
+size_flags_horizontal = 4
 theme_override_fonts/font = ExtResource("2_4u1fl")
+theme_override_styles/normal = SubResource("StyleBoxTexture_xn8em")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_7ob2f")
+theme_override_styles/hover = SubResource("StyleBoxTexture_qi0f3")
 text = "Back"
 
+[node name="CrystalEmblem" type="TextureRect" parent="." unique_id=1949631622]
+layout_mode = 0
+offset_left = 181.0
+offset_top = 163.0
+offset_right = 221.0
+offset_bottom = 203.0
+mouse_filter = 2
+texture = ExtResource("10_kle1k")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CrystalEmblem2" type="TextureRect" parent="." unique_id=1965329258]
+layout_mode = 0
+offset_left = 510.0
+offset_top = 159.0
+offset_right = 550.0
+offset_bottom = 199.0
+mouse_filter = 2
+texture = ExtResource("10_kle1k")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CrystalDivider" type="TextureRect" parent="." unique_id=594576014]
+layout_mode = 0
+offset_left = 237.0
+offset_top = 9.0
+offset_right = 586.0
+offset_bottom = 27.184998
+rotation = 1.5707964
+texture = ExtResource("11_h7lvb")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CrystalDivider2" type="TextureRect" parent="." unique_id=1557362524]
+layout_mode = 0
+offset_left = 516.0
+offset_top = 5.0
+offset_right = 865.0
+offset_bottom = 23.184998
+rotation = 1.5707964
+texture = ExtResource("11_h7lvb")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HoeverSound" type="AudioStreamPlayer" parent="." unique_id=1222896425]
+stream = ExtResource("16_8sq5u")
+volume_db = -8.273
+
+[node name="ClickSound" type="AudioStreamPlayer" parent="." unique_id=1264016488]
+stream = ExtResource("16_vtt1y")
+volume_db = -5.0
+
+[connection signal="mouse_entered" from="VBoxContainer/Button" to="." method="play_hover_sound"]
 [connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_start_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/Button2" to="." method="play_hover_sound"]
 [connection signal="pressed" from="VBoxContainer/Button2" to="." method="_on_settings_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/Button3" to="." method="play_hover_sound"]
 [connection signal="pressed" from="VBoxContainer/Button3" to="." method="_on_continue_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/Button4" to="." method="play_hover_sound"]
 [connection signal="pressed" from="VBoxContainer/Button4" to="." method="_on_exit_pressed"]
-[connection signal="toggled" from="SettingsMenu/VBoxContainer/HBoxContainer2/Mute" to="." method="_on_mute_toggled"]
-[connection signal="value_changed" from="SettingsMenu/VBoxContainer/HBoxContainer3/Volume" to="." method="_on_volume_value_changed"]
 [connection signal="item_selected" from="SettingsMenu/VBoxContainer/HBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="mouse_entered" from="SettingsMenu/VBoxContainer/Button" to="." method="play_hover_sound"]
 [connection signal="pressed" from="SettingsMenu/VBoxContainer/Button" to="." method="_on_back_pressed"]

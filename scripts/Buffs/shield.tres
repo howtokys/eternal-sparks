@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BuffData" format=3 uid="uid://ce2e83ctvtv4v"]
+
+[ext_resource type="Script" uid="uid://d1g5im1s0vl5" path="res://scripts/Buffs/buff_data.gd" id="1_kivyk"]
+[ext_resource type="Texture2D" uid="uid://d303crtloslpf" path="res://sprites/Boost-UI/shield_boost_icon.png" id="1_p7nhi"]
+
+[resource]
+script = ExtResource("1_kivyk")
+buff_id = &"shield_boost"
+buff_name = "Shield Boost"
+description = "Increases the player's maximum shield"
+max_level = 3
+shield_bonus_per_level = 2
+buff_icon = ExtResource("1_p7nhi")
+metadata/_custom_type_script = "uid://d1g5im1s0vl5"

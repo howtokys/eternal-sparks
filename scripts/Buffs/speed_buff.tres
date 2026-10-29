@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BuffData" format=3 uid="uid://b07mgch5us218"]
+
+[ext_resource type="Texture2D" uid="uid://buryhh327uaev" path="res://sprites/Boost-UI/speed_boost_icon.png" id="1_7txud"]
+[ext_resource type="Script" uid="uid://d1g5im1s0vl5" path="res://scripts/Buffs/buff_data.gd" id="1_56lj8"]
+
+[resource]
+script = ExtResource("1_56lj8")
+buff_id = &"speed_boost"
+buff_name = "Speed Boost"
+description = "Increases player movement speed."
+max_level = 3
+speed_bonus_per_level = 0.2
+buff_icon = ExtResource("1_7txud")
+metadata/_custom_type_script = "uid://d1g5im1s0vl5"

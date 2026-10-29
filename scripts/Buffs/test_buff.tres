@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BuffData" format=3 uid="uid://7xld6atxttbn"]
+
+[ext_resource type="Script" uid="uid://d1g5im1s0vl5" path="res://scripts/Buffs/buff_data.gd" id="1_qnehd"]
+
+[resource]
+script = ExtResource("1_qnehd")
+buff_id = &"test_buff"
+buff_name = "Test Buff"
+description = "Temporary buff for testing the system "
+max_level = 3
+metadata/_custom_type_script = "uid://d1g5im1s0vl5"
