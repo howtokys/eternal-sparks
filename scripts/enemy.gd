@@ -27,7 +27,6 @@ var hit_count = 0
 var active_label = null
 
 # Detection areas update these flags as the player enters or leaves each range.
-# *** #
 func _on_detection_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_detection_range = true
@@ -38,16 +37,15 @@ func _on_detection_body_exited(body: Node2D) -> void:
 		player_in_detection_range = false
 		print("Player left detection range")
 
-func _on_hurt_box_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player"):
-		body.take_damage(contact_damage)
-	elif body is Bullet:
+func _on_hurt_box_area_entered(area: Area2D) -> void:
+	if area is Bullet:
 		health_component.take_damage(1)
-		body.queue_free()
+		area.queue_free()
 
 		hit_count += 1
 		update_hit_display()
 		reset_timer.start()
+
 func _on_attack_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_attack_range = true
@@ -92,7 +90,8 @@ func attack_player() -> void:
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
 
-	hurt_box.body_entered.connect(_on_hurt_box_body_entered)
+	# FIXED: Changed from body_entered to area_entered to match Area2D bullets
+	hurt_box.area_entered.connect(_on_hurt_box_area_entered)
 	
 	reset_timer.timeout.connect(reset_hit_counter)
 	health_component.died.connect(_on_enemy_died)

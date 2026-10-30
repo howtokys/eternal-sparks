@@ -1,0 +1,58 @@
+extends Area2D
+
+@export var data: ItemData:
+	set(value):
+		data = value
+		_update_visual()
+
+@onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var label: Label = $Label
+
+var player_in_range: Node2D = null
+
+func _ready() -> void:
+	body_entered.connect(_on_body_entered)
+	body_exited.connect(_on_body_exited)
+	
+	if label:
+		label.hide()
+	
+	_update_visual()
+
+func _update_visual() -> void:
+	if data and is_instance_valid(sprite_2d):
+		sprite_2d.texture = data.item_texture
+		sprite_2d.centered = true 
+	if data and is_instance_valid(label):
+		label.text = data.item_name
+
+func _on_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		player_in_range = body
+		if label:
+			label.show()
+			
+func _on_body_exited(body: Node2D) -> void:
+	if body == player_in_range:
+		player_in_range = null
+		if label:
+			label.hide()
+			
+func _unhandled_input(event: InputEvent) -> void:
+	if player_in_range and event.is_action_pressed("interact"):
+		use_item(player_in_range)
+
+func use_item(body: Node2D) -> void:
+	if data:
+		if data.item_type == ItemData.Type.HEALTH_POTION:
+			print("Used health potion: ", data.item_name)
+			body.health_component.heal(data.restore_amount)
+
+		elif data.item_type == ItemData.Type.MANA_POTION:
+			print("Used mana potion: ", data.item_name)
+			body.restore_mana(data.restore_amount)
+			
+		elif data.item_type == ItemData.Type.GUN:
+			print("Equipped gun: ", data.item_name)
+			
+	queue_free()

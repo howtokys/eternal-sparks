@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://btqo3ebt5haan"]
+
+[ext_resource type="Texture2D" uid="uid://budb82lv5ix60" path="res://sprites/Mana_potion_large.png" id="1_052pb"]
+[ext_resource type="Script" uid="uid://ktdmx2a22piw" path="res://scripts/item_data.gd" id="1_i26hd"]
+
+[resource]
+script = ExtResource("1_i26hd")
+item_name = "Large Mana Potion"
+item_texture = ExtResource("1_052pb")
+item_type = 1
+metadata/_custom_type_script = "uid://ktdmx2a22piw"
