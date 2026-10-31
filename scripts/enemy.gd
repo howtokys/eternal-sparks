@@ -39,8 +39,7 @@ func _on_detection_body_exited(body: Node2D) -> void:
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
 	if area is Bullet:
-		health_component.take_damage(1)
-		area.queue_free()
+		health_component.take_damage(area.damage)
 
 		hit_count += 1
 		update_hit_display()
