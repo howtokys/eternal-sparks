@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://ddfou1e6ljx0n"]
+
+[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_7cqbe"]
+[ext_resource type="Script" uid="uid://bljk8cmabbqgo" path="res://scripts/pickup.gd" id="1_gyxxy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4m06l"]
+radius = 7.071068
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hqyie"]
+shader = ExtResource("1_7cqbe")
+
+[node name="Pickup" type="Area2D" unique_id=149817305]
+script = ExtResource("1_gyxxy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1597355732]
+shape = SubResource("CircleShape2D_4m06l")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1099730602]
+material = SubResource("ShaderMaterial_hqyie")
+
+[node name="Label" type="Label" parent="." unique_id=2007562564]
+offset_left = -16.0
+offset_top = -11.0
+offset_right = -11.0
+offset_bottom = -6.0
+theme_override_font_sizes/font_size = 5
+vertical_alignment = 1

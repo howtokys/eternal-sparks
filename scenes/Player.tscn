@@ -3,10 +3,9 @@
 [ext_resource type="Script" uid="uid://eclbeo44g5uk" path="res://scripts/player.gd" id="1_7xf34"]
 [ext_resource type="Texture2D" uid="uid://dphvo84y80qu8" path="res://sprites/Double.png" id="1_8b3gr"]
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="2_7r1i8"]
-[ext_resource type="Resource" uid="uid://b07mgch5us218" path="res://scripts/Buffs/speed_buff.tres" id="2_khinc"]
 [ext_resource type="Script" uid="uid://deyfps0gdfuso" path="res://scripts/hurt_box.gd" id="4_qr83c"]
 [ext_resource type="PackedScene" uid="uid://dtpx4cociiagf" path="res://scenes/gun.tscn" id="6_70d11"]
-[ext_resource type="Script" uid="uid://hap3v5dcihvt" path="res://health_component.gd" id="6_cw2d6"]
+[ext_resource type="Script" uid="uid://hap3v5dcihvt" path="res://scripts/health_component.gd" id="6_cw2d6"]
 [ext_resource type="Script" uid="uid://bdlnm3owk34dd" path="res://scripts/Buffs/buff_manager.gd" id="7_cw2d6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7r1i8"]
@@ -22,28 +21,27 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_u5qg6")
 }],
-"loop": 1,
+"loop": true,
 "name": &"default",
 "speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0cwf8"]
-size = Vector2(12.125, 19.625)
+size = Vector2(12.125, 9)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_abmxc"]
-size = Vector2(12, 20)
+size = Vector2(13, 22)
 
 [node name="Player" type="CharacterBody2D" unique_id=353923736 groups=["player"]]
-collision_mask = 6
+collision_mask = 2
 script = ExtResource("1_7xf34")
-starting_buff = ExtResource("2_khinc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1338463026]
 material = SubResource("ShaderMaterial_7r1i8")
 sprite_frames = SubResource("SpriteFrames_l3kap")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1455954465]
-position = Vector2(5.0625, -0.1875)
+position = Vector2(5.0625, 9.5)
 shape = SubResource("RectangleShape2D_0cwf8")
 
 [node name="HurtBox" type="Area2D" parent="." unique_id=16542959]
@@ -51,7 +49,7 @@ collision_mask = 2
 script = ExtResource("4_qr83c")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=605539488]
-position = Vector2(5, 0)
+position = Vector2(4.5, 3)
 shape = SubResource("RectangleShape2D_abmxc")
 debug_color = Color(0.8139178, 0.30736557, 0.6878569, 0.41960785)
 
@@ -61,6 +59,7 @@ debug_color = Color(0.8139178, 0.30736557, 0.6878569, 0.41960785)
 position = Vector2(7, 4)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1614490843]
+zoom = Vector2(1.7, 1.7)
 position_smoothing_enabled = true
 
 [node name="HealthComponent" type="Node2D" parent="." unique_id=1253734305]

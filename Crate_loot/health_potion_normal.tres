@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://boeaj4p0umv3h"]
+
+[ext_resource type="Texture2D" uid="uid://c2x7ty4o21v7l" path="res://sprites/Health_potion.png" id="1_d5ii2"]
+[ext_resource type="Script" uid="uid://ktdmx2a22piw" path="res://scripts/item_data.gd" id="1_rytud"]
+
+[resource]
+script = ExtResource("1_rytud")
+item_name = "Health Potion"
+item_texture = ExtResource("1_d5ii2")
+metadata/_custom_type_script = "uid://ktdmx2a22piw"

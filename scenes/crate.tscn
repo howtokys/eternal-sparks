@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://2fvnydut0j2x"]
+
+[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_dwt0d"]
+[ext_resource type="Script" uid="uid://dqmy5f3ibhep3" path="res://scripts/crate.gd" id="1_kn6iu"]
+[ext_resource type="Script" uid="uid://ktdmx2a22piw" path="res://scripts/item_data.gd" id="2_juhn0"]
+[ext_resource type="Texture2D" uid="uid://dm532sc27sqsy" path="res://sprites/crate.png" id="2_kn6iu"]
+[ext_resource type="Resource" uid="uid://boeaj4p0umv3h" path="res://Crate_loot/health_potion_normal.tres" id="3_ipbef"]
+[ext_resource type="Resource" uid="uid://qutnkxq6cykm" path="res://Crate_loot/health_potion_large.tres" id="4_xu2ic"]
+[ext_resource type="Resource" uid="uid://btqo3ebt5haan" path="res://Crate_loot/mana_potion_large.tres" id="5_wsrlu"]
+[ext_resource type="Resource" uid="uid://bb8btcdp4sh3e" path="res://Crate_loot/mana_potion_normal.tres" id="6_m32jw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_74u5o"]
+shader = ExtResource("1_dwt0d")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1kl6c"]
+size = Vector2(16, 19)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dwt0d"]
+size = Vector2(16, 25)
+
+[node name="Crate" type="StaticBody2D" unique_id=1469868432]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_kn6iu")
+possible_loot = Array[ExtResource("2_juhn0")]([ExtResource("3_ipbef"), ExtResource("4_xu2ic"), ExtResource("5_wsrlu"), ExtResource("6_m32jw")])
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=765259087]
+material = SubResource("ShaderMaterial_74u5o")
+texture = ExtResource("2_kn6iu")
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1336293667]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_1kl6c")
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=917989472]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=144737204]
+position = Vector2(0, -3.5)
+shape = SubResource("RectangleShape2D_dwt0d")

@@ -139,6 +139,11 @@ func use_mana(cost: float) -> bool:
 		return true
 	return false
 
+func restore_mana(amount: float) -> void:
+	print("Before mana restore - Current: ", current_mana, " / Max: ", max_mana)
+	current_mana = minf(current_mana + amount, max_mana)
+	print("After mana restore - Current: ", current_mana)
+
 func _on_shield_recharge_timeout() -> void:
 	current_shield = max_shield
 

@@ -5,18 +5,18 @@
 [ext_resource type="Texture2D" uid="uid://dbdeb1dw1amd" path="res://sprites/Bullet.png" id="2_t4vbm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2b2rl"]
-size = Vector2(10, 7)
+size = Vector2(9, 7)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b7duk"]
 shader = ExtResource("1_v8qja")
 
-[node name="Bullet" type="CharacterBody2D" unique_id=126307496]
+[node name="Bullet" type="Area2D" unique_id=1022482170]
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_l5glv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=251348689]
-position = Vector2(1, 0.5)
+position = Vector2(0.5, 0.5)
 shape = SubResource("RectangleShape2D_2b2rl")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=107146451]
