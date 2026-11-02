@@ -3,7 +3,7 @@
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_gp1hk"]
 [ext_resource type="Texture2D" uid="uid://b0bnnnkqc2ewa" path="res://sprites/test_weapons/Sprite_Frost_Spear.png" id="2_6b133"]
 [ext_resource type="Script" uid="uid://dx5ofmngprb4j" path="res://scripts/gun.gd" id="3_6b133"]
-[ext_resource type="Resource" uid="uid://dbo3l35tyehh" path="res://scripts/weapons/data/spear.tres" id="4_6b133"]
+[ext_resource type="Resource" path="res://scripts/weapons/data/railgun.tres" id="4_6b133"]
 [ext_resource type="Script" uid="uid://svj33pb5ideb" path="res://scripts/weapon_hitbox.gd" id="5_hitbox"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8iju2"]
