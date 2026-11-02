@@ -8,6 +8,11 @@ const BULLET = preload("uid://bjlscu3tlwgwo")
 
 @export var data: WeaponData
 var cooldown_remaining: float = 0.0
+var base_position: Vector2
+var swing_rotation_offset: float = 0.0
+var poke_position_offset: float = 0.0
+var attack_in_progress: bool = false
+var attack_facing_sign: float = 1.0
 
 func _ready() -> void:
 	if data == null:
@@ -16,6 +21,7 @@ func _ready() -> void:
 
 	texture = data.texture
 	marker_2d.position = data.muzzle_offset
+	base_position = position
 	attack_hitbox.collision_layer = 0
 	attack_hitbox.monitoring = false
 	_update_weapon_data()
@@ -54,6 +60,9 @@ func _process(delta: float) -> void:
 		flip_v = true
 	else:
 		flip_v = false
+
+	rotation += swing_rotation_offset
+	position = base_position + Vector2.RIGHT.rotated(rotation) * poke_position_offset
 	
 func shoot() -> void:
 	if data == null or cooldown_remaining > 0.0:
@@ -84,11 +93,41 @@ func shoot() -> void:
 			get_tree().current_scene.add_child(new_bullet)
 
 func _swing() -> void:
+	if attack_in_progress or not is_instance_valid(attack_hitbox):
+		return
+
+	attack_in_progress = true
+	swing_rotation_offset = 0.0
+	poke_position_offset = 0.0
+	attack_facing_sign = -1.0 if flip_v else 1.0
+	var duration := maxf(data.anim_duration, 0.01)
+	var tween := create_tween()
+	tween.tween_method(_set_attack_progress, 0.0, 1.0, duration)
+
+	var hitbox_duration := minf(0.1, duration)
+	var hitbox_start_delay := (duration - hitbox_duration) * 0.5
+	if hitbox_start_delay > 0.0:
+		await get_tree().create_timer(hitbox_start_delay).timeout
 	if not is_instance_valid(attack_hitbox):
+		attack_in_progress = false
 		return
 	attack_hitbox.collision_layer = 1
 	attack_hitbox.monitoring = true
-	await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(hitbox_duration).timeout
 	if is_instance_valid(attack_hitbox):
 		attack_hitbox.collision_layer = 0
 		attack_hitbox.monitoring = false
+	var remaining_duration := duration - hitbox_start_delay - hitbox_duration
+	if remaining_duration > 0.0:
+		await get_tree().create_timer(remaining_duration).timeout
+	swing_rotation_offset = 0.0
+	poke_position_offset = 0.0
+	attack_in_progress = false
+
+func _set_attack_progress(progress: float) -> void:
+	var motion_progress := progress * 2.0 if progress <= 0.5 else (1.0 - progress) * 2.0
+	if data.attack_anim == WeaponData.AttackAnim.POKE:
+		poke_position_offset = data.poke_distance * motion_progress
+		return
+
+	swing_rotation_offset = deg_to_rad(data.swing_angle_degrees) * attack_facing_sign * motion_progress

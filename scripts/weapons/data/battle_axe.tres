@@ -17,3 +17,4 @@ projectile_texture = ExtResource("3_bullet")
 muzzle_offset = Vector2(8, 0)
 hitbox_offset = Vector2(16, 0)
 hitbox_size = Vector2(22, 12)
+anim_duration = 0.15

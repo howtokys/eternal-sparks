@@ -14,6 +14,7 @@ radius = 1.0
 
 [node name="Gun" type="Sprite2D" unique_id=1295489834]
 material = SubResource("ShaderMaterial_8iju2")
+position = Vector2(0, 1)
 texture = ExtResource("2_6b133")
 offset = Vector2(6, 0)
 script = ExtResource("3_6b133")
