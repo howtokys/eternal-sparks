@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://2fvnydut0j2x" path="res://scenes/crate.tscn" id="3_4uy7u"]
 [ext_resource type="PackedScene" uid="uid://i7k6bn7tac3d" path="res://scenes/Player.tscn" id="3_bkx3g"]
 [ext_resource type="PackedScene" uid="uid://brqcsjo4rg7ls" path="res://scenes/enemy.tscn" id="4_m1l7b"]
-[ext_resource type="PackedScene" uid="uid://biwfh53y6e1ya" path="res://scenes/chest.tscn" id="5_01mts"]
+[ext_resource type="PackedScene" path="res://scenes/chest.tscn" id="5_01mts"]
 [ext_resource type="PackedScene" uid="uid://5daivydu6730" path="res://scenes/HUD.tscn" id="6_f24qu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4uy7u"]

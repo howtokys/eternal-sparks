@@ -23,6 +23,7 @@ drop = ExtResource("4_health_potion")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_chest")
+texture = ExtResource("3_chest_texture")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 1)
