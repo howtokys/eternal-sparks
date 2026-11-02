@@ -18,6 +18,5 @@ muzzle_offset = Vector2(13, 0)
 hitbox_offset = Vector2(20, 0)
 hitbox_radius = 7.0
 attack_anim = 1
-anim_duration = 0.15
 windup_duration = 0.2
 recovery_duration = 0.317
