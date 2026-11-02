@@ -15,3 +15,5 @@ range_px = 40.0
 texture = ExtResource("2_gun")
 projectile_texture = ExtResource("3_bullet")
 muzzle_offset = Vector2(13, 0)
+hitbox_offset = Vector2(20, 0)
+hitbox_radius = 7.0

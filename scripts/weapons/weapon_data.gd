@@ -24,3 +24,6 @@ enum WeaponKind {
 @export var texture: Texture2D
 @export var projectile_texture: Texture2D
 @export var muzzle_offset: Vector2
+@export var hitbox_offset: Vector2
+@export var hitbox_radius: float = 0.0
+@export var hitbox_size: Vector2

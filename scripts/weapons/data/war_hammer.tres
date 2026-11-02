@@ -15,3 +15,6 @@ range_px = 32.0
 knockback = 120.0
 texture = ExtResource("3_884a7")
 projectile_texture = ExtResource("3_bullet")
+muzzle_offset = Vector2(13, 0)
+hitbox_offset = Vector2(22, 0)
+hitbox_radius = 14.0

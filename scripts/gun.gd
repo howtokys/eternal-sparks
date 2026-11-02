@@ -30,12 +30,19 @@ func _update_weapon_data() -> void:
 
 	texture = data.texture
 	marker_2d.position = data.muzzle_offset
-	attack_hitbox.position = data.muzzle_offset
+	attack_hitbox.position = data.hitbox_offset
 	attack_hitbox.damage = data.damage
 	attack_hitbox.element = data.element
 	attack_hitbox.knockback = data.knockback
-	var shape := attack_hitbox.get_node("CollisionShape2D").shape as CircleShape2D
-	shape.radius = maxf(data.range_px, 1.0)
+	var collision_shape := attack_hitbox.get_node("CollisionShape2D") as CollisionShape2D
+	if data.hitbox_size != Vector2.ZERO:
+		var rectangle_shape := RectangleShape2D.new()
+		rectangle_shape.size = data.hitbox_size
+		collision_shape.shape = rectangle_shape
+	else:
+		var circle_shape := CircleShape2D.new()
+		circle_shape.radius = data.hitbox_radius
+		collision_shape.shape = circle_shape
 
 func _process(delta: float) -> void:
 	if cooldown_remaining > 0.0:
