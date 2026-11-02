@@ -7,10 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://brqcsjo4rg7ls" path="res://scenes/enemy.tscn" id="4_m1l7b"]
 [ext_resource type="PackedScene" path="res://scenes/chest.tscn" id="5_01mts"]
 [ext_resource type="PackedScene" uid="uid://5daivydu6730" path="res://scenes/HUD.tscn" id="6_f24qu"]
-[ext_resource type="Texture2D" path="res://sprites/chests/Brown_Chest.png" id="7_brown_chest"]
-[ext_resource type="Texture2D" path="res://sprites/chests/Blue_Chest.png" id="8_blue_chest"]
-[ext_resource type="Texture2D" path="res://sprites/chests/Golden_Chest.png" id="9_golden_chest"]
-[ext_resource type="Resource" path="res://Chest_loot/weapon_pistol.tres" id="10_weapon_pistol"]
+[ext_resource type="Texture2D" uid="uid://cwj75ou4okqco" path="res://sprites/chests/Blue_Chest.png" id="8_blue_chest"]
+[ext_resource type="Texture2D" uid="uid://djh3bo72pjv57" path="res://sprites/chests/Golden_Chest.png" id="9_golden_chest"]
 [ext_resource type="Resource" path="res://Chest_loot/weapon_long_katana.tres" id="11_weapon_long_katana"]
 [ext_resource type="Resource" path="res://Chest_loot/weapon_ember_staff.tres" id="12_weapon_ember_staff"]
 
@@ -129,8 +127,6 @@ position = Vector2(145, 157)
 
 [node name="Chest" parent="Floor" unique_id=521764967 instance=ExtResource("5_01mts")]
 position = Vector2(315, 185)
-closed_texture = ExtResource("7_brown_chest")
-drop = ExtResource("10_weapon_pistol")
 
 [node name="Chest2" parent="Floor" unique_id=787250440 instance=ExtResource("5_01mts")]
 position = Vector2(366, 158)
@@ -146,4 +142,3 @@ drop = ExtResource("12_weapon_ember_staff")
 position = Vector2(141.86137, 48.54605)
 
 [node name="CanvasLayer" parent="." unique_id=1979618489 instance=ExtResource("6_f24qu")]
-visible = false
