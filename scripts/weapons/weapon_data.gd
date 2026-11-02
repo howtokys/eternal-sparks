@@ -7,6 +7,11 @@ enum WeaponKind {
 	STAFF,
 }
 
+enum AttackAnim {
+	SWING,
+	POKE,
+}
+
 @export var id: String = ""
 @export var display_name: String = ""
 @export var kind: WeaponKind = WeaponKind.RANGED
@@ -24,3 +29,10 @@ enum WeaponKind {
 @export var texture: Texture2D
 @export var projectile_texture: Texture2D
 @export var muzzle_offset: Vector2
+@export var hitbox_offset: Vector2
+@export var hitbox_radius: float = 0.0
+@export var hitbox_size: Vector2
+@export var attack_anim: AttackAnim = AttackAnim.SWING
+@export var swing_angle_degrees: float = 100.0
+@export var anim_duration: float = 0.15
+@export var poke_distance: float = 12.0
