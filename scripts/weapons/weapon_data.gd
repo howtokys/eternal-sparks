@@ -36,3 +36,8 @@ enum AttackAnim {
 @export var swing_angle_degrees: float = 100.0
 @export var anim_duration: float = 0.15
 @export var poke_distance: float = 12.0
+@export var windup_duration: float = 0.0
+@export var recovery_duration: float = 0.0
+
+func attack_cycle_duration() -> float:
+	return windup_duration + anim_duration + recovery_duration
