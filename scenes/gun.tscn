@@ -27,6 +27,7 @@ collision_layer = 0
 collision_mask = 2
 monitoring = false
 script = ExtResource("5_hitbox")
+metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox" unique_id=1970122960]
 shape = SubResource("RectangleShape2D_attack")
