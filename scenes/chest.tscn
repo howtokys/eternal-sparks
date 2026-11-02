@@ -1,42 +1,43 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene format=3 uid="uid://csy4bgetfo0uy"]
 
-[ext_resource type="Script" path="res://scripts/chest.gd" id="1_chest"]
-[ext_resource type="Shader" path="res://Shaders/smooth_pixels.gdshader" id="2_shader"]
-[ext_resource type="Texture2D" path="res://sprites/chests/Brown_Chest.png" id="3_chest_texture"]
+[ext_resource type="Script" uid="uid://cx56wwd8xgibi" path="res://scripts/chest.gd" id="1_chest"]
+[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="2_shader"]
+[ext_resource type="Texture2D" uid="uid://0bha2me8d6io" path="res://sprites/chests/Brown_Chest.png" id="3_chest_texture"]
 [ext_resource type="Resource" path="res://Chest_loot/weapon_pistol.tres" id="4_weapon_pistol"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_chest"]
 shader = ExtResource("2_shader")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_chest"]
-size = Vector2(20, 14)
+size = Vector2(28, 23)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
 radius = 28.0
 
-[node name="Chest" type="StaticBody2D"]
+[node name="Chest" type="StaticBody2D" unique_id=474090461]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_chest")
 closed_texture = ExtResource("3_chest_texture")
 drop = ExtResource("4_weapon_pistol")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1361591342]
 material = SubResource("ShaderMaterial_chest")
 texture = ExtResource("3_chest_texture")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1671523405]
+position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_chest")
 
-[node name="InteractZone" type="Area2D" parent="."]
+[node name="InteractZone" type="Area2D" parent="." unique_id=1724569634]
 collision_layer = 0
-collision_mask = 1
+metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractZone"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractZone" unique_id=150719947]
+position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_interact")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=449370675]
 offset_left = -16.0
 offset_top = -23.0
 offset_right = 16.0
@@ -44,7 +45,5 @@ offset_bottom = -18.0
 theme_override_font_sizes/font_size = 5
 vertical_alignment = 1
 
-[node name="Glow" type="Sprite2D" parent="."]
-position = Vector2(0, -5)
-scale = Vector2(2, 2)
-visible = false
+[node name="Glow" type="Sprite2D" parent="." unique_id=329366845]
+show_behind_parent = true
