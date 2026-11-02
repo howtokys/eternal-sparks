@@ -18,7 +18,7 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 	if is_broken:
 		return
 		
-	if area is Bullet:
+	if area is Bullet or area.is_in_group("enemy_attack"):
 		call_deferred("_break_crate", area)
 
 
@@ -28,7 +28,11 @@ func _break_crate(area: Area2D) -> void:
 	is_broken = true
 	
 	# Get the direction the bullet was moving
-	var hit_direction = area.target_position.normalized()
+	var hit_direction := Vector2.RIGHT
+	if area is Bullet:
+		hit_direction = area.target_position.normalized()
+	elif area.global_position != global_position:
+		hit_direction = global_position.direction_to(area.global_position)
 	
 	collision.set_deferred("disabled", true)
 	hurt_box.set_deferred("monitoring", false)
@@ -57,7 +61,8 @@ func _break_crate(area: Area2D) -> void:
 		debris.reset_physics_interpolation()
 		debris.visible = true
 	
-	area.queue_free()
+	if area is Bullet:
+		area.queue_free()
 	
 	# Spawn pickup
 	if possible_loot.size() > 0:

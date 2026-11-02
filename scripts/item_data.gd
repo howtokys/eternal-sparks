@@ -11,3 +11,4 @@ enum Type { HEALTH_POTION, MANA_POTION, GUN }
 @export var item_type: Type
 @export var restore_amount: int = 25
 @export var gun_scene: PackedScene
+@export var weapon_data: WeaponData

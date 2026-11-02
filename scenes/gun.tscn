@@ -3,15 +3,31 @@
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_gp1hk"]
 [ext_resource type="Texture2D" uid="uid://bmjusuu6pq5g7" path="res://sprites/Gun.png" id="2_qd4js"]
 [ext_resource type="Script" uid="uid://dx5ofmngprb4j" path="res://scripts/gun.gd" id="3_6b133"]
+[ext_resource type="Resource" path="res://scripts/weapons/data/battle_axe.tres" id="4_6b133"]
+[ext_resource type="Script" uid="uid://svj33pb5ideb" path="res://scripts/weapon_hitbox.gd" id="5_hitbox"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8iju2"]
 shader = ExtResource("1_gp1hk")
+
+[sub_resource type="CircleShape2D" id="RectangleShape2D_attack"]
+radius = 1.0
 
 [node name="Gun" type="Sprite2D" unique_id=1295489834]
 material = SubResource("ShaderMaterial_8iju2")
 texture = ExtResource("2_qd4js")
 offset = Vector2(6, 0)
 script = ExtResource("3_6b133")
+data = ExtResource("4_6b133")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=1194314230]
 position = Vector2(13, 0)
+
+[node name="AttackHitbox" type="Area2D" parent="." unique_id=119425428 groups=["enemy_attack"]]
+collision_layer = 0
+collision_mask = 2
+monitoring = false
+script = ExtResource("5_hitbox")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox" unique_id=1970122960]
+shape = SubResource("RectangleShape2D_attack")

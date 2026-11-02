@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://csshrxe0odk2c"]
+
+[ext_resource type="Script" uid="uid://cyfu3ebks221y" path="res://scripts/weapons/weapon_data.gd" id="1_weapon_data"]
+[ext_resource type="Texture2D" uid="uid://c6uwnvvcfycxy" path="res://sprites/test_weapons/Sprite_Golden_Crab_Warhammer.png" id="3_884a7"]
+[ext_resource type="Texture2D" uid="uid://dbdeb1dw1amd" path="res://sprites/Bullet.png" id="3_bullet"]
+
+[resource]
+script = ExtResource("1_weapon_data")
+id = "war_hammer"
+display_name = "War Hammer"
+kind = 0
+damage = 6
+fire_rate = 0.8
+range_px = 32.0
+knockback = 120.0
+texture = ExtResource("3_884a7")
+projectile_texture = ExtResource("3_bullet")
