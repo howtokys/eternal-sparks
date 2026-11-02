@@ -168,7 +168,7 @@ func equip_weapon(new_data: WeaponData) -> void:
 	pickup.visible = false
 	get_tree().current_scene.add_child(pickup)
 	pickup.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
-	pickup.global_position = global_position
+	pickup.global_position = global_position + Vector2(0, 18)
 	pickup.data = dropped_item
 	pickup.reset_physics_interpolation()
 	await get_tree().process_frame
