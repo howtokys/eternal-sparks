@@ -41,6 +41,17 @@ func set_weapon_data(value: WeaponData) -> void:
 	data = value
 	_update_weapon_data()
 
+func cancel_attack() -> void:
+	attack_phase = AttackPhase.IDLE
+	attack_in_progress = false
+	attack_elapsed = 0.0
+	buffered_attack = false
+	swing_rotation_offset = 0.0
+	poke_position_offset = 0.0
+	position = base_position
+	attack_hitbox.collision_layer = 0
+	attack_hitbox.monitoring = false
+
 func _update_weapon_data() -> void:
 	if data == null or not is_instance_valid(attack_hitbox):
 		return

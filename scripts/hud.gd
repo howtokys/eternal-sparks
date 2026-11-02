@@ -7,6 +7,8 @@ extends CanvasLayer
 @onready var health_percent: Label = $StatBars/StatusFrame/VBoxContainer/HealthRow/HealthPercent
 @onready var ShieldPercent: Label = $StatBars/StatusFrame/VBoxContainer/ShieldRow/ShieldPercent
 @onready var ManaPercent: Label = $StatBars/StatusFrame/VBoxContainer/ManaRow/ManaPercent
+@onready var weapon_slot_1: Label = $StatBars/StatusFrame/VBoxContainer/WeaponSlots/WeaponSlot1
+@onready var weapon_slot_2: Label = $StatBars/StatusFrame/VBoxContainer/WeaponSlots/WeaponSlot2
 
 
 # buff ui container
@@ -44,6 +46,21 @@ func _process(_delta: float) -> void:
 	#update shield and mana percentage labels
 	ShieldPercent.text = "%.0f%%" % (100.0 * shield_bar.ratio)
 	ManaPercent.text = "%.0f%%" % (100.0 * mana_bar.ratio)
+	update_weapon_slots()
+
+func update_weapon_slots() -> void:
+	if not "weapon_slots" in player:
+		return
+
+	var slots: Array = player.weapon_slots
+	var active_slot: int = player.active_weapon_slot
+	var labels := [weapon_slot_1, weapon_slot_2]
+	for slot_index in labels.size():
+		var weapon_name := "—"
+		if slot_index < slots.size() and slots[slot_index] != null:
+			weapon_name = slots[slot_index].display_name
+		labels[slot_index].text = "%d  %s" % [slot_index + 1, weapon_name]
+		labels[slot_index].modulate = Color.WHITE if slot_index == active_slot else Color(0.65, 0.65, 0.65)
 
 	#if "current_mana" in player:
 		#mana_bar.value = player.current_mana

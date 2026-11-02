@@ -126,15 +126,15 @@ position = Vector2(187, 124)
 position = Vector2(145, 157)
 
 [node name="Chest" parent="Floor" unique_id=521764967 instance=ExtResource("5_01mts")]
-position = Vector2(315, 185)
+position = Vector2(311, 182)
 
 [node name="Chest2" parent="Floor" unique_id=787250440 instance=ExtResource("5_01mts")]
-position = Vector2(366, 158)
+position = Vector2(359, 136)
 closed_texture = ExtResource("8_blue_chest")
 drop = ExtResource("11_weapon_long_katana")
 
 [node name="Chest3" parent="Floor" unique_id=905900106 instance=ExtResource("5_01mts")]
-position = Vector2(370, 217)
+position = Vector2(368, 199)
 closed_texture = ExtResource("9_golden_chest")
 drop = ExtResource("12_weapon_ember_staff")
 
