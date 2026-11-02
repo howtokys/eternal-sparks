@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/chest.gd" id="1_chest"]
 [ext_resource type="Shader" path="res://Shaders/smooth_pixels.gdshader" id="2_shader"]
 [ext_resource type="Texture2D" path="res://sprites/chests/Brown_Chest.png" id="3_chest_texture"]
-[ext_resource type="Resource" path="res://Crate_loot/health_potion_normal.tres" id="4_health_potion"]
+[ext_resource type="Resource" path="res://Chest_loot/weapon_pistol.tres" id="4_weapon_pistol"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_chest"]
 shader = ExtResource("2_shader")
@@ -19,7 +19,7 @@ collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_chest")
 closed_texture = ExtResource("3_chest_texture")
-drop = ExtResource("4_health_potion")
+drop = ExtResource("4_weapon_pistol")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_chest")
