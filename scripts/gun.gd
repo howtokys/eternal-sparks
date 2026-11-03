@@ -9,6 +9,7 @@ const DEFAULT_PROJECTILE_TEXTURE: Texture2D = preload("res://sprites/Bullet.png"
 
 @export var data: WeaponData
 var muzzle_flash: Sprite2D
+var muzzle_flash_tween: Tween
 var cooldown_remaining: float = 0.0
 var base_position: Vector2
 var swing_rotation_offset: float = 0.0
@@ -207,19 +208,29 @@ func _create_muzzle_flash() -> void:
 	muzzle_flash.name = "MuzzleFlash"
 	muzzle_flash.visible = false
 	muzzle_flash.z_index = 2
-	var gradient := Gradient.new()
-	gradient.colors = PackedColorArray([
-		Color(1.0, 0.75, 0.25, 1.0),
-		Color(1.0, 0.35, 0.05, 0.0),
-	])
-	var gradient_texture := GradientTexture2D.new()
-	gradient_texture.gradient = gradient
-	gradient_texture.width = 32
-	gradient_texture.height = 32
-	gradient_texture.fill = GradientTexture2D.FILL_RADIAL
-	gradient_texture.fill_from = Vector2(0.5, 0.5)
-	gradient_texture.fill_to = Vector2(1.0, 0.5)
-	muzzle_flash.texture = gradient_texture
+	var flash_image := Image.create(32, 32, false, Image.FORMAT_RGBA8)
+	flash_image.fill(Color(0.0, 0.0, 0.0, 0.0))
+	for y in range(32):
+		for x in range(32):
+			var offset := Vector2(x, y) - Vector2(16, 16)
+			var distance := offset.length()
+			var pixel_is_flash := distance <= 4.0
+			pixel_is_flash = pixel_is_flash or (
+				offset.x >= 2.0
+				and offset.x <= 14.0
+				and absf(offset.y) <= 2.0
+			)
+			pixel_is_flash = pixel_is_flash or (
+				absf(offset.x) <= 1.0
+				and absf(offset.y) <= 8.0
+			)
+			pixel_is_flash = pixel_is_flash or (
+				absf(absf(offset.x) - absf(offset.y)) <= 1.0
+				and absf(offset.x) <= 6.0
+			)
+			if pixel_is_flash:
+				flash_image.set_pixel(x, y, Color(1.0, 1.0, 0.95, 1.0))
+	muzzle_flash.texture = ImageTexture.create_from_image(flash_image)
 	var material := CanvasItemMaterial.new()
 	material.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
 	muzzle_flash.material = material
@@ -228,22 +239,47 @@ func _create_muzzle_flash() -> void:
 func _trigger_muzzle_flash() -> void:
 	if muzzle_flash == null:
 		return
+	if muzzle_flash_tween != null:
+		muzzle_flash_tween.kill()
 	muzzle_flash.position = marker_2d.position
-	muzzle_flash.rotation = -rotation
+	muzzle_flash.rotation = randf_range(-0.2, 0.2)
+	var flash_tint := Color(1.0, 0.9, 0.6)
+	if data != null:
+		match data.element:
+			"burn":
+				flash_tint = Color(1.0, 0.6, 0.2)
+			"frost":
+				flash_tint = Color(0.6, 0.85, 1.0)
+			"storm":
+				flash_tint = Color(0.75, 0.5, 1.0)
+	muzzle_flash.modulate = flash_tint
+	muzzle_flash.scale = Vector2.ONE * randf_range(0.65, 0.80)
 	muzzle_flash.visible = true
 	muzzle_flash.modulate.a = 1.0
-	var tween := create_tween()
-	tween.tween_property(muzzle_flash, "modulate:a", 0.0, 0.06)
-	tween.tween_callback(func() -> void: muzzle_flash.visible = false)
+	muzzle_flash_tween = create_tween()
+	muzzle_flash_tween.tween_property(muzzle_flash, "modulate:a", 0.0, 0.06)
+	muzzle_flash_tween.tween_callback(func() -> void: muzzle_flash.visible = false)
 
 func _draw() -> void:
 	if data == null or data.kind == WeaponData.WeaponKind.RANGED:
 		return
 	if attack_phase != AttackPhase.STRIKE:
 		return
-	var radius := maxf(data.range_px, 12.0)
-	var arc_color := Color(0.8, 0.9, 1.0, 0.8)
-	draw_arc(Vector2.ZERO, radius, -0.7, 0.7, 24, arc_color, 2.0)
+	var strike_progress := clampf(
+		(attack_elapsed - data.windup_duration) / data.anim_duration,
+		0.0,
+		1.0
+	)
+	var effect_color := Color(0.8, 0.9, 1.0, 0.9 * (1.0 - strike_progress))
+	if data.attack_anim == WeaponData.AttackAnim.POKE:
+		var tip := Vector2(22, 0)
+		var streak_length := lerpf(6.0, 18.0, strike_progress)
+		draw_line(tip, tip + Vector2(streak_length, 0), effect_color, 3.0)
+		var ring_radius := lerpf(3.0, 10.0, strike_progress)
+		draw_arc(tip, ring_radius, 0.0, TAU, 24, effect_color, 2.0)
+		return
+
+	draw_arc(Vector2.ZERO, 20.0, -0.7, 0.7, 24, effect_color, 3.0)
 
 func _start_melee_attack() -> void:
 	if attack_in_progress or not is_instance_valid(attack_hitbox):
