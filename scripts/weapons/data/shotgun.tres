@@ -8,7 +8,7 @@
 script = ExtResource("1_weapon_data")
 id = "shotgun"
 display_name = "Shotgun"
-mana_cost = 4.0
+mana_cost = 6.0
 projectile_speed = 350
 projectile_lifetime = 2.0
 pellet_count = 5

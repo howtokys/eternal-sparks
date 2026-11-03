@@ -8,8 +8,9 @@
 script = ExtResource("1_weapon_data")
 id = "laser_gun"
 display_name = "Laser Gun"
+fire_mode = 2
 fire_rate = 6.0
-mana_cost = 1.0
+mana_cost = 2.0
 projectile_speed = 600
 projectile_lifetime = 2.0
 texture = ExtResource("3_6sk32")

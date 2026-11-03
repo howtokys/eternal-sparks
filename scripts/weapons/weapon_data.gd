@@ -12,9 +12,19 @@ enum AttackAnim {
 	POKE,
 }
 
+enum FireMode {
+	SEMI,
+	BURST,
+	BEAM,
+}
+
 @export var id: String = ""
 @export var display_name: String = ""
 @export var kind: WeaponKind = WeaponKind.RANGED
+@export var fire_mode: FireMode = FireMode.SEMI
+@export var burst_count: int = 3
+@export var burst_interval: float = 0.06
+@export var burst_cooldown: float = 0.25
 @export var damage: int = 1
 @export var fire_rate: float = 1.0
 @export var mana_cost: float = 0.0

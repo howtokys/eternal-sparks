@@ -8,6 +8,7 @@
 script = ExtResource("1_weapon_data")
 id = "auto_rifle"
 display_name = "Auto Rifle"
+fire_mode = 1
 fire_rate = 8.0
 mana_cost = 1.0
 projectile_speed = 450

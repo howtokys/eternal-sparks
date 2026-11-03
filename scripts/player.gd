@@ -23,6 +23,7 @@ const WEAPON_ITEM_DATA := {
 
 var current_shield: int
 var current_mana: float
+var mana_regen_delay: float = 0.0
 var weapon_slots: Array[WeaponData] = []
 var active_weapon_slot: int = 0
 var weapon_switch_lockout: float = 0.0
@@ -92,13 +93,14 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if weapon_switch_lockout > 0.0:
 		weapon_switch_lockout = maxf(weapon_switch_lockout - delta, 0.0)
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and weapon_switch_lockout <= 0.0:
-		gun.shoot()
-	
+	gun.trigger_held = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+
+	mana_regen_delay = maxf(mana_regen_delay - delta, 0.0)
+
 	var total_mana_regen: float = mana_regen_rate + buff_manager.get_mana_regen_bonus()
 	
 	#regenerate mana without exceeding maximum capacity 
-	if current_mana < max_mana:
+	if mana_regen_delay <= 0.0 and current_mana < max_mana:
 		current_mana = minf(
 			current_mana + total_mana_regen * delta,
 			max_mana
@@ -128,6 +130,14 @@ func _physics_process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if (
+		event is InputEventMouseButton
+		and event.button_index == MOUSE_BUTTON_LEFT
+		and event.pressed
+		and weapon_switch_lockout <= 0.0
+	):
+		gun.trigger_pressed()
+		return
 	if event.is_action_pressed("weapon_slot_1"):
 		switch_weapon(0)
 		return
@@ -204,6 +214,8 @@ func take_damage(amount: int) -> void:
 func use_mana(cost: float) -> bool:
 	if current_mana >= cost:
 		current_mana -= cost
+		if cost > 0.0:
+			mana_regen_delay = 0.75
 		return true
 	return false
 
