@@ -22,6 +22,7 @@ func apply_effect(effect: StatusEffect, source: Node = null) -> void:
 			"level": 1,
 			"time_left": effect.duration_per_level,
 			"tick_timer": 0.0,
+			"ticks_done": 0,
 			"sources": []
 		}
 		if source:
@@ -33,6 +34,15 @@ func apply_effect(effect: StatusEffect, source: Node = null) -> void:
 		var data = active_effects[id]
 		if source and not data.sources.has(source):
 			data.sources.append(source)
+		
+		# Instant stack for fire
+		if effect.instant_stack and data.level < effect.max_level:
+			data.level += 1
+			data.ticks_done = 0
+			data.tick_timer = 0.0
+			data.time_left = effect.duration_per_level
+			effect_started.emit(id, data.level)
+			print("[Status] Instant upgrade ", id, " to level ", data.level)
 
 func _spawn_indicator(effect: StatusEffect) -> void:
 	if not effect.indicator_scene or indicators.has(effect.id):
@@ -78,13 +88,27 @@ func _process(delta: float) -> void:
 
 		data.tick_timer += delta * speed_multiplier
 
-		# Damage tick (check first)
+		#damage tick
 		if data.tick_timer >= effect.tick_rate:
-			data.tick_timer -= effect.tick_rate
+			data.tick_timer = 0.0
+			data.ticks_done += 1
+			
 			var damage = effect.damage_per_level[data.level]
 			var target = get_parent()
 			if target.has_method("take_damage"):
 				target.take_damage(damage)
+
+		#end level after the set number of ticks
+		if data.ticks_done >= effect.ticks_per_level:
+			if not effect.instant_stack and data.sources.size() > 0 and data.level < effect.max_level:
+				#normal stacking (poison)
+				data.level += 1
+				data.ticks_done = 0
+				data.tick_timer = 0.0
+				data.time_left = effect.duration_per_level
+				effect_started.emit(id, data.level)
+			else:
+				to_remove.append(id)
 
 		# Then reduce time
 		data.time_left -= delta * speed_multiplier

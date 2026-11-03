@@ -22,6 +22,10 @@ func _break_crate(area: Area2D) -> void:
 		return
 	is_broken = true
 	
+	var hit_direction = Vector2.RIGHT
+	if area and "target_position" in area:
+		hit_direction = area.target_position.normalized()
+	
 	collision.set_deferred("disabled", true)
 	hurt_box.set_deferred("monitoring", false)
 	sprite_2d.hide()
@@ -42,3 +46,8 @@ func _break_crate(area: Area2D) -> void:
 	
 	await get_tree().create_timer(0.1).timeout
 	queue_free()
+	
+func break_from_explosion() -> void:
+	if is_broken:
+		return
+	_break_crate(null)

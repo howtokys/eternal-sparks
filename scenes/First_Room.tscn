@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://5daivydu6730" path="res://scenes/HUD.tscn" id="6_f24qu"]
 [ext_resource type="PackedScene" uid="uid://b8xqh1sph4580" path="res://scenes/spike.tscn" id="7_01mts"]
 [ext_resource type="PackedScene" uid="uid://71e44rua1rey" path="res://scenes/poison_crate.tscn" id="8_ifb5r"]
+[ext_resource type="PackedScene" uid="uid://i2xcix43ba4p" path="res://scenes/fireblast_crate.tscn" id="9_of64y"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4uy7u"]
 shader = ExtResource("1_34jtn")
@@ -139,11 +140,29 @@ position = Vector2(73, 128)
 [node name="Enemy2" parent="." unique_id=1998600575 instance=ExtResource("4_m1l7b")]
 position = Vector2(151, 194)
 
-[node name="PoisonCrate" parent="." unique_id=621490699 instance=ExtResource("8_ifb5r")]
-position = Vector2(312, 167)
+[node name="Fireblast Crate" parent="." unique_id=194068964 instance=ExtResource("9_of64y")]
+position = Vector2(264, 167)
 
-[node name="PoisonCrate2" parent="." unique_id=557899143 instance=ExtResource("8_ifb5r")]
-position = Vector2(329, 199)
+[node name="Fireblast Crate2" parent="." unique_id=940231674 instance=ExtResource("9_of64y")]
+position = Vector2(264, 183)
 
-[node name="PoisonCrate3" parent="." unique_id=18332097 instance=ExtResource("8_ifb5r")]
-position = Vector2(308, 195)
+[node name="Fireblast Crate3" parent="." unique_id=912446391 instance=ExtResource("9_of64y")]
+position = Vector2(248, 167)
+
+[node name="Crate" parent="." unique_id=1906878146 instance=ExtResource("3_4uy7u")]
+position = Vector2(280, 167)
+
+[node name="Crate2" parent="." unique_id=1214477816 instance=ExtResource("3_4uy7u")]
+position = Vector2(280, 183)
+
+[node name="PoisonCrate" parent="." unique_id=1318493863 instance=ExtResource("8_ifb5r")]
+position = Vector2(248, 183)
+
+[node name="PoisonCrate2" parent="." unique_id=1638607043 instance=ExtResource("8_ifb5r")]
+position = Vector2(312, 184)
+
+[node name="PoisonCrate3" parent="." unique_id=1004891864 instance=ExtResource("8_ifb5r")]
+position = Vector2(345, 183)
+
+[node name="PoisonCrate4" parent="." unique_id=408594080 instance=ExtResource("8_ifb5r")]
+position = Vector2(345, 200)

@@ -13,7 +13,7 @@ size = Vector2(16, 19)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dwt0d"]
 size = Vector2(16, 25)
 
-[node name="PoisonCrate" type="StaticBody2D" unique_id=1469868432]
+[node name="PoisonCrate" type="StaticBody2D" unique_id=1469868432 groups=["crate"]]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_2ujuv")

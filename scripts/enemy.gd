@@ -43,7 +43,7 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 		area.queue_free()
 
 		hit_count += 1
-		update_hit_display()
+		update_hit_display(1)
 		reset_timer.start()
 
 func _on_attack_body_entered(body: Node2D) -> void:
@@ -108,22 +108,21 @@ func _ready() -> void:
 func _on_enemy_died() -> void:
 	queue_free()
 
-# Display the accumulated damage count above the enemy.
-func update_hit_display() -> void:
+func take_damage(amount: int) -> void:
+	health_component.take_damage(amount)
+	update_hit_display(amount)  # pass the actual damage
+	reset_timer.start()
+
+func update_hit_display(amount: int) -> void:
 	if not is_instance_valid(active_label):
 		active_label = DAMAGE_NUMBER.instantiate()
+		active_label.z_index = 100
 		get_tree().current_scene.add_child(active_label)
-
+	
 	var spawn_pos := global_position + Vector2(randf_range(-6, 6), -15)
-	active_label.display(hit_count, spawn_pos)
+	active_label.display(amount, spawn_pos)  
 
 # Clear the damage counter after the reset timer expires.
 func reset_hit_counter() -> void:
 	hit_count = 0
 	active_label = null
-
-func take_damage(amount: int) -> void:
-	health_component.take_damage(amount)
-	hit_count += 1
-	update_hit_display()
-	reset_timer.start()

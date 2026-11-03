@@ -28,7 +28,9 @@ func _break_crate(area: Area2D) -> void:
 	is_broken = true
 	
 	# Get the direction the bullet was moving
-	var hit_direction = area.target_position.normalized()
+	var hit_direction = Vector2.RIGHT	
+	if area and "target_position" in area:
+		hit_direction = area.target_position.normalized()
 	
 	collision.set_deferred("disabled", true)
 	hurt_box.set_deferred("monitoring", false)
@@ -57,7 +59,8 @@ func _break_crate(area: Area2D) -> void:
 		debris.reset_physics_interpolation()
 		debris.visible = true
 	
-	area.queue_free()
+	if is_instance_valid(area):
+		area.queue_free()
 	
 	# Spawn pickup
 	if possible_loot.size() > 0:
@@ -77,3 +80,8 @@ func _break_crate(area: Area2D) -> void:
 	
 	await get_tree().create_timer(0.2).timeout
 	queue_free()
+	
+func break_from_explosion() -> void:
+	if is_broken:
+		return
+	_break_crate(null)
