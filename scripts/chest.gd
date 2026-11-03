@@ -13,6 +13,7 @@ const PICKUP = preload("uid://ddfou1e6ljx0n")
 var player_in_range: Node2D = null
 var is_open: bool = false
 var base_glow_scale: Vector2
+var glow_time: float = 0.0
 
 func _ready() -> void:
 	interact_zone.body_entered.connect(_on_body_entered)
@@ -27,7 +28,14 @@ func _ready() -> void:
 
 	_setup_glow()
 	base_glow_scale = glow.scale
-	glow.hide()
+	glow.show()
+
+func _process(delta: float) -> void:
+	if is_open:
+		return
+
+	glow_time += delta
+	glow.scale = base_glow_scale * (1.0 + sin(glow_time * 2.5) * 0.06)
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -53,6 +61,9 @@ func _open() -> void:
 
 	is_open = true
 	label.hide()
+	var glow_tween := create_tween()
+	glow_tween.tween_property(glow, "modulate:a", 0.0, 0.5)
+	glow_tween.finished.connect(glow.hide)
 	sprite_2d.modulate = Color(1.15, 1.1, 0.9)
 
 	var pickup = PICKUP.instantiate()

@@ -56,11 +56,10 @@ func use_item(body: Node2D) -> void:
 			body.restore_mana(data.restore_amount)
 			
 		elif data.item_type == ItemData.Type.GUN:
-			var weapon := body.get_node_or_null("Gun") as Weapon
-			if weapon == null or data.weapon_data == null:
-				push_error("Weapon pickup is missing a player Weapon or WeaponData.")
+			if data.weapon_data == null:
+				push_error("Weapon pickup is missing WeaponData.")
 				return
-			weapon.set_weapon_data(data.weapon_data)
+			body.equip_weapon(data.weapon_data)
 			print("Equipped weapon: ", data.item_name)
 			
 	queue_free()
