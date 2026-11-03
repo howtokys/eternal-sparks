@@ -126,7 +126,7 @@ func _apply_weapon_effect(area: Area2D) -> void:
 	if area.element == "burn":
 		burn_time_remaining = 3.0
 		burn_tick_remaining = 0.0
-	elif area.element == "slow":
+	elif area.element == "slow" or area.element == "frost":
 		slow_time_remaining = 2.0
 
 func _update_weapon_effects(delta: float) -> void:

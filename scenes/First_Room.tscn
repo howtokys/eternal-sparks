@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://dld3t64b8xu2r" path="res://scenes/BuffSelection.tscn" id="14_0aqpe"]
 [ext_resource type="Texture2D" uid="uid://cwrbpsp601p5p" path="res://sprites/portal_spritesheet_4x4.png" id="15_0aqpe"]
 [ext_resource type="Script" uid="uid://bq2vutsdsadat" path="res://scenes/portal.gd" id="16_k1uqx"]
+[ext_resource type="Resource" path="res://Chest_loot/weapon_shotgun.tres" id="17_weapon_shotgun"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4uy7u"]
 shader = ExtResource("1_34jtn")
@@ -255,17 +256,17 @@ position = Vector2(187, 124)
 position = Vector2(145, 157)
 
 [node name="Chest" parent="Floor" unique_id=521764967 instance=ExtResource("5_01mts")]
-position = Vector2(311, 182)
+position = Vector2(288, 81)
 
 [node name="Chest2" parent="Floor" unique_id=787250440 instance=ExtResource("5_01mts")]
-position = Vector2(359, 136)
+position = Vector2(365, 48)
 closed_texture = ExtResource("8_blue_chest")
 drop = ExtResource("11_weapon_long_katana")
 
 [node name="Chest3" parent="Floor" unique_id=905900106 instance=ExtResource("5_01mts")]
-position = Vector2(368, 199)
+position = Vector2(352, 127)
 closed_texture = ExtResource("9_golden_chest")
-drop = ExtResource("12_weapon_ember_staff")
+drop = ExtResource("17_weapon_shotgun")
 
 [node name="Player" parent="." unique_id=963569076 instance=ExtResource("3_bkx3g")]
 position = Vector2(141.86137, 48.54605)
