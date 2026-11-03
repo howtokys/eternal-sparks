@@ -50,3 +50,6 @@ func load_save_data() -> bool:
 	saved_position = Vector2(data.get("pos_x", 0), data.get("pos_y", 0))
 	saved_health = data.get("health", 100)
 	return true
+
+#BUFFS carried from one dungeon room to another 
+var room_buff_snapshot: Array[Dictionary] = []

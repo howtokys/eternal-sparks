@@ -1,16 +1,21 @@
 [gd_scene format=4 uid="uid://b0kxg3lsn0gcc"]
 
+[ext_resource type="Script" uid="uid://dhb8h1y8blw2n" path="res://scenes/first_room.gd" id="1_5flhx"]
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_34jtn"]
 [ext_resource type="Texture2D" uid="uid://bpnvwqs86s6qn" path="res://sprites/Forest_titlesset.png" id="2_bkx3g"]
 [ext_resource type="PackedScene" uid="uid://2fvnydut0j2x" path="res://scenes/crate.tscn" id="3_4uy7u"]
 [ext_resource type="PackedScene" uid="uid://i7k6bn7tac3d" path="res://scenes/Player.tscn" id="3_bkx3g"]
 [ext_resource type="PackedScene" uid="uid://brqcsjo4rg7ls" path="res://scenes/enemy.tscn" id="4_m1l7b"]
-[ext_resource type="PackedScene" path="res://scenes/chest.tscn" id="5_01mts"]
+[ext_resource type="PackedScene" uid="uid://csy4bgetfo0uy" path="res://scenes/chest.tscn" id="5_01mts"]
 [ext_resource type="PackedScene" uid="uid://5daivydu6730" path="res://scenes/HUD.tscn" id="6_f24qu"]
 [ext_resource type="Texture2D" uid="uid://cwj75ou4okqco" path="res://sprites/chests/Blue_Chest.png" id="8_blue_chest"]
 [ext_resource type="Texture2D" uid="uid://djh3bo72pjv57" path="res://sprites/chests/Golden_Chest.png" id="9_golden_chest"]
 [ext_resource type="Resource" path="res://Chest_loot/weapon_long_katana.tres" id="11_weapon_long_katana"]
 [ext_resource type="Resource" path="res://Chest_loot/weapon_ember_staff.tres" id="12_weapon_ember_staff"]
+[ext_resource type="PackedScene" uid="uid://bnh34ybbgfyg6" path="res://scenes/Pause_scene.tscn" id="13_uyibl"]
+[ext_resource type="PackedScene" uid="uid://dld3t64b8xu2r" path="res://scenes/BuffSelection.tscn" id="14_0aqpe"]
+[ext_resource type="Texture2D" uid="uid://cwrbpsp601p5p" path="res://sprites/portal_spritesheet_4x4.png" id="15_0aqpe"]
+[ext_resource type="Script" uid="uid://bq2vutsdsadat" path="res://scenes/portal.gd" id="16_k1uqx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4uy7u"]
 shader = ExtResource("1_34jtn")
@@ -77,7 +82,131 @@ physics_layer_0/collision_layer = 2
 physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_4uy7u")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a470f"]
+size = Vector2(40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k1uqx"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j1ile"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8ghs"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ibaw"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u8g8y"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_on8u5"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t3pjf"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(256, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i25u8"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(384, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bjcom"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(0, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bltfn"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(128, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vhjo1"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(256, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ayada"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(384, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_svyjq"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(0, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7vhl"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(128, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mpptr"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(256, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ocij3"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(384, 384, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b08ru"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k1uqx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j1ile")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t8ghs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ibaw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u8g8y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_on8u5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t3pjf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i25u8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bjcom")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bltfn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vhjo1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ayada")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_svyjq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7vhl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mpptr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ocij3")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 12.0
+}]
+
 [node name="Node2D" type="Node2D" unique_id=1757316080]
+script = ExtResource("1_5flhx")
 
 [node name="Floor" type="TileMapLayer" parent="." unique_id=2128642942]
 material = SubResource("ShaderMaterial_4uy7u")
@@ -142,3 +271,22 @@ drop = ExtResource("12_weapon_ember_staff")
 position = Vector2(141.86137, 48.54605)
 
 [node name="CanvasLayer" parent="." unique_id=1979618489 instance=ExtResource("6_f24qu")]
+
+[node name="PauseScene" parent="CanvasLayer" unique_id=273163113 instance=ExtResource("13_uyibl")]
+
+[node name="BuffSelection" parent="CanvasLayer" unique_id=590719702 instance=ExtResource("14_0aqpe")]
+
+[node name="LevelExit" type="Area2D" parent="." unique_id=321514169]
+
+[node name="New RectangleShape2D" type="CollisionShape2D" parent="LevelExit" unique_id=1325327189]
+position = Vector2(408, 24)
+shape = SubResource("RectangleShape2D_a470f")
+
+[node name="Portal" type="AnimatedSprite2D" parent="." unique_id=1356635277]
+position = Vector2(409, 23)
+scale = Vector2(0.484375, 0.4765625)
+sprite_frames = SubResource("SpriteFrames_b08ru")
+animation = &"idle"
+script = ExtResource("16_k1uqx")
+
+[connection signal="body_entered" from="LevelExit" to="." method="_on_level_exit_body_entered"]

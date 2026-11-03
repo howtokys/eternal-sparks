@@ -92,3 +92,5 @@ texture = ExtResource("8_rabbit")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacle" unique_id=1285284052]
 position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_0uv0p")
+
+[node name="RoomContainer" type="Node2D" parent="." unique_id=1985362612]

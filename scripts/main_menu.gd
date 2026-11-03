@@ -48,7 +48,7 @@ func _on_start_pressed() -> void:
 	
 	GlobalData.is_loading_save = false # Fresh start
 	print("Start pressed")
-	get_tree().change_scene_to_file("res://scenes/World.tscn")
+	get_tree().change_scene_to_file("res://scenes/First_Room.tscn")
 
 func _on_continue_pressed() -> void:
 	if is_processing_input: return
