@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dtpx4cociiagf"]
 
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_gp1hk"]
-[ext_resource type="Texture2D" uid="uid://b0bnnnkqc2ewa" path="res://sprites/test_weapons/Sprite_Frost_Spear.png" id="2_6b133"]
+[ext_resource type="Texture2D" uid="uid://bmjusuu6pq5g7" path="res://sprites/Gun.png" id="2_6b133"]
 [ext_resource type="Script" uid="uid://dx5ofmngprb4j" path="res://scripts/gun.gd" id="3_6b133"]
-[ext_resource type="Resource" uid="uid://dxb83vtva2sgl" path="res://scripts/weapons/data/laser_gun.tres" id="4_6b133"]
+[ext_resource type="Resource" uid="uid://dlcvkppytv41f" path="res://scripts/weapons/data/pistol.tres" id="4_haq8l"]
 [ext_resource type="Script" uid="uid://svj33pb5ideb" path="res://scripts/weapon_hitbox.gd" id="5_hitbox"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8iju2"]
@@ -18,7 +18,7 @@ position = Vector2(0, 1)
 texture = ExtResource("2_6b133")
 offset = Vector2(6, 0)
 script = ExtResource("3_6b133")
-data = ExtResource("4_6b133")
+data = ExtResource("4_haq8l")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=1194314230]
 position = Vector2(13, 0)
