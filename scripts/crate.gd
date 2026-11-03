@@ -31,7 +31,7 @@ func _break_crate(area: Area2D) -> void:
 	var hit_direction := Vector2.RIGHT
 	if area is Bullet:
 		hit_direction = area.target_position.normalized()
-	elif area.global_position != global_position:
+	elif area and area.global_position != global_position:
 		hit_direction = global_position.direction_to(area.global_position)
 	
 	collision.set_deferred("disabled", true)

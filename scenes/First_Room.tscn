@@ -8,7 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://csy4bgetfo0uy" path="res://scenes/chest.tscn" id="5_01mts"]
 [ext_resource type="PackedScene" uid="uid://5daivydu6730" path="res://scenes/HUD.tscn" id="6_f24qu"]
 [ext_resource type="Texture2D" uid="uid://cwj75ou4okqco" path="res://sprites/chests/Blue_Chest.png" id="8_blue_chest"]
+[ext_resource type="PackedScene" uid="uid://71e44rua1rey" path="res://scenes/poison_crate.tscn" id="8_ifb5r"]
 [ext_resource type="Texture2D" uid="uid://djh3bo72pjv57" path="res://sprites/chests/Golden_Chest.png" id="9_golden_chest"]
+[ext_resource type="PackedScene" uid="uid://i2xcix43ba4p" path="res://scenes/fireblast_crate.tscn" id="9_of64y"]
 [ext_resource type="Resource" path="res://Chest_loot/weapon_long_katana.tres" id="11_weapon_long_katana"]
 [ext_resource type="Resource" path="res://Chest_loot/weapon_ember_staff.tres" id="12_weapon_ember_staff"]
 
