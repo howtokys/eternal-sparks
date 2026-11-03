@@ -9,12 +9,11 @@
 [ext_resource type="Texture2D" uid="uid://cwj75ou4okqco" path="res://sprites/chests/Blue_Chest.png" id="6_3kuwd"]
 [ext_resource type="Resource" path="res://Chest_loot/weapon_long_katana.tres" id="7_quhjk"]
 [ext_resource type="Texture2D" uid="uid://djh3bo72pjv57" path="res://sprites/chests/Golden_Chest.png" id="8_2y7tu"]
-[ext_resource type="Resource" path="res://Chest_loot/weapon_ember_staff.tres" id="9_j4mnt"]
+[ext_resource type="Resource" path="res://Chest_loot/weapon_shotgun.tres" id="10_63t3r"]
 [ext_resource type="PackedScene" uid="uid://i7k6bn7tac3d" path="res://scenes/Player.tscn" id="10_gkf5a"]
 [ext_resource type="PackedScene" uid="uid://5daivydu6730" path="res://scenes/HUD.tscn" id="11_1ad6w"]
-
-[ext_resource type="PackedScene" path="res://scenes/Pause_scene.tscn" id="pause"]
-[ext_resource type="Texture2D" path="res://sprites/portal_spritesheet_4x4.png" id="15_0aqpe"]
+[ext_resource type="Texture2D" uid="uid://cwrbpsp601p5p" path="res://sprites/portal_spritesheet_4x4.png" id="15_0aqpe"]
+[ext_resource type="PackedScene" uid="uid://bnh34ybbgfyg6" path="res://scenes/Pause_scene.tscn" id="pause"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4uy7u"]
 shader = ExtResource("1_xooo4")
@@ -264,28 +263,28 @@ drop = ExtResource("7_quhjk")
 [node name="Chest3" parent="Floor" unique_id=905900106 instance=ExtResource("5_j7hn3")]
 position = Vector2(336, 192)
 closed_texture = ExtResource("8_2y7tu")
-drop = ExtResource("9_j4mnt")
+drop = ExtResource("10_63t3r")
+
+[node name="Enemy3" parent="Floor" unique_id=192901304 instance=ExtResource("4_63t3r")]
+position = Vector2(304, 56)
 
 [node name="Player" parent="." unique_id=963569076 instance=ExtResource("10_gkf5a")]
 position = Vector2(48, 112)
 
 [node name="CanvasLayer" parent="." unique_id=1979618489 instance=ExtResource("11_1ad6w")]
+visible = false
 
-[node name="Enemy3" parent="Floor" instance=ExtResource("4_63t3r")]
-position = Vector2(304, 56)
+[node name="PauseScene" parent="CanvasLayer" unique_id=1288338974 instance=ExtResource("pause")]
 
-[node name="PauseScene" parent="CanvasLayer" instance=ExtResource("pause")]
-
-[node name="LevelExit" type="Area2D" parent="."]
+[node name="LevelExit" type="Area2D" parent="." unique_id=581395413]
 position = Vector2(376, 112)
-monitoring = false
 collision_layer = 0
-collision_mask = 1
+monitoring = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelExit"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelExit" unique_id=1025738806]
 shape = SubResource("RectangleShape2D_a470f")
 
-[node name="Portal" type="AnimatedSprite2D" parent="."]
+[node name="Portal" type="AnimatedSprite2D" parent="." unique_id=1241755990]
 visible = false
 position = Vector2(376, 112)
 scale = Vector2(0.484375, 0.4765625)
