@@ -8,7 +8,7 @@ const SPEED = 150.0
 
 @export_group("Shield")
 @export var max_shield: int = 5
-@export var shield_recharge_delay: float = 3.0
+@export var shield_recharge_delay: float = 5.0
 
 @export_group("Mana")
 @export var max_mana: float = 50.0

@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://71e44rua1rey"]
+
+[ext_resource type="Script" uid="uid://blfoab6q2enye" path="res://scripts/poison_crate.gd" id="1_2ujuv"]
+[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="2_aw5o7"]
+[ext_resource type="Texture2D" uid="uid://dkm25k2p3do8q" path="res://sprites/Poison Crate.png" id="3_aw5o7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aw5o7"]
+shader = ExtResource("2_aw5o7")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1kl6c"]
+size = Vector2(16, 19)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dwt0d"]
+size = Vector2(16, 25)
+
+[node name="PoisonCrate" type="StaticBody2D" unique_id=1469868432]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_2ujuv")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=765259087]
+material = SubResource("ShaderMaterial_aw5o7")
+texture = ExtResource("3_aw5o7")
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1336293667]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_1kl6c")
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=917989472]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=144737204]
+position = Vector2(0, -3.5)
+shape = SubResource("RectangleShape2D_dwt0d")

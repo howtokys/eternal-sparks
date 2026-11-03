@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://i7k6bn7tac3d" path="res://scenes/Player.tscn" id="3_bkx3g"]
 [ext_resource type="PackedScene" uid="uid://brqcsjo4rg7ls" path="res://scenes/enemy.tscn" id="4_m1l7b"]
 [ext_resource type="PackedScene" uid="uid://5daivydu6730" path="res://scenes/HUD.tscn" id="6_f24qu"]
+[ext_resource type="PackedScene" uid="uid://b8xqh1sph4580" path="res://scenes/spike.tscn" id="7_01mts"]
+[ext_resource type="PackedScene" uid="uid://71e44rua1rey" path="res://scenes/poison_crate.tscn" id="8_ifb5r"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4uy7u"]
 shader = ExtResource("1_34jtn")
@@ -87,12 +89,6 @@ tile_set = SubResource("TileSet_m1l7b")
 [node name="Crate" parent="Floor" unique_id=1469868432 instance=ExtResource("3_4uy7u")]
 position = Vector2(168, 103)
 
-[node name="Enemy" parent="Floor" unique_id=353923736 instance=ExtResource("4_m1l7b")]
-position = Vector2(73, 128)
-
-[node name="Enemy2" parent="Floor" unique_id=1998600575 instance=ExtResource("4_m1l7b")]
-position = Vector2(207, 193)
-
 [node name="Crate2" parent="Floor" unique_id=852719940 instance=ExtResource("3_4uy7u")]
 position = Vector2(152, 103)
 
@@ -120,7 +116,34 @@ position = Vector2(187, 124)
 [node name="Crate10" parent="Floor" unique_id=592088673 instance=ExtResource("3_4uy7u")]
 position = Vector2(145, 157)
 
+[node name="Spike" parent="Floor" unique_id=1436312715 instance=ExtResource("7_01mts")]
+position = Vector2(312, 136)
+
+[node name="Spike2" parent="Floor" unique_id=961429041 instance=ExtResource("7_01mts")]
+position = Vector2(328, 136)
+
+[node name="Spike3" parent="Floor" unique_id=2091943609 instance=ExtResource("7_01mts")]
+position = Vector2(312, 152)
+
+[node name="Spike4" parent="Floor" unique_id=1344424700 instance=ExtResource("7_01mts")]
+position = Vector2(328, 152)
+
 [node name="Player" parent="." unique_id=963569076 instance=ExtResource("3_bkx3g")]
 position = Vector2(141.86137, 48.54605)
 
 [node name="CanvasLayer" parent="." unique_id=1979618489 instance=ExtResource("6_f24qu")]
+
+[node name="Enemy" parent="." unique_id=353923736 instance=ExtResource("4_m1l7b")]
+position = Vector2(73, 128)
+
+[node name="Enemy2" parent="." unique_id=1998600575 instance=ExtResource("4_m1l7b")]
+position = Vector2(151, 194)
+
+[node name="PoisonCrate" parent="." unique_id=621490699 instance=ExtResource("8_ifb5r")]
+position = Vector2(312, 167)
+
+[node name="PoisonCrate2" parent="." unique_id=557899143 instance=ExtResource("8_ifb5r")]
+position = Vector2(329, 199)
+
+[node name="PoisonCrate3" parent="." unique_id=18332097 instance=ExtResource("8_ifb5r")]
+position = Vector2(308, 195)

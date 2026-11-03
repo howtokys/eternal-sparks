@@ -121,3 +121,9 @@ func update_hit_display() -> void:
 func reset_hit_counter() -> void:
 	hit_count = 0
 	active_label = null
+
+func take_damage(amount: int) -> void:
+	health_component.take_damage(amount)
+	hit_count += 1
+	update_hit_display()
+	reset_timer.start()

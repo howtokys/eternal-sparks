@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dtpx4cociiagf" path="res://scenes/gun.tscn" id="6_70d11"]
 [ext_resource type="Script" uid="uid://hap3v5dcihvt" path="res://scripts/health_component.gd" id="6_cw2d6"]
 [ext_resource type="Script" uid="uid://bdlnm3owk34dd" path="res://scripts/Buffs/buff_manager.gd" id="7_cw2d6"]
+[ext_resource type="PackedScene" uid="uid://csti1v3dgiu1u" path="res://scenes/status_effect_component.tscn" id="8_khinc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7r1i8"]
 shader = ExtResource("2_7r1i8")
@@ -69,3 +70,5 @@ metadata/_custom_type_script = "uid://hap3v5dcihvt"
 
 [node name="BuffManager" type="Node" parent="." unique_id=736969410]
 script = ExtResource("7_cw2d6")
+
+[node name="StatusEffectComponent" parent="." unique_id=2054767214 instance=ExtResource("8_khinc")]

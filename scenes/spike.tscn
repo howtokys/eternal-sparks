@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://b8xqh1sph4580"]
+
+[ext_resource type="Script" uid="uid://c5pvyris2k4mn" path="res://scripts/spike.gd" id="1_d2mqm"]
+[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="2_cx2lw"]
+[ext_resource type="Texture2D" uid="uid://cfolua3bc45te" path="res://sprites/Spike.png" id="3_60m7a"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p45v3"]
+shader = ExtResource("2_cx2lw")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tggh8"]
+atlas = ExtResource("3_60m7a")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5sso0"]
+atlas = ExtResource("3_60m7a")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_13jd2"]
+atlas = ExtResource("3_60m7a")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x5qbj"]
+atlas = ExtResource("3_60m7a")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jv4b2"]
+atlas = ExtResource("3_60m7a")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3uixn"]
+atlas = ExtResource("3_60m7a")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bnngr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tggh8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5sso0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_13jd2")
+}],
+"loop": false,
+"name": &"erect",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x5qbj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jv4b2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3uixn")
+}],
+"loop": false,
+"name": &"retract",
+"speed": 20.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ebtek"]
+size = Vector2(16, 16)
+
+[node name="Spike" type="Area2D" unique_id=1436312715]
+collision_mask = 3
+script = ExtResource("1_d2mqm")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=190948870]
+material = SubResource("ShaderMaterial_p45v3")
+sprite_frames = SubResource("SpriteFrames_bnngr")
+animation = &"retract"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=516382314]
+shape = SubResource("RectangleShape2D_ebtek")
