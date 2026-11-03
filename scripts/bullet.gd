@@ -73,7 +73,7 @@ func _spawn_impact_burst() -> void:
 	if _data != null and _data.id in ["laser_gun", "railgun", "frost_staff"]:
 		return
 	var particles := GPUParticles2D.new()
-	particles.amount = 9
+	particles.amount = 12
 	particles.lifetime = 0.24
 	particles.one_shot = true
 	particles.explosiveness = 1.0
@@ -81,12 +81,14 @@ func _spawn_impact_burst() -> void:
 
 	var process_material := ParticleProcessMaterial.new()
 	process_material.direction = Vector3(-target_position.x, -target_position.y, 0.0)
-	process_material.spread = 45.0
-	process_material.initial_velocity_min = 30.0
-	process_material.initial_velocity_max = 70.0
+	process_material.spread = 60.0
+	process_material.initial_velocity_min = 40.0
+	process_material.initial_velocity_max = 90.0
 	process_material.gravity = Vector3.ZERO
-	process_material.scale_min = 1.0
-	process_material.scale_max = 1.0
+	process_material.scale_min = 0.6
+	process_material.scale_max = 1.4
+	process_material.damping_min = 20.0
+	process_material.damping_max = 40.0
 	process_material.color = _impact_color()
 	particles.process_material = process_material
 

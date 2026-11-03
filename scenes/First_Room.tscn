@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cwj75ou4okqco" path="res://sprites/chests/Blue_Chest.png" id="8_blue_chest"]
 [ext_resource type="Texture2D" uid="uid://djh3bo72pjv57" path="res://sprites/chests/Golden_Chest.png" id="9_golden_chest"]
 [ext_resource type="Resource" path="res://Chest_loot/weapon_long_katana.tres" id="11_weapon_long_katana"]
-[ext_resource type="Resource" path="res://Chest_loot/weapon_shotgun.tres" id="12_weapon_shotgun"]
+[ext_resource type="Resource" path="res://Chest_loot/weapon_ember_staff.tres" id="12_weapon_ember_staff"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4uy7u"]
 shader = ExtResource("1_34jtn")
@@ -136,7 +136,7 @@ drop = ExtResource("11_weapon_long_katana")
 [node name="Chest3" parent="Floor" unique_id=905900106 instance=ExtResource("5_01mts")]
 position = Vector2(352, 127)
 closed_texture = ExtResource("9_golden_chest")
-drop = ExtResource("12_weapon_shotgun")
+drop = ExtResource("12_weapon_ember_staff")
 
 [node name="Player" parent="." unique_id=963569076 instance=ExtResource("3_bkx3g")]
 position = Vector2(141.86137, 48.54605)
