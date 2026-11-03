@@ -48,6 +48,7 @@ var data: WeaponData:
 			minf(texture_size.x, 32.0),
 			minf(maxf(4.0, texture_size.y), 32.0)
 		)
+		scale = value.projectile_scale
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)

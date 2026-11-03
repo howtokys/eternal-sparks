@@ -6,7 +6,7 @@ const WEAPON_ITEM_DATA := {
 	"pistol": preload("res://Chest_loot/weapon_pistol.tres"),
 	"long_katana": preload("res://Chest_loot/weapon_long_katana.tres"),
 	"ember_staff": preload("res://Chest_loot/weapon_ember_staff.tres"),
-	"railgun": preload("res://Chest_loot/weapon_railgun.tres"),
+	#"railgun": preload("res://Chest_loot/weapon_railgun.tres"),
 }
 
 #for the player buff (speed)
@@ -92,6 +92,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if weapon_switch_lockout > 0.0:
 		weapon_switch_lockout = maxf(weapon_switch_lockout - delta, 0.0)
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and weapon_switch_lockout <= 0.0:
+		gun.shoot()
 	
 	var total_mana_regen: float = mana_regen_rate + buff_manager.get_mana_regen_bonus()
 	
@@ -132,10 +134,6 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("weapon_slot_2"):
 		switch_weapon(1)
 		return
-	if event.is_action_pressed("mouse_left"):
-		if weapon_switch_lockout > 0.0:
-			return
-		gun.shoot()
 
 func equip_weapon(new_data: WeaponData) -> void:
 	if new_data == null:

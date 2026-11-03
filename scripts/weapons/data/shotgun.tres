@@ -22,4 +22,4 @@ knockback = 0.0
 element = ""
 texture = ExtResource("2_gun")
 projectile_texture = ExtResource("3_bullet")
-muzzle_offset = Vector2(13, 0)
+muzzle_offset = Vector2(21, 0)
