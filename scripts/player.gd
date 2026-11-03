@@ -17,6 +17,9 @@ const WEAPON_ITEM_DATA := {
 @export var max_shield: int = 5
 @export var shield_recharge_delay: float = 3.0
 
+@export_group("Damage")
+@export_range(0.0, 5.0, 0.1) var damage_invulnerability_duration: float = 1.0
+
 @export_group("Mana")
 @export var max_mana: float = 50.0
 @export var mana_regen_rate: float = 5.0
@@ -26,6 +29,7 @@ var current_mana: float
 var weapon_slots: Array[WeaponData] = []
 var active_weapon_slot: int = 0
 var weapon_switch_lockout: float = 0.0
+var damage_invulnerability_remaining: float = 0.0
 
 # shield buff to preserve the orinal shield capacity
 var base_max_shield: int
@@ -90,6 +94,7 @@ func _ready() -> void:
 	GlobalData.save_game()
 
 func _process(delta: float) -> void:
+	damage_invulnerability_remaining = maxf(damage_invulnerability_remaining - delta, 0.0)
 	if weapon_switch_lockout > 0.0:
 		weapon_switch_lockout = maxf(weapon_switch_lockout - delta, 0.0)
 	
@@ -187,9 +192,11 @@ func switch_weapon(slot_index: int) -> void:
 
 # Custom damage filter: shield absorbs first, leftover damages HealthComponent
 func take_damage(amount: int) -> void:
-	if amount <= 0:
+	if amount <= 0 or damage_invulnerability_remaining > 0.0:
 		return
 
+	# A shared grace period prevents multiple touching enemies stacking hits.
+	damage_invulnerability_remaining = damage_invulnerability_duration
 	shield_timer.start()
 
 	if current_shield > 0:

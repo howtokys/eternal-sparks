@@ -13,8 +13,8 @@ size = Vector2(39, 29)
 [sub_resource type="CircleShape2D" id="CircleShape2D_md0e3"]
 radius = 64.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_4ra3w"]
-radius = 27.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_contact"]
+size = Vector2(30, 16)
 
 [node name="Enemy" type="CharacterBody2D" unique_id=353923736]
 collision_layer = 2
@@ -50,7 +50,8 @@ shape = SubResource("CircleShape2D_md0e3")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange" unique_id=1748414641]
-shape = SubResource("CircleShape2D_4ra3w")
+position = Vector2(1, 11)
+shape = SubResource("RectangleShape2D_contact")
 
 [node name="HitCountResetTimer" type="Timer" parent="." unique_id=210750114]
 wait_time = 0.5

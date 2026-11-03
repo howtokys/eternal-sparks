@@ -13,6 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://i7k6bn7tac3d" path="res://scenes/Player.tscn" id="10_gkf5a"]
 [ext_resource type="PackedScene" uid="uid://5daivydu6730" path="res://scenes/HUD.tscn" id="11_1ad6w"]
 
+[ext_resource type="PackedScene" path="res://scenes/Pause_scene.tscn" id="pause"]
+[ext_resource type="Texture2D" path="res://sprites/portal_spritesheet_4x4.png" id="15_0aqpe"]
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4uy7u"]
 shader = ExtResource("1_xooo4")
 
@@ -78,6 +81,129 @@ physics_layer_0/collision_layer = 2
 physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_4uy7u")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a470f"]
+size = Vector2(40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k1uqx"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j1ile"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8ghs"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ibaw"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u8g8y"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_on8u5"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t3pjf"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(256, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i25u8"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(384, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bjcom"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(0, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bltfn"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(128, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vhjo1"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(256, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ayada"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(384, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_svyjq"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(0, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7vhl"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(128, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mpptr"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(256, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ocij3"]
+atlas = ExtResource("15_0aqpe")
+region = Rect2(384, 384, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b08ru"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k1uqx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j1ile")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t8ghs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ibaw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u8g8y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_on8u5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t3pjf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i25u8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bjcom")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bltfn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vhjo1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ayada")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_svyjq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7vhl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mpptr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ocij3")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 12.0
+}]
+
 [node name="Node2D" type="Node2D" unique_id=1757316080]
 script = ExtResource("1_k2eiq")
 
@@ -88,59 +214,82 @@ tile_set = SubResource("TileSet_f24qu")
 
 [node name="Wall_IndestructibleObject" type="TileMapLayer" parent="Floor" unique_id=1369295587]
 material = SubResource("ShaderMaterial_bkx3g")
-tile_map_data = PackedByteArray("AAAAAAAAAAAXAAMAAAAAAAEAAAAXAAMAAAAAAAIAAAAXAAMAAAAAAAMAAAAXAAMAAAAAAAQAAAAWAAMAAAAAAAUAAAAWAAMAAAAAAAYAAAAWAAMAAAAAAAcAAAAXAAMAAAAAAAgAAAAXAAMAAAAAAAkAAAAXAAMAAAAAAAoAAAAXAAMAAAAAAAsAAAAXAAMAAAAAAAwAAAAXAAMAAAAAAA0AAAAXAAMAAAAAAA4AAAAXAAMAAAAAAA8AAAAXAAMAAAABAA8AAAAXAAMAAAACAA8AAAAXAAMAAAADAA8AAAAXAAMAAAAEAA8AAAAXAAMAAAAFAA8AAAAXAAMAAAAGAA8AAAAWAAMAAAAHAA8AAAAWAAMAAAAIAA8AAAAXAAMAAAAJAA8AAAAXAAMAAAAKAA8AAAAXAAMAAAALAA8AAAAWAAMAAAAMAA8AAAAXAAMAAAANAA8AAAAXAAMAAAAOAA8AAAAXAAMAAAAPAA8AAAAXAAMAAAAQAA8AAAAXAAMAAAARAA8AAAAXAAMAAAASAA8AAAAXAAMAAAATAA8AAAAXAAMAAAAUAA8AAAAXAAMAAAAVAA8AAAAXAAMAAAAWAA8AAAAXAAMAAAAXAA8AAAAXAAMAAAAYAA8AAAAXAAMAAAAZAA8AAAAXAAMAAAAZAA4AAAAXAAMAAAAZAA0AAAAXAAMAAAAZAAwAAAAXAAMAAAAZAAsAAAAXAAMAAAAZAAoAAAAWAAMAAAAZAAkAAAAXAAMAAAAZAAgAAAAXAAMAAAAZAAcAAAAXAAMAAAAZAAYAAAAWAAMAAAAZAAUAAAAXAAMAAAAZAAQAAAAXAAMAAAAZAAMAAAAXAAMAAAAZAAIAAAAXAAMAAAAZAAEAAAAWAAMAAAAZAAAAAAAXAAMAAAAYAAAAAAAXAAMAAAAXAAAAAAAXAAMAAAAWAAAAAAAXAAMAAAAVAAAAAAAXAAMAAAAUAAAAAAAXAAMAAAATAAAAAAAWAAMAAAASAAAAAAAXAAMAAAAPAAAAAAAXAAMAAAAOAAAAAAAXAAMAAAANAAAAAAAWAAMAAAAMAAAAAAAXAAMAAAALAAAAAAAXAAMAAAAKAAAAAAAXAAMAAAAJAAAAAAAXAAMAAAAIAAAAAAAXAAMAAAAHAAAAAAAXAAMAAAAGAAAAAAAXAAMAAAAFAAAAAAAXAAMAAAAEAAAAAAAXAAMAAAADAAAAAAAXAAMAAAACAAAAAAAXAAMAAAABAAAAAAAXAAMAAAAQAAAAAAAXAAMAAAARAAAAAAAXAAMAAAASAAgAAAAQAAMAAAAMAAYAAAANAAMAAAANAAYAAAANAAMAAAAOAAYAAAANAAMAAAA=")
+tile_map_data = PackedByteArray("AAAAAAAAAAAXAAMAAAAAAAEAAAAXAAMAAAAAAAIAAAAXAAMAAAAAAAMAAAAXAAMAAAAAAAQAAAAWAAMAAAAAAAUAAAAWAAMAAAAAAAYAAAAWAAMAAAAAAAcAAAAXAAMAAAAAAAgAAAAXAAMAAAAAAAkAAAAXAAMAAAAAAAoAAAAXAAMAAAAAAAsAAAAXAAMAAAAAAAwAAAAXAAMAAAAAAA0AAAAXAAMAAAAAAA4AAAAXAAMAAAAAAA8AAAAXAAMAAAABAA8AAAAXAAMAAAACAA8AAAAXAAMAAAADAA8AAAAXAAMAAAAEAA8AAAAXAAMAAAAFAA8AAAAXAAMAAAAGAA8AAAAWAAMAAAAHAA8AAAAWAAMAAAAIAA8AAAAXAAMAAAAJAA8AAAAXAAMAAAAKAA8AAAAXAAMAAAALAA8AAAAWAAMAAAAMAA8AAAAXAAMAAAANAA8AAAAXAAMAAAAOAA8AAAAXAAMAAAAPAA8AAAAXAAMAAAAQAA8AAAAXAAMAAAARAA8AAAAXAAMAAAASAA8AAAAXAAMAAAATAA8AAAAXAAMAAAAUAA8AAAAXAAMAAAAVAA8AAAAXAAMAAAAWAA8AAAAXAAMAAAAXAA8AAAAXAAMAAAAYAA8AAAAXAAMAAAAZAA8AAAAXAAMAAAAZAA4AAAAXAAMAAAAZAA0AAAAXAAMAAAAZAAwAAAAXAAMAAAAZAAsAAAAXAAMAAAAZAAoAAAAWAAMAAAAZAAkAAAAXAAMAAAAZAAgAAAAXAAMAAAAZAAcAAAAXAAMAAAAZAAYAAAAWAAMAAAAZAAUAAAAXAAMAAAAZAAQAAAAXAAMAAAAZAAMAAAAXAAMAAAAZAAIAAAAXAAMAAAAZAAEAAAAWAAMAAAAZAAAAAAAXAAMAAAAYAAAAAAAXAAMAAAAXAAAAAAAXAAMAAAAWAAAAAAAXAAMAAAAVAAAAAAAXAAMAAAAUAAAAAAAXAAMAAAATAAAAAAAWAAMAAAASAAAAAAAXAAMAAAAPAAAAAAAXAAMAAAAOAAAAAAAXAAMAAAANAAAAAAAWAAMAAAAMAAAAAAAXAAMAAAALAAAAAAAXAAMAAAAKAAAAAAAXAAMAAAAJAAAAAAAXAAMAAAAIAAAAAAAXAAMAAAAHAAAAAAAXAAMAAAAGAAAAAAAXAAMAAAAFAAAAAAAXAAMAAAAEAAAAAAAXAAMAAAADAAAAAAAXAAMAAAACAAAAAAAXAAMAAAABAAAAAAAXAAMAAAAQAAAAAAAXAAMAAAARAAAAAAAXAAMAAAA=")
 tile_set = SubResource("TileSet_m1l7b")
 
 [node name="Crate" parent="Floor" unique_id=1469868432 instance=ExtResource("3_0fh0j")]
-position = Vector2(168, 103)
+position = Vector2(112, 72)
 
 [node name="Enemy" parent="Floor" unique_id=353923736 instance=ExtResource("4_63t3r")]
-position = Vector2(73, 128)
+position = Vector2(200, 56)
 
 [node name="Enemy2" parent="Floor" unique_id=1998600575 instance=ExtResource("4_63t3r")]
-position = Vector2(207, 193)
+position = Vector2(184, 176)
 
 [node name="Crate2" parent="Floor" unique_id=852719940 instance=ExtResource("3_0fh0j")]
-position = Vector2(152, 103)
+position = Vector2(128, 72)
 
 [node name="Crate3" parent="Floor" unique_id=1335254580 instance=ExtResource("3_0fh0j")]
-position = Vector2(184, 103)
+position = Vector2(144, 72)
 
 [node name="Crate4" parent="Floor" unique_id=275708046 instance=ExtResource("3_0fh0j")]
-position = Vector2(136, 103)
+position = Vector2(112, 96)
 
 [node name="Crate5" parent="Floor" unique_id=1946191769 instance=ExtResource("3_0fh0j")]
-position = Vector2(120, 103)
+position = Vector2(144, 96)
 
 [node name="Crate6" parent="Floor" unique_id=1223073001 instance=ExtResource("3_0fh0j")]
-position = Vector2(183, 71)
+position = Vector2(240, 152)
 
 [node name="Crate7" parent="Floor" unique_id=574984575 instance=ExtResource("3_0fh0j")]
-position = Vector2(212, 61)
+position = Vector2(256, 152)
 
 [node name="Crate8" parent="Floor" unique_id=1193059736 instance=ExtResource("3_0fh0j")]
-position = Vector2(243, 72)
+position = Vector2(272, 152)
 
 [node name="Crate9" parent="Floor" unique_id=1800470418 instance=ExtResource("3_0fh0j")]
-position = Vector2(187, 124)
+position = Vector2(240, 176)
 
 [node name="Crate10" parent="Floor" unique_id=592088673 instance=ExtResource("3_0fh0j")]
-position = Vector2(145, 157)
+position = Vector2(272, 176)
 
 [node name="Chest" parent="Floor" unique_id=521764967 instance=ExtResource("5_j7hn3")]
-position = Vector2(311, 182)
+position = Vector2(336, 64)
 
 [node name="Chest2" parent="Floor" unique_id=787250440 instance=ExtResource("5_j7hn3")]
-position = Vector2(359, 136)
+position = Vector2(336, 112)
 closed_texture = ExtResource("6_3kuwd")
 drop = ExtResource("7_quhjk")
 
 [node name="Chest3" parent="Floor" unique_id=905900106 instance=ExtResource("5_j7hn3")]
-position = Vector2(368, 199)
+position = Vector2(336, 192)
 closed_texture = ExtResource("8_2y7tu")
 drop = ExtResource("9_j4mnt")
 
 [node name="Player" parent="." unique_id=963569076 instance=ExtResource("10_gkf5a")]
-position = Vector2(141.86137, 48.54605)
+position = Vector2(48, 112)
 
 [node name="CanvasLayer" parent="." unique_id=1979618489 instance=ExtResource("11_1ad6w")]
+
+[node name="Enemy3" parent="Floor" instance=ExtResource("4_63t3r")]
+position = Vector2(304, 56)
+
+[node name="PauseScene" parent="CanvasLayer" instance=ExtResource("pause")]
+
+[node name="LevelExit" type="Area2D" parent="."]
+position = Vector2(376, 112)
+monitoring = false
+collision_layer = 0
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelExit"]
+shape = SubResource("RectangleShape2D_a470f")
+
+[node name="Portal" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(376, 112)
+scale = Vector2(0.484375, 0.4765625)
+sprite_frames = SubResource("SpriteFrames_b08ru")
+animation = &"idle"
+
+[connection signal="body_entered" from="LevelExit" to="." method="_on_level_exit_body_entered"]
