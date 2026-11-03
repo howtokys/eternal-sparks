@@ -11,6 +11,7 @@ var element: String = ""
 var knockback: float = 0.0
 var _data: WeaponData
 const DEFAULT_PROJECTILE_TEXTURE: Texture2D = preload("res://sprites/Bullet.png")
+const ENEMY_SCRIPT: Script = preload("res://scripts/enemy.gd")
 var data: WeaponData:
 	get:
 		return _data
@@ -58,12 +59,14 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	position += target_position * speed * delta
 
-func _on_body_entered(_body: Node2D) -> void:
-	_spawn_impact_burst()
+func _on_body_entered(body: Node2D) -> void:
+	if body.get_script() != ENEMY_SCRIPT:
+		_spawn_impact_burst()
 	queue_free()
 
-func _on_area_entered(_area: Area2D) -> void:
-	_spawn_impact_burst()
+func _on_area_entered(area: Area2D) -> void:
+	if area.get_parent().get_script() != ENEMY_SCRIPT:
+		_spawn_impact_burst()
 	_hit()
 
 func _spawn_impact_burst() -> void:
