@@ -25,6 +25,9 @@ var player_in_detection_range := false
 var player_in_attack_range := false
 var hit_count = 0
 var active_label = null
+var burn_time_remaining: float = 0.0
+var burn_tick_remaining: float = 0.0
+var slow_time_remaining: float = 0.0
 
 # Detection areas update these flags as the player enters or leaves each range.
 func _on_detection_body_entered(body: Node2D) -> void:
@@ -39,11 +42,19 @@ func _on_detection_body_exited(body: Node2D) -> void:
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
 	if area is Bullet:
-		health_component.take_damage(1)
-		area.queue_free()
+		health_component.take_damage(area.damage)
+		_apply_weapon_effect(area)
 
 		hit_count += 1
 		update_hit_display(1)
+		reset_timer.start()
+	elif area.is_in_group("enemy_attack") and "damage" in area:
+		health_component.take_damage(area.damage)
+		_apply_weapon_effect(area)
+		if "knockback" in area and area.knockback > 0.0:
+			velocity += global_position.direction_to(area.global_position) * -area.knockback
+		hit_count += 1
+		update_hit_display()
 		reset_timer.start()
 
 func _on_attack_body_entered(body: Node2D) -> void:
@@ -58,6 +69,7 @@ func _on_attack_body_exited(body: Node2D) -> void:
 
 # Move toward the player only after detection and stop at attack range.
 func _physics_process(_delta: float) -> void:
+	_update_weapon_effects(_delta)
 	if not is_instance_valid(player):
 		player = get_tree().get_first_node_in_group("player")
 
@@ -70,7 +82,7 @@ func _physics_process(_delta: float) -> void:
 			var direction := global_position.direction_to(player.global_position)
 			if direction.x != 0:
 				sprite.flip_h = direction.x < 0
-			velocity = direction * move_speed
+			velocity = direction * move_speed * (0.5 if slow_time_remaining > 0.0 else 1.0)
 	else:
 		velocity = Vector2.ZERO
 	move_and_slide()
@@ -104,6 +116,25 @@ func _ready() -> void:
 
 	attack_timer.wait_time = attack_cooldown
 	attack_timer.one_shot = true
+
+func _apply_weapon_effect(area: Area2D) -> void:
+	if not "element" in area:
+		return
+	if area.element == "burn":
+		burn_time_remaining = 3.0
+		burn_tick_remaining = 0.0
+	elif area.element == "slow" or area.element == "frost":
+		slow_time_remaining = 2.0
+
+func _update_weapon_effects(delta: float) -> void:
+	if burn_time_remaining > 0.0:
+		burn_time_remaining -= delta
+		burn_tick_remaining -= delta
+		if burn_tick_remaining <= 0.0:
+			health_component.take_damage(1)
+			burn_tick_remaining = 1.0
+	if slow_time_remaining > 0.0:
+		slow_time_remaining -= delta
 
 func _on_enemy_died() -> void:
 	queue_free()

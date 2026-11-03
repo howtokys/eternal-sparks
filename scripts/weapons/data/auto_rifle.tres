@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://b5u5k7y2o6bnm"]
+
+[ext_resource type="Script" uid="uid://cyfu3ebks221y" path="res://scripts/weapons/weapon_data.gd" id="1_weapon_data"]
+[ext_resource type="Texture2D" uid="uid://cbsaec34pe6q7" path="res://sprites/test_weapons/Sprite_Assault_Rifle_Pro+.png" id="2_gun"]
+[ext_resource type="Texture2D" uid="uid://dl4fuihtisroc" path="res://sprites/projectiles/auto_rifle_bullet.png" id="3_bullet"]
+
+[resource]
+script = ExtResource("1_weapon_data")
+id = "auto_rifle"
+display_name = "Auto Rifle"
+fire_mode = 1
+fire_rate = 8.0
+mana_cost = 1.0
+projectile_speed = 450
+projectile_lifetime = 2.0
+texture = ExtResource("2_gun")
+projectile_texture = ExtResource("3_bullet")
+projectile_scale = Vector2(0.65, 0.65)
+muzzle_offset = Vector2(21, 0)

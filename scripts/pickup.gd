@@ -1,8 +1,11 @@
 extends Area2D
 
+var _data: ItemData
 @export var data: ItemData:
+	get:
+		return _data
 	set(value):
-		data = value
+		_data = value
 		_update_visual()
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
@@ -53,6 +56,10 @@ func use_item(body: Node2D) -> void:
 			body.restore_mana(data.restore_amount)
 			
 		elif data.item_type == ItemData.Type.GUN:
-			print("Equipped gun: ", data.item_name)
+			if data.weapon_data == null:
+				push_error("Weapon pickup is missing WeaponData.")
+				return
+			body.equip_weapon(data.weapon_data)
+			print("Equipped weapon: ", data.item_name)
 			
 	queue_free()

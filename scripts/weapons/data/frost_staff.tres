@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://cqe1yap5l45ll"]
+
+[ext_resource type="Texture2D" uid="uid://5ak8hgehv6b2" path="res://sprites/projectiles/Double_Therapy_beam.png" id="1_hc7ps"]
+[ext_resource type="Script" uid="uid://cyfu3ebks221y" path="res://scripts/weapons/weapon_data.gd" id="1_weapon_data"]
+[ext_resource type="Texture2D" uid="uid://ug7qt4x2l6ok" path="res://sprites/test_weapons/Sprite_Tidal_Staff.png" id="2_gun"]
+
+[resource]
+script = ExtResource("1_weapon_data")
+id = "frost_staff"
+display_name = "Frost Staff"
+kind = 2
+fire_mode = 2
+fire_rate = 6.0
+mana_cost = 2.0
+projectile_speed = 400
+projectile_lifetime = 2.0
+element = "frost"
+texture = ExtResource("2_gun")
+projectile_texture = ExtResource("1_hc7ps")
+projectile_scale = Vector2(2, 2)
+muzzle_offset = Vector2(21, 0)

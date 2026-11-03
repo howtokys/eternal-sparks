@@ -5,10 +5,12 @@
 [ext_resource type="PackedScene" uid="uid://2fvnydut0j2x" path="res://scenes/crate.tscn" id="3_4uy7u"]
 [ext_resource type="PackedScene" uid="uid://i7k6bn7tac3d" path="res://scenes/Player.tscn" id="3_bkx3g"]
 [ext_resource type="PackedScene" uid="uid://brqcsjo4rg7ls" path="res://scenes/enemy.tscn" id="4_m1l7b"]
+[ext_resource type="PackedScene" uid="uid://csy4bgetfo0uy" path="res://scenes/chest.tscn" id="5_01mts"]
 [ext_resource type="PackedScene" uid="uid://5daivydu6730" path="res://scenes/HUD.tscn" id="6_f24qu"]
-[ext_resource type="PackedScene" uid="uid://b8xqh1sph4580" path="res://scenes/spike.tscn" id="7_01mts"]
-[ext_resource type="PackedScene" uid="uid://71e44rua1rey" path="res://scenes/poison_crate.tscn" id="8_ifb5r"]
-[ext_resource type="PackedScene" uid="uid://i2xcix43ba4p" path="res://scenes/fireblast_crate.tscn" id="9_of64y"]
+[ext_resource type="Texture2D" uid="uid://cwj75ou4okqco" path="res://sprites/chests/Blue_Chest.png" id="8_blue_chest"]
+[ext_resource type="Texture2D" uid="uid://djh3bo72pjv57" path="res://sprites/chests/Golden_Chest.png" id="9_golden_chest"]
+[ext_resource type="Resource" path="res://Chest_loot/weapon_long_katana.tres" id="11_weapon_long_katana"]
+[ext_resource type="Resource" path="res://Chest_loot/weapon_ember_staff.tres" id="12_weapon_ember_staff"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4uy7u"]
 shader = ExtResource("1_34jtn")
@@ -117,17 +119,18 @@ position = Vector2(187, 124)
 [node name="Crate10" parent="Floor" unique_id=592088673 instance=ExtResource("3_4uy7u")]
 position = Vector2(145, 157)
 
-[node name="Spike" parent="Floor" unique_id=1436312715 instance=ExtResource("7_01mts")]
-position = Vector2(312, 136)
+[node name="Chest" parent="Floor" unique_id=521764967 instance=ExtResource("5_01mts")]
+position = Vector2(288, 81)
 
-[node name="Spike2" parent="Floor" unique_id=961429041 instance=ExtResource("7_01mts")]
-position = Vector2(328, 136)
+[node name="Chest2" parent="Floor" unique_id=787250440 instance=ExtResource("5_01mts")]
+position = Vector2(365, 48)
+closed_texture = ExtResource("8_blue_chest")
+drop = ExtResource("11_weapon_long_katana")
 
-[node name="Spike3" parent="Floor" unique_id=2091943609 instance=ExtResource("7_01mts")]
-position = Vector2(312, 152)
-
-[node name="Spike4" parent="Floor" unique_id=1344424700 instance=ExtResource("7_01mts")]
-position = Vector2(328, 152)
+[node name="Chest3" parent="Floor" unique_id=905900106 instance=ExtResource("5_01mts")]
+position = Vector2(352, 127)
+closed_texture = ExtResource("9_golden_chest")
+drop = ExtResource("12_weapon_ember_staff")
 
 [node name="Player" parent="." unique_id=963569076 instance=ExtResource("3_bkx3g")]
 position = Vector2(141.86137, 48.54605)

@@ -170,6 +170,20 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "100%"
 
+[node name="WeaponSlots" type="VBoxContainer" parent="StatBars/StatusFrame/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="WeaponSlot1" type="Label" parent="StatBars/StatusFrame/VBoxContainer/WeaponSlots"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "1  Railgun"
+
+[node name="WeaponSlot2" type="Label" parent="StatBars/StatusFrame/VBoxContainer/WeaponSlots"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "2  —"
+
 [node name="Buff Panel" type="PanelContainer" parent="." unique_id=1285189694]
 offset_left = 212.0
 offset_top = 2.0

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://076micn7xleb"]
+
+[ext_resource type="Script" uid="uid://cyfu3ebks221y" path="res://scripts/weapons/weapon_data.gd" id="1_weapon_data"]
+[ext_resource type="Texture2D" uid="uid://ckx056b0ki0hq" path="res://sprites/test_weapons/Sprite_Storm_Battleaxe.png" id="2_gun"]
+[ext_resource type="Texture2D" uid="uid://dbdeb1dw1amd" path="res://sprites/Bullet.png" id="3_bullet"]
+
+[resource]
+script = ExtResource("1_weapon_data")
+id = "battle_axe"
+display_name = "Battle Axe"
+kind = 0
+damage = 4
+fire_rate = 1.2
+range_px = 32.0
+texture = ExtResource("2_gun")
+projectile_texture = ExtResource("3_bullet")
+muzzle_offset = Vector2(8, 0)
+hitbox_offset = Vector2(16, 0)
+hitbox_size = Vector2(22, 12)
+windup_duration = 0.3
+recovery_duration = 0.383

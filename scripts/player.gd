@@ -1,6 +1,13 @@
 extends CharacterBody2D
 
 const SPEED = 150.0
+const PICKUP = preload("uid://ddfou1e6ljx0n")
+const WEAPON_ITEM_DATA := {
+	"pistol": preload("res://Chest_loot/weapon_pistol.tres"),
+	"long_katana": preload("res://Chest_loot/weapon_long_katana.tres"),
+	"ember_staff": preload("res://Chest_loot/weapon_ember_staff.tres"),
+	#"railgun": preload("res://Chest_loot/weapon_railgun.tres"),
+}
 
 #for the player buff (speed)
 #@export_group("Buffs")
@@ -16,6 +23,10 @@ const SPEED = 150.0
 
 var current_shield: int
 var current_mana: float
+var mana_regen_delay: float = 0.0
+var weapon_slots: Array[WeaponData] = []
+var active_weapon_slot: int = 0
+var weapon_switch_lockout: float = 0.0
 
 # shield buff to preserve the orinal shield capacity
 var base_max_shield: int
@@ -23,7 +34,7 @@ var base_max_shield: int
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var buff_manager: BuffManager = $BuffManager  #for the speed buff
 @onready var shield_timer: Timer = $ShieldTimer
-@onready var gun: Node2D = $Gun
+@onready var gun: Weapon = $Gun
 
 
 func _ready() -> void:
@@ -31,6 +42,8 @@ func _ready() -> void:
 	base_max_shield = max_shield  #shield buff
 	current_shield = max_shield
 	current_mana = max_mana
+	weapon_slots.append(gun.data)
+	weapon_slots.append(null)
 
 	health_component.died.connect(_on_player_died)
 	
@@ -78,11 +91,16 @@ func _ready() -> void:
 	GlobalData.save_game()
 
 func _process(delta: float) -> void:
-	
+	if weapon_switch_lockout > 0.0:
+		weapon_switch_lockout = maxf(weapon_switch_lockout - delta, 0.0)
+	gun.trigger_held = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+
+	mana_regen_delay = maxf(mana_regen_delay - delta, 0.0)
+
 	var total_mana_regen: float = mana_regen_rate + buff_manager.get_mana_regen_bonus()
 	
 	#regenerate mana without exceeding maximum capacity 
-	if current_mana < max_mana:
+	if mana_regen_delay <= 0.0 and current_mana < max_mana:
 		current_mana = minf(
 			current_mana + total_mana_regen * delta,
 			max_mana
@@ -112,8 +130,68 @@ func _physics_process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("mouse_left"):
-		gun.shoot()
+	if (
+		event is InputEventMouseButton
+		and event.button_index == MOUSE_BUTTON_LEFT
+		and event.pressed
+		and weapon_switch_lockout <= 0.0
+	):
+		gun.trigger_pressed()
+		return
+	if event.is_action_pressed("weapon_slot_1"):
+		switch_weapon(0)
+		return
+	if event.is_action_pressed("weapon_slot_2"):
+		switch_weapon(1)
+		return
+
+func equip_weapon(new_data: WeaponData) -> void:
+	if new_data == null:
+		push_error("Cannot equip a null WeaponData.")
+		return
+
+	for slot_index in weapon_slots.size():
+		var slot_data := weapon_slots[slot_index]
+		if slot_data != null and slot_data.id == new_data.id:
+			switch_weapon(slot_index)
+			return
+
+	for slot_index in weapon_slots.size():
+		if weapon_slots[slot_index] == null:
+			weapon_slots[slot_index] = new_data
+			switch_weapon(slot_index)
+			return
+
+	var replaced_data := weapon_slots[active_weapon_slot]
+	weapon_slots[active_weapon_slot] = new_data
+	gun.cancel_attack()
+	gun.set_weapon_data(new_data)
+	weapon_switch_lockout = 0.25
+	var dropped_item: ItemData = WEAPON_ITEM_DATA.get(replaced_data.id)
+	if dropped_item == null:
+		push_warning("Weapon '%s' was discarded because it has no pickup ItemData." % replaced_data.id)
+		return
+
+	var pickup = PICKUP.instantiate()
+	pickup.visible = false
+	get_tree().current_scene.add_child(pickup)
+	pickup.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+	pickup.global_position = global_position + Vector2(0, 18)
+	pickup.data = dropped_item
+	pickup.reset_physics_interpolation()
+	await get_tree().process_frame
+	pickup.visible = true
+
+func switch_weapon(slot_index: int) -> void:
+	if slot_index < 0 or slot_index >= weapon_slots.size():
+		return
+	if weapon_slots[slot_index] == null or slot_index == active_weapon_slot:
+		return
+
+	active_weapon_slot = slot_index
+	gun.cancel_attack()
+	gun.set_weapon_data(weapon_slots[slot_index])
+	weapon_switch_lockout = 0.25
 
 # Custom damage filter: shield absorbs first, leftover damages HealthComponent
 func take_damage(amount: int) -> void:
@@ -136,6 +214,8 @@ func take_damage(amount: int) -> void:
 func use_mana(cost: float) -> bool:
 	if current_mana >= cost:
 		current_mana -= cost
+		if cost > 0.0:
+			mana_regen_delay = 0.75
 		return true
 	return false
 

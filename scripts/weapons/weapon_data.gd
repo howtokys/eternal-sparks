@@ -1,0 +1,54 @@
+class_name WeaponData
+extends Resource
+
+enum WeaponKind {
+	MELEE,
+	RANGED,
+	STAFF,
+}
+
+enum AttackAnim {
+	SWING,
+	POKE,
+}
+
+enum FireMode {
+	SEMI,
+	BURST,
+	BEAM,
+}
+
+@export var id: String = ""
+@export var display_name: String = ""
+@export var kind: WeaponKind = WeaponKind.RANGED
+@export var fire_mode: FireMode = FireMode.SEMI
+@export var burst_count: int = 3
+@export var burst_interval: float = 0.06
+@export var burst_cooldown: float = 0.25
+@export var damage: int = 1
+@export var fire_rate: float = 1.0
+@export var mana_cost: float = 0.0
+@export var projectile_speed: int = 0
+@export var projectile_lifetime: float = 0.0
+@export var pierce: int = 0
+@export var pellet_count: int = 1
+@export var spread_degrees: float = 0.0
+@export var range_px: float = 0.0
+@export var knockback: float = 0.0
+@export var element: String = ""
+@export var texture: Texture2D
+@export var projectile_texture: Texture2D
+@export var projectile_scale: Vector2 = Vector2(1, 1)
+@export var muzzle_offset: Vector2
+@export var hitbox_offset: Vector2
+@export var hitbox_radius: float = 0.0
+@export var hitbox_size: Vector2
+@export var attack_anim: AttackAnim = AttackAnim.SWING
+@export var swing_angle_degrees: float = 100.0
+@export var anim_duration: float = 0.15
+@export var poke_distance: float = 12.0
+@export var windup_duration: float = 0.0
+@export var recovery_duration: float = 0.0
+
+func attack_cycle_duration() -> float:
+	return windup_duration + anim_duration + recovery_duration

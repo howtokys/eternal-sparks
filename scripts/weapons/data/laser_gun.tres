@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://dxb83vtva2sgl"]
+
+[ext_resource type="Script" uid="uid://cyfu3ebks221y" path="res://scripts/weapons/weapon_data.gd" id="1_weapon_data"]
+[ext_resource type="Texture2D" uid="uid://bosoegscanfgu" path="res://sprites/test_weapons/Sprite_EM_Railgun.png" id="3_6sk32"]
+[ext_resource type="Texture2D" uid="uid://c1hnndbad042w" path="res://sprites/projectiles/laser_beam.png" id="3_bullet"]
+
+[resource]
+script = ExtResource("1_weapon_data")
+id = "laser_gun"
+display_name = "Laser Gun"
+fire_mode = 2
+fire_rate = 6.0
+mana_cost = 2.0
+projectile_speed = 600
+projectile_lifetime = 2.0
+texture = ExtResource("3_6sk32")
+projectile_texture = ExtResource("3_bullet")
+projectile_scale = Vector2(5, 2)
+muzzle_offset = Vector2(21, 0)

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="WeaponData" format=3 uid="uid://dlcvkppytv41f"]
+
+[ext_resource type="Script" uid="uid://cyfu3ebks221y" path="res://scripts/weapons/weapon_data.gd" id="1_weapon_data"]
+[ext_resource type="Texture2D" uid="uid://bmjusuu6pq5g7" path="res://sprites/Gun.png" id="2_gun"]
+[ext_resource type="Texture2D" uid="uid://dl4fuihtisroc" path="res://sprites/projectiles/auto_rifle_bullet.png" id="3_bullet"]
+
+[resource]
+script = ExtResource("1_weapon_data")
+id = "pistol"
+display_name = "Pistol"
+damage = 2
+fire_rate = 3.0
+mana_cost = 3.0
+projectile_speed = 400
+projectile_lifetime = 2.0
+texture = ExtResource("2_gun")
+projectile_texture = ExtResource("3_bullet")
+projectile_scale = Vector2(0.5, 0.5)
+muzzle_offset = Vector2(12, 0)
