@@ -15,4 +15,5 @@ projectile_speed = 400
 projectile_lifetime = 2.0
 texture = ExtResource("2_gun")
 projectile_texture = ExtResource("3_bullet")
+projectile_scale = Vector2(0.5, 0.5)
 muzzle_offset = Vector2(12, 0)

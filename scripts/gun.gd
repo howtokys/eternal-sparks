@@ -5,8 +5,10 @@ extends Sprite2D
 @onready var attack_hitbox: WeaponHitbox = $AttackHitbox
 @onready var player: Node2D = $".."
 const BULLET = preload("uid://bjlscu3tlwgwo")
+const DEFAULT_PROJECTILE_TEXTURE: Texture2D = preload("res://sprites/Bullet.png")
 
 @export var data: WeaponData
+var muzzle_flash: Sprite2D
 var cooldown_remaining: float = 0.0
 var base_position: Vector2
 var swing_rotation_offset: float = 0.0
@@ -35,6 +37,7 @@ func _ready() -> void:
 	base_position = position
 	attack_hitbox.collision_layer = 0
 	attack_hitbox.monitoring = false
+	_create_muzzle_flash()
 	_update_weapon_data()
 
 func set_weapon_data(value: WeaponData) -> void:
@@ -51,6 +54,7 @@ func cancel_attack() -> void:
 	position = base_position
 	attack_hitbox.collision_layer = 0
 	attack_hitbox.monitoring = false
+	queue_redraw()
 
 func _update_weapon_data() -> void:
 	if data == null or not is_instance_valid(attack_hitbox):
@@ -88,6 +92,7 @@ func _process(delta: float) -> void:
 	position = base_position + Vector2.RIGHT.rotated(rotation) * poke_position_offset
 
 func shoot() -> void:
+	look_at(get_global_mouse_position())
 	if data == null:
 		return
 
@@ -110,7 +115,12 @@ func shoot() -> void:
 		if data.fire_rate > 0.0:
 			cooldown_remaining = 1.0 / data.fire_rate
 
+		_trigger_muzzle_flash()
 		var base_direction := (get_global_mouse_position() - marker_2d.global_position).normalized()
+		var projectile_texture := data.projectile_texture
+		if projectile_texture == null:
+			projectile_texture = DEFAULT_PROJECTILE_TEXTURE
+		var projectile_length := projectile_texture.get_size().x * data.projectile_scale.x
 		var pellet_count := maxi(data.pellet_count, 1)
 		for pellet_index in range(pellet_count):
 			var spread_ratio := 0.0
@@ -121,10 +131,56 @@ func shoot() -> void:
 			)
 			var new_bullet: Bullet = BULLET.instantiate()
 			new_bullet.data = data
-			new_bullet.position = marker_2d.global_position
+			new_bullet.position = (
+				marker_2d.global_position
+				+ direction * projectile_length * 0.5
+			)
 			new_bullet.target_position = direction
 			new_bullet.rotation = direction.angle()
 			get_tree().current_scene.add_child(new_bullet)
+
+func _create_muzzle_flash() -> void:
+	muzzle_flash = Sprite2D.new()
+	muzzle_flash.name = "MuzzleFlash"
+	muzzle_flash.visible = false
+	muzzle_flash.z_index = 2
+	var gradient := Gradient.new()
+	gradient.colors = PackedColorArray([
+		Color(1.0, 0.75, 0.25, 1.0),
+		Color(1.0, 0.35, 0.05, 0.0),
+	])
+	var gradient_texture := GradientTexture2D.new()
+	gradient_texture.gradient = gradient
+	gradient_texture.width = 32
+	gradient_texture.height = 32
+	gradient_texture.fill = GradientTexture2D.FILL_RADIAL
+	gradient_texture.fill_from = Vector2(0.5, 0.5)
+	gradient_texture.fill_to = Vector2(1.0, 0.5)
+	muzzle_flash.texture = gradient_texture
+	var material := CanvasItemMaterial.new()
+	material.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+	muzzle_flash.material = material
+	add_child(muzzle_flash)
+
+func _trigger_muzzle_flash() -> void:
+	if muzzle_flash == null:
+		return
+	muzzle_flash.position = marker_2d.position
+	muzzle_flash.rotation = -rotation
+	muzzle_flash.visible = true
+	muzzle_flash.modulate.a = 1.0
+	var tween := create_tween()
+	tween.tween_property(muzzle_flash, "modulate:a", 0.0, 0.06)
+	tween.tween_callback(func() -> void: muzzle_flash.visible = false)
+
+func _draw() -> void:
+	if data == null or data.kind == WeaponData.WeaponKind.RANGED:
+		return
+	if attack_phase != AttackPhase.STRIKE:
+		return
+	var radius := maxf(data.range_px, 12.0)
+	var arc_color := Color(0.8, 0.9, 1.0, 0.8)
+	draw_arc(Vector2.ZERO, radius, -0.7, 0.7, 24, arc_color, 2.0)
 
 func _start_melee_attack() -> void:
 	if attack_in_progress or not is_instance_valid(attack_hitbox):
@@ -137,6 +193,7 @@ func _start_melee_attack() -> void:
 	attack_facing_sign = -1.0 if flip_v else 1.0
 	attack_hitbox.collision_layer = 0
 	attack_hitbox.monitoring = false
+	queue_redraw()
 
 func _update_attack_cycle(delta: float) -> void:
 	if not attack_in_progress or data == null:
@@ -179,6 +236,7 @@ func _update_attack_cycle(delta: float) -> void:
 	else:
 		attack_hitbox.collision_layer = 0
 		attack_hitbox.monitoring = false
+	queue_redraw()
 
 func _set_windup_progress(progress: float) -> void:
 	var eased_progress := _ease_in_out(clampf(progress, 0.0, 1.0))
@@ -237,6 +295,7 @@ func _finish_melee_attack() -> void:
 	poke_position_offset = 0.0
 	attack_hitbox.collision_layer = 0
 	attack_hitbox.monitoring = false
+	queue_redraw()
 	if buffered_attack:
 		buffered_attack = false
 		shoot()
