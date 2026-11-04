@@ -4,8 +4,11 @@ var tween: Tween
 
 func display(count, pos):
 	text = str(count)
+	z_index = 100
+	modulate.a = 1.0
+	visible = true
+	
 	global_position = pos
-	modulate.a = 1.0 #reset opacity back to full
 	
 	if tween and tween.is_running():
 		tween.kill()

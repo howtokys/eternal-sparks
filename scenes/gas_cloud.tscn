@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://b3p5nwjj5sfyf"]
+
+[ext_resource type="Script" uid="uid://b6wkdpw6cyo4n" path="res://gas_cloud.gd" id="1_y1jpm"]
+[ext_resource type="Resource" uid="uid://dqiflcoy1am5o" path="res://Status/poison_effect.tres" id="2_tgrlx"]
+[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="2_yq3c5"]
+[ext_resource type="Texture2D" uid="uid://ct32fwlibd6se" path="res://sprites/Poison circle.png" id="3_tgrlx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_68q7w"]
+radius = 38.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y222t"]
+shader = ExtResource("2_yq3c5")
+
+[node name="GasCloud" type="Area2D" unique_id=1809499729]
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("1_y1jpm")
+status_effect = ExtResource("2_tgrlx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=584110548]
+shape = SubResource("CircleShape2D_68q7w")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=930959320]
+material = SubResource("ShaderMaterial_y222t")
+texture = ExtResource("3_tgrlx")

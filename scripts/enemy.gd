@@ -8,6 +8,7 @@ signal attack_requested(target: Node2D)
 @export var attack_cooldown: float = 0.8
 @export var contact_damage: int = 1 
 
+
 # Frequently accessed child nodes.
 @onready var hurt_box: Area2D = $HurtBox
 @onready var detection_radius: Area2D = $DetectionRadius
@@ -28,6 +29,7 @@ var active_label = null
 var burn_time_remaining: float = 0.0
 var burn_tick_remaining: float = 0.0
 var slow_time_remaining: float = 0.0
+var recent_damage: int = 0
 
 # Detection areas update these flags as the player enters or leaves each range.
 func _on_detection_body_entered(body: Node2D) -> void:
@@ -42,20 +44,14 @@ func _on_detection_body_exited(body: Node2D) -> void:
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
 	if area is Bullet:
-		health_component.take_damage(area.damage)
+		take_damage(area.damage)  # ← use take_damage so it stacks
 		_apply_weapon_effect(area)
-
-		hit_count += 1
-		update_hit_display()
-		reset_timer.start()
+		area.queue_free()
 	elif area.is_in_group("enemy_attack") and "damage" in area:
-		health_component.take_damage(area.damage)
+		take_damage(area.damage)
 		_apply_weapon_effect(area)
 		if "knockback" in area and area.knockback > 0.0:
 			velocity += global_position.direction_to(area.global_position) * -area.knockback
-		hit_count += 1
-		update_hit_display()
-		reset_timer.start()
 
 func _on_attack_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
@@ -131,7 +127,7 @@ func _update_weapon_effects(delta: float) -> void:
 		burn_time_remaining -= delta
 		burn_tick_remaining -= delta
 		if burn_tick_remaining <= 0.0:
-			health_component.take_damage(1)
+			take_damage(1)  # ← use take_damage
 			burn_tick_remaining = 1.0
 	if slow_time_remaining > 0.0:
 		slow_time_remaining -= delta
@@ -139,16 +135,22 @@ func _update_weapon_effects(delta: float) -> void:
 func _on_enemy_died() -> void:
 	queue_free()
 
-# Display the accumulated damage count above the enemy.
-func update_hit_display() -> void:
+func take_damage(amount: int) -> void:
+	health_component.take_damage(amount)
+	recent_damage += amount
+	update_hit_display(recent_damage)
+	reset_timer.start()
+
+func update_hit_display(amount: int) -> void:
 	if not is_instance_valid(active_label):
 		active_label = DAMAGE_NUMBER.instantiate()
+		active_label.z_index = 100
 		get_tree().current_scene.add_child(active_label)
-
+	
 	var spawn_pos := global_position + Vector2(randf_range(-6, 6), -15)
-	active_label.display(hit_count, spawn_pos)
+	active_label.display(amount, spawn_pos)  
 
 # Clear the damage counter after the reset timer expires.
 func reset_hit_counter() -> void:
-	hit_count = 0
+	recent_damage = 0
 	active_label = null

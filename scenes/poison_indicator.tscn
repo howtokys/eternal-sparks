@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://rop7rq8irl8l"]
+
+[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_f5ty1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jusa1"]
+shader = ExtResource("1_f5ty1")
+
+[node name="PoisonIndicator" type="Sprite2D" unique_id=239246880]
+material = SubResource("ShaderMaterial_jusa1")

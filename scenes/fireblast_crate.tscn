@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://i2xcix43ba4p"]
+
+[ext_resource type="Script" uid="uid://dqgxaqfnwhiul" path="res://fireblast_crate.gd" id="1_kaxgo"]
+[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_qm14w"]
+[ext_resource type="Texture2D" uid="uid://iqix5a4f5t11" path="res://sprites/Fireblast Crate.png" id="2_kaxgo"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nrqwm"]
+shader = ExtResource("1_qm14w")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u4gve"]
+size = Vector2(16, 19)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dlis2"]
+size = Vector2(16, 25)
+
+[node name="Fireblast Crate" type="StaticBody2D" unique_id=1676884060 groups=["crate"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_kaxgo")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1440056562]
+material = SubResource("ShaderMaterial_nrqwm")
+texture = ExtResource("2_kaxgo")
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=551840859]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_u4gve")
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=36651297]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=70810702]
+position = Vector2(0, -3.5)
+shape = SubResource("RectangleShape2D_dlis2")

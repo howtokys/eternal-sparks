@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="StatusEffect" format=3 uid="uid://dqiflcoy1am5o"]
+
+[ext_resource type="PackedScene" uid="uid://rop7rq8irl8l" path="res://scenes/poison_indicator.tscn" id="1_a3nq8"]
+[ext_resource type="Script" uid="uid://dlxi1apcv8ucw" path="res://StatusEffect.gd" id="1_jdswo"]
+[ext_resource type="Texture2D" uid="uid://bejf8kk4hculd" path="res://sprites/poison effect.png" id="2_o442u"]
+[ext_resource type="Texture2D" uid="uid://bkr3i0fniocaw" path="res://sprites/poison2.png" id="3_k1omg"]
+[ext_resource type="Texture2D" uid="uid://cnvv00m8vlhwp" path="res://sprites/poison3.png" id="4_614ho"]
+
+[resource]
+script = ExtResource("1_jdswo")
+duration_per_level = 5.0
+damage_per_level = Array[int]([0, 1, 2, 3])
+tick_rate = 2.5
+indicator_scene = ExtResource("1_a3nq8")
+level_icons = Array[Texture2D]([null, ExtResource("2_o442u"), ExtResource("3_k1omg"), ExtResource("4_614ho")])
+metadata/_custom_type_script = "uid://dlxi1apcv8ucw"
