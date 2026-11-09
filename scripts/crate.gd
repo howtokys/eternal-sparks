@@ -39,7 +39,7 @@ func _break_crate(area: Area2D) -> void:
 	sprite_2d.hide()
 	
 	# Sample the main color from the sprite texture
-	var base_color = Color(0.55, 0.35, 0.17)
+	var base_color = Color(0.55, 0.35, 0.17) # hardcoded	
 	if sprite_2d.texture:
 		var img = sprite_2d.texture.get_image()
 		if img:
@@ -66,20 +66,26 @@ func _break_crate(area: Area2D) -> void:
 	
 	# Spawn pickup
 	if possible_loot.size() > 0:
-		var pickup = PICKUP.instantiate()
-		pickup.visible = false
+		var valid_loot: Array[ItemData] = []
+		for item in possible_loot:
+			if randf() * 100.0 < item.drop_chance_weight:
+				valid_loot.append(item)
 		
-		get_tree().current_scene.add_child(pickup)
-		
-		pickup.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
-		pickup.global_position = sprite_2d.global_position
-		pickup.reset_physics_interpolation()
-		
-		pickup.data = possible_loot[randi() % possible_loot.size()]
-		
-		await get_tree().process_frame
-		pickup.visible = true
+		if valid_loot.size() > 0:
+			var pickup = PICKUP.instantiate()	
+			pickup.visible = false
+			
+			get_tree().current_scene.add_child(pickup)
+			
+			pickup.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+			pickup.global_position = sprite_2d.global_position
+			pickup.reset_physics_interpolation()
+			pickup.data = valid_loot[randi() % valid_loot.size()]
+			
+			await get_tree().process_frame
+			pickup.visible = true
 	
+	GlobalData.drop_money(global_position, 0.03) #3%
 	await get_tree().create_timer(0.2).timeout
 	queue_free()
 	

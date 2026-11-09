@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b3p5nwjj5sfyf"]
 
-[ext_resource type="Script" uid="uid://b6wkdpw6cyo4n" path="res://gas_cloud.gd" id="1_y1jpm"]
+[ext_resource type="Script" uid="uid://b6wkdpw6cyo4n" path="res://scripts/gas_cloud.gd" id="1_y1jpm"]
 [ext_resource type="Resource" uid="uid://dqiflcoy1am5o" path="res://Status/poison_effect.tres" id="2_tgrlx"]
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="2_yq3c5"]
 [ext_resource type="Texture2D" uid="uid://ct32fwlibd6se" path="res://sprites/Poison circle.png" id="3_tgrlx"]

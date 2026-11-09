@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bm54psv80h73n"]
 
-[ext_resource type="Script" uid="uid://bk74gqcli1e70" path="res://explosion.gd" id="1_aw4cw"]
+[ext_resource type="Script" uid="uid://bk74gqcli1e70" path="res://scripts/explosion.gd" id="1_aw4cw"]
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="2_3el85"]
 [ext_resource type="Resource" uid="uid://dffenjmoy1tup" path="res://Status/fire_effect.tres" id="2_hbmxj"]
 [ext_resource type="Texture2D" uid="uid://3chnunhojdcv" path="res://sprites/Fireblast Explosion.png" id="3_hbmxj"]
@@ -83,7 +83,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"kaboom",
-"speed": 20.0
+"speed": 15.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0j0nb"]

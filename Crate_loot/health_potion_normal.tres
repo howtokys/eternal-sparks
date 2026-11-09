@@ -7,4 +7,6 @@
 script = ExtResource("1_rytud")
 item_name = "Health Potion"
 item_texture = ExtResource("1_d5ii2")
+drop_chance_weight = 2
+restore_amount = 3
 metadata/_custom_type_script = "uid://ktdmx2a22piw"

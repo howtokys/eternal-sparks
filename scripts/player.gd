@@ -18,7 +18,7 @@ const WEAPON_ITEM_DATA := {
 @export var shield_recharge_delay: float = 5.0
 
 @export_group("Mana")
-@export var max_mana: float = 50.0
+@export var max_mana: float = 200.0
 @export var mana_regen_rate: float = 5.0
 
 var current_shield: int

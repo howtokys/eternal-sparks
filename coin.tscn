@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://bemyluq07nctq"]
+
+[ext_resource type="Script" uid="uid://cxlp6nmbwt566" path="res://scripts/coin.gd" id="1_d5gmh"]
+[ext_resource type="SpriteFrames" uid="uid://c6fbi6nwlngln" path="res://bronze_coin.tres" id="2_w14il"]
+[ext_resource type="SpriteFrames" uid="uid://bfvbh3hlivay8" path="res://silver_coin.tres" id="3_h4etq"]
+[ext_resource type="SpriteFrames" uid="uid://b4xqfcecjxqyu" path="res://gold_coin.tres" id="4_o4fra"]
+[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="5_te2np"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w14il"]
+radius = 9.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m1j4n"]
+shader = ExtResource("5_te2np")
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w14il"]
+animations = []
+
+[node name="Coin" type="Area2D" unique_id=692959203]
+script = ExtResource("1_d5gmh")
+bronze_frames = ExtResource("2_w14il")
+silver_frames = ExtResource("3_h4etq")
+gold_frames = ExtResource("4_o4fra")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=266198383]
+shape = SubResource("CircleShape2D_w14il")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1640655097]
+material = SubResource("ShaderMaterial_m1j4n")
+sprite_frames = SubResource("SpriteFrames_w14il")
+animation = &""
