@@ -7,4 +7,6 @@
 script = ExtResource("1_0rktx")
 item_name = "Large Health Potion"
 item_texture = ExtResource("1_3ugyw")
+drop_chance_weight = 1
+restore_amount = 6
 metadata/_custom_type_script = "uid://ktdmx2a22piw"

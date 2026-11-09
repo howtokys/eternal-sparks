@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://i2xcix43ba4p"]
 
-[ext_resource type="Script" uid="uid://dqgxaqfnwhiul" path="res://fireblast_crate.gd" id="1_kaxgo"]
+[ext_resource type="Script" uid="uid://dqgxaqfnwhiul" path="res://scripts/fireblast_crate.gd" id="1_kaxgo"]
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_qm14w"]
 [ext_resource type="Texture2D" uid="uid://iqix5a4f5t11" path="res://sprites/Fireblast Crate.png" id="2_kaxgo"]
 

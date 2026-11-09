@@ -133,6 +133,7 @@ func _update_weapon_effects(delta: float) -> void:
 		slow_time_remaining -= delta
 
 func _on_enemy_died() -> void:
+	GlobalData.drop_money(global_position, 1.0) #60% to drop coin
 	queue_free()
 
 func take_damage(amount: int) -> void:

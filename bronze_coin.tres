@@ -1,0 +1,39 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://c6fbi6nwlngln"]
+
+[ext_resource type="Texture2D" uid="uid://dbdcrqamw01dn" path="res://sprites/Bronze Coin.png" id="1_l131o"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xhe2v"]
+atlas = ExtResource("1_l131o")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oaemb"]
+atlas = ExtResource("1_l131o")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5xse7"]
+atlas = ExtResource("1_l131o")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nrmvh"]
+atlas = ExtResource("1_l131o")
+region = Rect2(48, 0, 16, 16)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xhe2v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oaemb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5xse7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nrmvh")
+}],
+"loop": true,
+"name": &"spin",
+"speed": 10.0
+}]
