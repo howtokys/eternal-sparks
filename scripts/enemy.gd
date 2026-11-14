@@ -65,6 +65,14 @@ func _on_attack_body_exited(body: Node2D) -> void:
 
 # Move toward the player only after detection and stop at attack range.
 func _physics_process(_delta: float) -> void:
+	
+	var status = get_node_or_null("StatusEffectComponent")
+	if status and status.has_effect(&"freeze"):
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
+	
+	
 	_update_weapon_effects(_delta)
 	if not is_instance_valid(player):
 		player = get_tree().get_first_node_in_group("player")
@@ -134,6 +142,7 @@ func _update_weapon_effects(delta: float) -> void:
 
 func _on_enemy_died() -> void:
 	GlobalData.drop_money(global_position, 1.0) #60% to drop coin
+	GlobalData.drop_mana(global_position, 1.0)  # same 30% chance
 	queue_free()
 
 func take_damage(amount: int) -> void:

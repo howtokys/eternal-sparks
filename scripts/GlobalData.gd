@@ -3,6 +3,7 @@ extends Node
 const SAVE_PATH: String = "user://savegame.json"
 
 const COIN = preload("uid://bemyluq07nctq")
+const MANA_PARTICLE = preload("uid://ckrk4ayyc15ff")
 
 var world: Node2D = null
 var player: CharacterBody2D = null
@@ -53,6 +54,33 @@ func drop_money(pos: Vector2, chance: float) -> void:
 		drop.reset_physics_interpolation()
 		drop.visible = true
 
+func drop_mana(pos: Vector2, chance: float) -> void:
+	if randf() > chance:
+		return
+	
+	# Same weighted chances as coins
+	var roll = randf()
+	var count: int
+	if roll < 0.60:
+		count = 1
+	elif roll < 0.85:
+		count = 2
+	elif roll < 0.95:
+		count = 3
+	elif roll < 0.99:
+		count = 4
+	else:
+		count = 5
+	
+	for i in count:
+		var drop = MANA_PARTICLE.instantiate()
+		var offset = Vector2(randf_range(-10, 10), randf_range(-10, 10))
+		drop.global_position = pos + offset
+		drop.visible = false
+		get_tree().current_scene.add_child.call_deferred(drop)
+		drop.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+		drop.reset_physics_interpolation()
+		drop.visible = true
 
 func save_game() -> void:
 	if player:

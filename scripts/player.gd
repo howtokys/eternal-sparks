@@ -116,6 +116,12 @@ func _process(delta: float) -> void:
 
 # speed buf movement 
 func _physics_process(_delta: float) -> void:
+	var status = get_node_or_null("StatusEffectComponent")
+	if status and status.has_effect(&"freeze"):
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
+	
 	var input_direction: Vector2 = Input.get_vector(
 		"move_left",
 		"move_right",
@@ -192,7 +198,7 @@ func switch_weapon(slot_index: int) -> void:
 	gun.cancel_attack()
 	gun.set_weapon_data(weapon_slots[slot_index])
 	weapon_switch_lockout = 0.25
-
+	
 # Custom damage filter: shield absorbs first, leftover damages HealthComponent
 func take_damage(amount: int) -> void:
 	if amount <= 0:

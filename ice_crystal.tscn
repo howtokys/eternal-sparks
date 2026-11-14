@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://dxeuoxy0h60iu"]
+
+[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_4umu6"]
+[ext_resource type="Texture2D" uid="uid://5wytsfxkswhj" path="res://sprites/frozen.png" id="2_xq45k"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yay1d"]
+shader = ExtResource("1_4umu6")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hvad7"]
+atlas = ExtResource("2_xq45k")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0suap"]
+atlas = ExtResource("2_xq45k")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7y40t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hvad7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0suap")
+}],
+"loop": false,
+"name": &"freeze",
+"speed": 5.0
+}]
+
+[node name="Ice Crystal" type="AnimatedSprite2D" unique_id=710301460]
+material = SubResource("ShaderMaterial_yay1d")
+sprite_frames = SubResource("SpriteFrames_7y40t")
+animation = &"freeze"

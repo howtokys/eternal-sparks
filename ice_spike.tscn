@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://cxwa3e3rclnta"]
+
+[ext_resource type="Script" uid="uid://c6d81f8b18qc6" path="res://ice_spike.gd" id="1_cdox6"]
+[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="2_txbqe"]
+[ext_resource type="Texture2D" uid="uid://cunijwjfpm54a" path="res://sprites/ice_spike.png" id="3_ibd20"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xncev"]
+size = Vector2(7, 19)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0fwql"]
+shader = ExtResource("2_txbqe")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_snyph"]
+atlas = ExtResource("3_ibd20")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dr0e7"]
+atlas = ExtResource("3_ibd20")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d555v"]
+atlas = ExtResource("3_ibd20")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3kqu8"]
+atlas = ExtResource("3_ibd20")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wdkrx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_snyph")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dr0e7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d555v")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3kqu8")
+}],
+"loop": false,
+"name": &"fly",
+"speed": 5.0
+}]
+
+[node name="IceSpike" type="Area2D" unique_id=303321318]
+collision_mask = 3
+script = ExtResource("1_cdox6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2053594078]
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_xncev")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=787707003]
+material = SubResource("ShaderMaterial_0fwql")
+sprite_frames = SubResource("SpriteFrames_wdkrx")
+animation = &"fly"

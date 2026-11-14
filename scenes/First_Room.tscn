@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://i2xcix43ba4p" path="res://scenes/fireblast_crate.tscn" id="9_of64y"]
 [ext_resource type="PackedScene" uid="uid://b8xqh1sph4580" path="res://scenes/spike.tscn" id="9_uyibl"]
 [ext_resource type="Resource" path="res://Chest_loot/weapon_long_katana.tres" id="11_weapon_long_katana"]
+[ext_resource type="PackedScene" uid="uid://c13dfrbp01ttw" path="res://scenes/ice_crate.tscn" id="12_uyibl"]
 [ext_resource type="Resource" path="res://Chest_loot/weapon_ember_staff.tres" id="12_weapon_ember_staff"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4uy7u"]
@@ -149,9 +150,6 @@ position = Vector2(217, 215)
 [node name="Fireblast Crate" parent="Floor" unique_id=1676884060 instance=ExtResource("9_of64y")]
 position = Vector2(198, 158)
 
-[node name="Enemy" parent="Floor" unique_id=353923736 instance=ExtResource("4_m1l7b")]
-position = Vector2(271, 205)
-
 [node name="Enemy2" parent="Floor" unique_id=1539313703 instance=ExtResource("4_m1l7b")]
 position = Vector2(88, 205)
 
@@ -160,9 +158,6 @@ position = Vector2(40, 194)
 
 [node name="Enemy4" parent="Floor" unique_id=1501043710 instance=ExtResource("4_m1l7b")]
 position = Vector2(99, 169)
-
-[node name="Enemy5" parent="Floor" unique_id=2123220394 instance=ExtResource("4_m1l7b")]
-position = Vector2(186, 189)
 
 [node name="Crate11" parent="Floor" unique_id=786757067 instance=ExtResource("3_4uy7u")]
 position = Vector2(112, 130)
@@ -203,7 +198,13 @@ position = Vector2(166, 159)
 [node name="Crate23" parent="Floor" unique_id=1555904169 instance=ExtResource("3_4uy7u")]
 position = Vector2(154, 186)
 
+[node name="IceCrate3" parent="Floor" unique_id=2144115053 instance=ExtResource("12_uyibl")]
+position = Vector2(313, 215)
+
+[node name="Fireblast Crate2" parent="Floor" unique_id=149643569 instance=ExtResource("9_of64y")]
+position = Vector2(176, 198)
+
 [node name="Player" parent="." unique_id=963569076 instance=ExtResource("3_bkx3g")]
-position = Vector2(141.86137, 48.54605)
+position = Vector2(246, 126)
 
 [node name="CanvasLayer" parent="." unique_id=1979618489 instance=ExtResource("6_f24qu")]
