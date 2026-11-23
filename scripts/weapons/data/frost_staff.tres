@@ -3,9 +3,11 @@
 [ext_resource type="Texture2D" uid="uid://5ak8hgehv6b2" path="res://sprites/projectiles/Double_Therapy_beam.png" id="1_hc7ps"]
 [ext_resource type="Script" uid="uid://cyfu3ebks221y" path="res://scripts/weapons/weapon_data.gd" id="1_weapon_data"]
 [ext_resource type="Texture2D" uid="uid://ug7qt4x2l6ok" path="res://sprites/test_weapons/Sprite_Tidal_Staff.png" id="2_gun"]
+[ext_resource type="AudioStream" path="res://sounds/cast_frost.wav" id="4_fire_sound"]
 
 [resource]
 script = ExtResource("1_weapon_data")
+fire_sound = ExtResource("4_fire_sound")
 id = "frost_staff"
 display_name = "Frost Staff"
 kind = 2

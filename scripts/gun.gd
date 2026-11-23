@@ -175,6 +175,8 @@ func _fire_ranged_shot(bypass_cooldown: bool) -> bool:
 	if not player.use_mana(data.mana_cost):
 		return false
 
+	Audio.play_sfx(data.fire_sound, 0.0, randf_range(0.95, 1.05))
+
 	if not bypass_cooldown and data.fire_rate > 0.0:
 		cooldown_remaining = 1.0 / data.fire_rate
 
@@ -285,6 +287,9 @@ func _start_melee_attack() -> void:
 	if attack_in_progress or not is_instance_valid(attack_hitbox):
 		return
 
+	if not data.play_sound_on_strike:
+		Audio.play_sfx(data.fire_sound, 0.0, randf_range(0.95, 1.05))
+
 	attack_in_progress = true
 	buffered_attack = false
 	attack_elapsed = 0.0
@@ -312,6 +317,8 @@ func _update_attack_cycle(delta: float) -> void:
 		attack_phase = AttackPhase.WINDUP
 		_set_windup_progress(attack_elapsed / windup_duration)
 	elif attack_elapsed < windup_duration + strike_duration:
+		if attack_phase != AttackPhase.STRIKE and data.play_sound_on_strike:
+			Audio.play_sfx(data.fire_sound, 0.0, randf_range(0.95, 1.05))
 		attack_phase = AttackPhase.STRIKE
 		var strike_progress := (attack_elapsed - windup_duration) / strike_duration
 		_set_strike_progress(strike_progress)

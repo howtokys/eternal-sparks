@@ -6,6 +6,7 @@ extends StaticBody2D
 
 const PICKUP = preload("uid://ddfou1e6ljx0n")
 const DEBRIS = preload("uid://bm3q8tehrkl51")
+const BREAK_SOUND = preload("res://sounds/crate_break.wav")
 
 @export var possible_loot: Array[ItemData] = []
 
@@ -26,6 +27,7 @@ func _break_crate(area: Area2D) -> void:
 	if is_broken:		
 		return
 	is_broken = true
+	Audio.play_world_sfx(BREAK_SOUND, global_position, randf_range(0.92, 1.08))
 	
 	# Get the direction the bullet was moving
 	var hit_direction := Vector2.RIGHT

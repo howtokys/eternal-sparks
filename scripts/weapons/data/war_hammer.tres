@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cyfu3ebks221y" path="res://scripts/weapons/weapon_data.gd" id="1_weapon_data"]
 [ext_resource type="Texture2D" uid="uid://c6uwnvvcfycxy" path="res://sprites/test_weapons/Sprite_Golden_Crab_Warhammer.png" id="3_884a7"]
 [ext_resource type="Texture2D" uid="uid://dbdeb1dw1amd" path="res://sprites/Bullet.png" id="3_bullet"]
+[ext_resource type="AudioStream" uid="uid://djysnnqxumejh" path="res://sounds/swing_hammer.wav" id="4_fire_sound"]
 
 [resource]
 script = ExtResource("1_weapon_data")
@@ -11,6 +12,8 @@ display_name = "War Hammer"
 kind = 0
 damage = 6
 fire_rate = 0.8
+fire_sound = ExtResource("4_fire_sound")
+play_sound_on_strike = true
 range_px = 32.0
 knockback = 120.0
 texture = ExtResource("3_884a7")

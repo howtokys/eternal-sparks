@@ -5,6 +5,7 @@ extends StaticBody2D
 @onready var hurt_box: Area2D = $HurtBox
 
 const GAS_CLOUD = preload("uid://b3p5nwjj5sfyf")
+const BREAK_SOUND = preload("res://sounds/poison_crate_break.wav")
 
 var is_broken: bool = false
 
@@ -21,6 +22,7 @@ func _break_crate(area: Area2D) -> void:
 	if is_broken:
 		return
 	is_broken = true
+	Audio.play_world_sfx(BREAK_SOUND, global_position, randf_range(0.95, 1.05))
 	
 	var hit_direction = Vector2.RIGHT
 	if area and "target_position" in area:

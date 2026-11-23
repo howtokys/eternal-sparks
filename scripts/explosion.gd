@@ -1,5 +1,7 @@
 extends Area2D
 
+const BLAST_SOUND = preload("res://sounds/fireblast_explosion.wav")
+
 @export var status_effect: StatusEffect
 @export var explosion_damage: int = 3
 
@@ -11,6 +13,7 @@ func _ready() -> void:
 	
 	
 	await get_tree().physics_frame
+	Audio.play_world_sfx(BLAST_SOUND, global_position, randf_range(0.95, 1.05))
 	
 	for body in get_overlapping_bodies():
 		_hit_body(body)

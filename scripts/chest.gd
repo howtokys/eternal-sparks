@@ -9,6 +9,7 @@ const PICKUP = preload("uid://ddfou1e6ljx0n")
 
 @export var closed_texture: Texture2D
 @export var drop: ItemData
+@export var open_sound: AudioStream
 
 var player_in_range: Node2D = null
 var is_open: bool = false
@@ -60,6 +61,7 @@ func _open() -> void:
 		return
 
 	is_open = true
+	Audio.play_sfx(open_sound)
 	label.hide()
 	var glow_tween := create_tween()
 	glow_tween.tween_property(glow, "modulate:a", 0.0, 0.5)
