@@ -7,8 +7,10 @@ extends CanvasLayer
 @onready var health_percent: Label = $StatBars/StatusFrame/VBoxContainer/HealthRow/HealthPercent
 @onready var ShieldPercent: Label = $StatBars/StatusFrame/VBoxContainer/ShieldRow/ShieldPercent
 @onready var ManaPercent: Label = $StatBars/StatusFrame/VBoxContainer/ManaRow/ManaPercent
-@onready var weapon_slot_1: Label = $StatBars/StatusFrame/VBoxContainer/WeaponSlots/WeaponSlot1
-@onready var weapon_slot_2: Label = $StatBars/StatusFrame/VBoxContainer/WeaponSlots/WeaponSlot2
+@onready var weapon_slot_rows := [
+	$StatBars/StatusFrame/VBoxContainer/WeaponSlots/WeaponSlot1,
+	$StatBars/StatusFrame/VBoxContainer/WeaponSlots/WeaponSlot2,
+]
 
 
 # buff ui container
@@ -16,6 +18,7 @@ extends CanvasLayer
 
 var player: Node2D
 var buff_manager: BuffManager
+var weapon_icons: Dictionary[Texture2D, Texture2D] = {}
 
 func _ready() -> void:
 	# Find the player in the scene
@@ -54,13 +57,28 @@ func update_weapon_slots() -> void:
 
 	var slots: Array = player.weapon_slots
 	var active_slot: int = player.active_weapon_slot
-	var labels := [weapon_slot_1, weapon_slot_2]
-	for slot_index in labels.size():
-		var weapon_name := "—"
-		if slot_index < slots.size() and slots[slot_index] != null:
-			weapon_name = slots[slot_index].display_name
-		labels[slot_index].text = "%d  %s" % [slot_index + 1, weapon_name]
-		labels[slot_index].modulate = Color.WHITE if slot_index == active_slot else Color(0.65, 0.65, 0.65)
+	for slot_index in weapon_slot_rows.size():
+		var weapon: WeaponData = slots[slot_index] if slot_index < slots.size() else null
+		var row: HBoxContainer = weapon_slot_rows[slot_index]
+		var icon := row.get_node("Box/Icon") as TextureRect
+		icon.texture = _get_weapon_icon(weapon.texture) if weapon != null else null
+		row.modulate = Color.WHITE if slot_index == active_slot else Color(0.65, 0.65, 0.65)
+
+func _get_weapon_icon(texture: Texture2D) -> Texture2D:
+	if texture == null:
+		return null
+	if weapon_icons.has(texture):
+		return weapon_icons[texture]
+
+	var image := texture.get_image()
+	var icon := texture
+	if image != null and (not image.is_compressed() or image.decompress() == OK):
+		var bounds := image.get_used_rect()
+		if bounds.has_area():
+			# Fit the visible art instead of the transparent sprite canvas.
+			icon = ImageTexture.create_from_image(image.get_region(bounds))
+	weapon_icons[texture] = icon
+	return icon
 
 	#if "current_mana" in player:
 		#mana_bar.value = player.current_mana

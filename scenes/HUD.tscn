@@ -71,6 +71,14 @@ content_margin_right = 2.0
 content_margin_bottom = 2.0
 bg_color = Color(0.0665, 0.109725, 0.19, 0)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_weapon_slot"]
+bg_color = Color(0.18, 0.14, 0.12, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.87, 0.73, 0.51, 1)
+
 [node name="CanvasLayer" type="CanvasLayer" unique_id=1979618489]
 script = ExtResource("1_qpvh6")
 
@@ -185,19 +193,51 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "100%"
 
-[node name="WeaponSlots" type="VBoxContainer" parent="StatBars/StatusFrame/VBoxContainer"]
+[node name="WeaponSlots" type="HBoxContainer" parent="StatBars/StatusFrame/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 0
+theme_override_constants/separation = 8
 
-[node name="WeaponSlot1" type="Label" parent="StatBars/StatusFrame/VBoxContainer/WeaponSlots"]
+[node name="WeaponSlot1" type="HBoxContainer" parent="StatBars/StatusFrame/VBoxContainer/WeaponSlots"]
+layout_mode = 2
+
+[node name="Number" type="Label" parent="StatBars/StatusFrame/VBoxContainer/WeaponSlots/WeaponSlot1"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
-text = "1  Railgun"
+text = "1"
 
-[node name="WeaponSlot2" type="Label" parent="StatBars/StatusFrame/VBoxContainer/WeaponSlots"]
+[node name="Box" type="PanelContainer" parent="StatBars/StatusFrame/VBoxContainer/WeaponSlots/WeaponSlot1"]
+custom_minimum_size = Vector2(76, 32)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_weapon_slot")
+
+[node name="Icon" type="TextureRect" parent="StatBars/StatusFrame/VBoxContainer/WeaponSlots/WeaponSlot1/Box"]
+layout_mode = 2
+mouse_filter = 2
+texture_filter = 1
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WeaponSlot2" type="HBoxContainer" parent="StatBars/StatusFrame/VBoxContainer/WeaponSlots"]
+layout_mode = 2
+
+[node name="Number" type="Label" parent="StatBars/StatusFrame/VBoxContainer/WeaponSlots/WeaponSlot2"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
-text = "2  —"
+text = "2"
+
+[node name="Box" type="PanelContainer" parent="StatBars/StatusFrame/VBoxContainer/WeaponSlots/WeaponSlot2"]
+custom_minimum_size = Vector2(76, 32)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_weapon_slot")
+
+[node name="Icon" type="TextureRect" parent="StatBars/StatusFrame/VBoxContainer/WeaponSlots/WeaponSlot2/Box"]
+layout_mode = 2
+mouse_filter = 2
+texture_filter = 1
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Buff Panel" type="PanelContainer" parent="." unique_id=1285189694]
 offset_left = 212.0

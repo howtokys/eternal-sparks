@@ -2,6 +2,7 @@ extends AnimatedSprite2D
 
 # The original body is centered five pixels right of the sprite frame's center.
 const MIRRORED_OFFSET_X := 10.0
+const HURT_SOUND := preload("res://sounds/player_hurt.wav")
 
 @onready var player := get_parent() as CharacterBody2D
 @onready var gun := player.get_node("Gun") as Weapon
@@ -21,6 +22,7 @@ func _process(_delta: float) -> void:
 	play(&"walk" if player.get_real_velocity().length_squared() > 1.0 else &"idle")
 
 func react_to_damage() -> void:
+	Audio.play_sfx(HURT_SOUND, 0.0, randf_range(0.96, 1.04))
 	play(&"hurt")
 	set_frame_and_progress(0, 0.0)
 
