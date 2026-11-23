@@ -1,0 +1,41 @@
+[gd_resource type="TileSet" format=3]
+
+[ext_resource type="Texture2D" path="res://sprites/Ice_tileset.png" id="1_reg23"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fe4mo"]
+texture = ExtResource("1_reg23")
+11:6/0 = 0
+12:6/0 = 0
+13:6/0 = 0
+14:6/0 = 0
+15:6/0 = 0
+16:6/0 = 0
+17:6/0 = 0
+18:6/0 = 0
+19:6/0 = 0
+20:6/0 = 0
+21:6/0 = 0
+22:6/0 = 0
+23:6/0 = 0
+24:6/0 = 0
+26:6/0 = 0
+11:7/0 = 0
+12:7/0 = 0
+13:7/0 = 0
+14:7/0 = 0
+16:7/0 = 0
+18:7/0 = 0
+19:7/0 = 0
+20:7/0 = 0
+21:7/0 = 0
+22:7/0 = 0
+23:7/0 = 0
+24:7/0 = 0
+25:7/0 = 0
+26:7/0 = 0
+24:8/0 = 0
+25:8/0 = 0
+25:9/0 = 0
+
+[resource]
+sources/0 = SubResource("TileSetAtlasSource_fe4mo")

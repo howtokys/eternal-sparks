@@ -1,0 +1,96 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/First_Room.tscn" id="1_room"]
+[ext_resource type="TileSet" path="res://sprites/ice_floor_tiles.tres" id="2_floor"]
+[ext_resource type="TileSet" path="res://sprites/ice_wall_tiles.tres" id="3_walls"]
+[ext_resource type="Texture2D" path="res://sprites/Ice_tileset.png" id="4_atlas"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_crate"]
+atlas = ExtResource("4_atlas")
+region = Rect2(400, 128, 16, 32)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fireblast"]
+atlas = ExtResource("4_atlas")
+region = Rect2(224, 96, 16, 32)
+filter_clip = true
+
+[node name="FirstRoomIce" instance=ExtResource("1_room")]
+
+[node name="Floor" parent="." index="0"]
+tile_set = ExtResource("2_floor")
+
+[node name="Wall_IndestructibleObject" parent="Floor" index="0"]
+tile_set = ExtResource("3_walls")
+
+[node name="Sprite2D" parent="Floor/Crate" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate2" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate3" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate4" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate5" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate6" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate7" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate8" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate9" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate10" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate11" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate12" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate13" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate14" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate15" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate16" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate17" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate18" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate19" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate20" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate21" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate22" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Crate23" index="0"]
+texture = SubResource("AtlasTexture_crate")
+
+[node name="Sprite2D" parent="Floor/Fireblast Crate" index="0"]
+texture = SubResource("AtlasTexture_fireblast")
