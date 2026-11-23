@@ -10,6 +10,8 @@ var hit_count: int = 0
 var element: String = ""
 var knockback: float = 0.0
 var _data: WeaponData
+var _is_staff_shot: bool = false
+var _staff_hit_claimed: bool = false
 const DEFAULT_PROJECTILE_TEXTURE: Texture2D = preload("res://sprites/Bullet.png")
 const ENEMY_SCRIPT: Script = preload("res://scripts/enemy.gd")
 var data: WeaponData:
@@ -25,19 +27,13 @@ var data: WeaponData:
 		pierce = value.pierce
 		element = value.element
 		knockback = value.knockback
+		_is_staff_shot = value.kind == WeaponData.WeaponKind.STAFF
 		var projectile_texture := value.projectile_texture
 		if projectile_texture == null:
 			projectile_texture = DEFAULT_PROJECTILE_TEXTURE
-		$Sprite2D.texture = projectile_texture
-		match value.element:
-			"burn":
-				$Sprite2D.modulate = Color(1.0, 0.6, 0.2)
-			"frost":
-				$Sprite2D.modulate = Color(0.6, 0.85, 1.0)
-			"storm":
-				$Sprite2D.modulate = Color(0.75, 0.5, 1.0)
-			_:
-				$Sprite2D.modulate = Color.WHITE
+		var sprite := $Sprite2D as Sprite2D
+		sprite.texture = projectile_texture
+		sprite.modulate = Color.WHITE if _is_staff_shot else _impact_color()
 
 		var collision_shape := $CollisionShape2D as CollisionShape2D
 		var rectangle_shape := collision_shape.shape as RectangleShape2D
@@ -45,6 +41,14 @@ var data: WeaponData:
 			rectangle_shape = RectangleShape2D.new()
 			collision_shape.shape = rectangle_shape
 		var texture_size := projectile_texture.get_size()
+		if _is_staff_shot:
+			# Anchor the bolt's bright tip over the hitbox. The tapered tail is visual only.
+			sprite.material = null
+			sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+			sprite.offset.x = 5.0 - texture_size.x * 0.5
+			collision_shape.position = Vector2.ZERO
+			rectangle_shape.size = Vector2(8.0, 5.0)
+			return
 		rectangle_shape.size = Vector2(
 			minf(texture_size.x, 32.0),
 			minf(maxf(4.0, texture_size.y), 32.0)
@@ -60,20 +64,39 @@ func _physics_process(delta: float) -> void:
 	position += target_position * speed * delta
 
 func _on_body_entered(body: Node2D) -> void:
+	if _is_staff_shot:
+		# Damageable bodies receive the shot through their hurtboxes.
+		if body.is_in_group("crate") or body.get_script() == ENEMY_SCRIPT:
+			return
+		claim_target_hit()
+		return
 	if body.get_script() != ENEMY_SCRIPT:
 		_spawn_impact_burst()
 	queue_free()
 
 func _on_area_entered(area: Area2D) -> void:
+	if _is_staff_shot:
+		return
 	if area.get_parent().get_script() != ENEMY_SCRIPT:
 		_spawn_impact_burst()
 	_hit()
 
+func claim_target_hit() -> bool:
+	if not _is_staff_shot:
+		return true
+	if _staff_hit_claimed:
+		return false
+	# Several hurtboxes can report the same overlap before queue_free takes effect.
+	_staff_hit_claimed = true
+	_spawn_impact_burst.call_deferred()
+	queue_free()
+	return true
+
 func _spawn_impact_burst() -> void:
-	if _data != null and _data.id in ["laser_gun", "railgun", "frost_staff"]:
+	if _data != null and _data.id in ["laser_gun", "railgun"]:
 		return
 	var particles := GPUParticles2D.new()
-	particles.amount = 12
+	particles.amount = 8 if _is_staff_shot else 12
 	particles.lifetime = 0.24
 	particles.one_shot = true
 	particles.explosiveness = 1.0

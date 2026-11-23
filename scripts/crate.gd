@@ -19,7 +19,10 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 	if is_broken:
 		return
 		
-	if area is Bullet or area.is_in_group("enemy_attack"):
+	if area is Bullet:
+		if area.claim_target_hit():
+			call_deferred("_break_crate", area)
+	elif area.is_in_group("enemy_attack"):
 		call_deferred("_break_crate", area)
 
 
@@ -38,6 +41,7 @@ func _break_crate(area: Area2D) -> void:
 	
 	collision.set_deferred("disabled", true)
 	hurt_box.set_deferred("monitoring", false)
+	hurt_box.set_deferred("collision_layer", 0)
 	sprite_2d.hide()
 	
 	# Sample the main color from the sprite texture
@@ -91,7 +95,7 @@ func _break_crate(area: Area2D) -> void:
 	await get_tree().create_timer(0.2).timeout
 	queue_free()
 	
-func break_from_explosion() -> void:
+func break_from_impact() -> void:
 	if is_broken:
 		return
 	_break_crate(null)

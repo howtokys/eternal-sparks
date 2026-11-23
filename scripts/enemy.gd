@@ -44,6 +44,8 @@ func _on_detection_body_exited(body: Node2D) -> void:
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
 	if area is Bullet:
+		if not area.claim_target_hit():
+			return
 		take_damage(area.damage)  # ← use take_damage so it stacks
 		_apply_weapon_effect(area)
 		area.queue_free()
