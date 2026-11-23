@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="BuffData" format=3]
+
+[ext_resource type="Script" path="res://scripts/Buffs/buff_data.gd" id="data"]
+[ext_resource type="Texture2D" path="res://sprites/Bullet.png" id="icon"]
+
+[resource]
+script = ExtResource("data")
+buff_id = &"ricochet"
+buff_name = "Bullet Ricochet"
+description = "Bullets bounce once more per level."
+max_level = 3
+buff_icon = ExtResource("icon")

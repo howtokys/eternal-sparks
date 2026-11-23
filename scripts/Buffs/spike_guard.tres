@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="BuffData" format=3]
+
+[ext_resource type="Script" path="res://scripts/Buffs/buff_data.gd" id="data"]
+[ext_resource type="Texture2D" path="res://sprites/Spike.png" id="icon"]
+
+[sub_resource type="AtlasTexture" id="frame"]
+atlas = ExtResource("icon")
+region = Rect2(0, 0, 16, 16)
+
+[resource]
+script = ExtResource("data")
+buff_id = &"spike_guard"
+buff_name = "How Dare You Touch Me"
+description = "Requires Shockwave. Replace its wave with three stronger cross-shaped spike hits."
+max_level = 1
+buff_icon = SubResource("frame")

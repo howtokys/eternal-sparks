@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BuffData" format=3]
+
+[ext_resource type="Script" path="res://scripts/Buffs/buff_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://sprites/Boost-UI/speed_boost_icon.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+buff_id = &"movement_surge"
+buff_name = "Movement Surge"
+description = "Adds 30% of base movement speed."
+max_level = 1
+speed_bonus_per_level = 0.3
+buff_icon = ExtResource("2")

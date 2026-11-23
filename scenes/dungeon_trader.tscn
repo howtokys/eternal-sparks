@@ -1,0 +1,136 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/shop_pedestal.tscn" id="13_shop_pedestal"]
+[ext_resource type="Resource" path="res://scripts/Shop/health_potion.tres" id="14_shop_health"]
+[ext_resource type="Resource" path="res://scripts/Shop/shield_recharge.tres" id="15_shop_shield"]
+[ext_resource type="Resource" path="res://scripts/Shop/movement_surge.tres" id="16_shop_pact"]
+
+[ext_resource type="Texture2D" path="res://sprites/DungeonTilesetII/floor_5.png" id="stall_floor"]
+[ext_resource type="Texture2D" path="res://sprites/trader/trader_idle.png" id="trader"]
+
+[ext_resource type="Texture2D" path="res://sprites/trader/Npc_Trader_shop_big.webp" id="booth"]
+[ext_resource type="Texture2D" path="res://sprites/trader/Npc_Trader_shop.webp" id="counter_front"]
+
+[sub_resource type="RectangleShape2D" id="desk_shape"]
+size = Vector2(72, 32)
+
+[sub_resource type="RectangleShape2D" id="back_shape"]
+size = Vector2(106, 56)
+
+[sub_resource type="RectangleShape2D" id="rack_shape"]
+size = Vector2(24, 24)
+
+[sub_resource type="AtlasTexture" id="pose_0"]
+atlas = ExtResource("trader")
+region = Rect2(0, 0, 28, 30)
+
+[sub_resource type="AtlasTexture" id="pose_1"]
+atlas = ExtResource("trader")
+region = Rect2(28, 0, 28, 30)
+
+[sub_resource type="AtlasTexture" id="pose_2"]
+atlas = ExtResource("trader")
+region = Rect2(56, 0, 28, 30)
+
+[sub_resource type="AtlasTexture" id="pose_3"]
+atlas = ExtResource("trader")
+region = Rect2(84, 0, 28, 30)
+
+[sub_resource type="AtlasTexture" id="pose_4"]
+atlas = ExtResource("trader")
+region = Rect2(112, 0, 28, 30)
+
+[sub_resource type="AtlasTexture" id="pose_5"]
+atlas = ExtResource("trader")
+region = Rect2(140, 0, 28, 30)
+
+[sub_resource type="AtlasTexture" id="pose_6"]
+atlas = ExtResource("trader")
+region = Rect2(168, 0, 28, 30)
+
+[sub_resource type="AtlasTexture" id="pose_7"]
+atlas = ExtResource("trader")
+region = Rect2(196, 0, 28, 30)
+
+[sub_resource type="SpriteFrames" id="MerchantIdle"]
+animations = [{
+"frames": [{"duration": 1.0, "texture": SubResource("pose_0")}, {"duration": 1.0, "texture": SubResource("pose_1")}, {"duration": 1.0, "texture": SubResource("pose_2")}, {"duration": 1.0, "texture": SubResource("pose_3")}, {"duration": 1.0, "texture": SubResource("pose_4")}, {"duration": 1.0, "texture": SubResource("pose_5")}, {"duration": 1.0, "texture": SubResource("pose_6")}, {"duration": 1.0, "texture": SubResource("pose_7")}],
+"loop": true,
+"name": &"idle",
+"speed": 20.0
+}]
+
+[node name="DungeonTrader" type="Node2D"]
+texture_filter = 1
+
+[node name="StallFloor" type="Sprite2D" parent="."]
+position = Vector2(0, 71)
+texture_repeat = 2
+texture = ExtResource("stall_floor")
+region_enabled = true
+region_rect = Rect2(0, 0, 128, 48)
+
+[node name="BoothBackdrop" type="Sprite2D" parent="."]
+position = Vector2(-53, -29)
+scale = Vector2(0.16666667, 0.16666667)
+texture = ExtResource("booth")
+centered = false
+
+[node name="Merchant" type="AnimatedSprite2D" parent="."]
+position = Vector2(-6, 18)
+z_index = 1
+sprite_frames = SubResource("MerchantIdle")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Counter" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="Desk" type="Sprite2D" parent="Counter"]
+position = Vector2(-42, 19)
+z_index = 2
+scale = Vector2(0.16666667, 0.16666667)
+texture = ExtResource("counter_front")
+centered = false
+region_enabled = true
+region_rect = Rect2(66, 288, 432, 246)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Counter"]
+position = Vector2(-6, 44)
+shape = SubResource("desk_shape")
+
+[node name="BackShelfCollision" type="CollisionShape2D" parent="Counter"]
+position = Vector2(0, -1)
+shape = SubResource("back_shape")
+
+[node name="RackCollision" type="CollisionShape2D" parent="Counter"]
+position = Vector2(41, 34)
+shape = SubResource("rack_shape")
+
+[node name="Sign" type="Label" parent="."]
+offset_left = -44.0
+offset_top = -29.0
+offset_right = 32.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.83, 0.48, 1)
+theme_override_colors/font_outline_color = Color(0.095, 0.073, 0.12, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 7
+text = "Dungeon Trader"
+horizontal_alignment = 1
+
+[node name="HealthPedestal" parent="." instance=ExtResource("13_shop_pedestal")]
+position = Vector2(-48, 75)
+offer = ExtResource("14_shop_health")
+stock_id = &"first_room.health_potion"
+
+[node name="ShieldPedestal" parent="." instance=ExtResource("13_shop_pedestal")]
+position = Vector2(0, 75)
+offer = ExtResource("15_shop_shield")
+stock_id = &"first_room.shield_recharge"
+
+[node name="PactPedestal" parent="." instance=ExtResource("13_shop_pedestal")]
+position = Vector2(48, 75)
+offer = ExtResource("16_shop_pact")
+stock_id = &"first_room.movement_surge"

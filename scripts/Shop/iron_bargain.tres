@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ShopItemData" format=3]
+
+[ext_resource type="Script" path="res://scripts/shop_item_data.gd" id="1"]
+[ext_resource type="Resource" path="res://scripts/Buffs/iron_bargain.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+kind = 1
+stat = 2
+buff = ExtResource("2")
+sacrifice_amount = 40

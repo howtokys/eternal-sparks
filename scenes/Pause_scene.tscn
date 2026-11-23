@@ -16,6 +16,8 @@
 [ext_resource type="AudioStream" uid="uid://b2locg3j02rw2" path="res://menu_click.wav" id="14_f1y0c"]
 [ext_resource type="AudioStream" uid="uid://ctuar7kq0oro7" path="res://menu_hover.wav" id="15_gu7ha"]
 
+[ext_resource type="PackedScene" path="res://scenes/shop_menu.tscn" id="16_shop"]
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b08ru"]
 shader = ExtResource("2_fvkf3")
 shader_parameter/lod = 0.0
@@ -94,6 +96,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_d76l8")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1184401957]
@@ -104,6 +107,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="PauseFrame" type="TextureRect" parent="." unique_id=528716123]
 texture_filter = 1
@@ -149,6 +153,14 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_ewadb")
 theme_override_styles/hover = SubResource("StyleBoxTexture_clq4i")
 text = "Resume"
 
+[node name="Shop" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxTexture_hf1jp")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_r8a6v")
+theme_override_styles/hover = SubResource("StyleBoxTexture_7yr3h")
+text = "Shop"
+
 [node name="Button2" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1901592532]
 layout_mode = 2
 size_flags_vertical = 3
@@ -184,6 +196,9 @@ stream = ExtResource("14_f1y0c")
 
 [node name="Hover" type="AudioStreamPlayer" parent="." unique_id=1194163097]
 stream = ExtResource("15_gu7ha")
+
+[node name="ShopMenu" parent="." instance=ExtResource("16_shop")]
+layout_mode = 1
 
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Button" to="." method="_resume_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Button2" to="." method="_restart_pressed"]
