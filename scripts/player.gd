@@ -204,6 +204,7 @@ func take_damage(amount: int) -> void:
 		if amount <= current_shield:
 			current_shield -= amount
 			amount = 0
+			$AnimatedSprite2D.react_to_damage()
 		else:
 			amount -= current_shield
 			current_shield = 0

@@ -88,14 +88,8 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func attack_player() -> void:
-	var player_hurt_box := player.get_node_or_null("HurtBox") as Area2D
-
-	if player_hurt_box == null:
-		print("Enemy attack failed: Player HurtBox not found")
-		return
-
 	print("Enemy attacking player")
-	player_hurt_box.take_damage(1)
+	player.take_damage(contact_damage)
 	attack_timer.start()
 
 # Cache node references and connect gameplay signals once the enemy enters the scene.
@@ -111,8 +105,8 @@ func _ready() -> void:
 	detection_radius.body_entered.connect(_on_detection_body_entered)
 	detection_radius.body_exited.connect(_on_detection_body_exited)
 
-	#attack_range.body_entered.connect(_on_attack_body_entered)
-	#attack_range.body_exited.connect(_on_attack_body_exited)
+	attack_range.body_entered.connect(_on_attack_body_entered)
+	attack_range.body_exited.connect(_on_attack_body_exited)
 
 	attack_timer.wait_time = attack_cooldown
 	attack_timer.one_shot = true
