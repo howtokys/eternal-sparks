@@ -5,13 +5,11 @@ class_name Bullet
 @export var damage: int = 1
 var target_position: Vector2
 var despawn_time: float = 2.0
-var pierce: int = 0
-var hit_count: int = 0
 var element: String = ""
 var knockback: float = 0.0
 var _data: WeaponData
 var _is_staff_shot: bool = false
-var _staff_hit_claimed: bool = false
+var _hit_claimed: bool = false
 const DEFAULT_PROJECTILE_TEXTURE: Texture2D = preload("res://sprites/Bullet.png")
 const ENEMY_SCRIPT: Script = preload("res://scripts/enemy.gd")
 var data: WeaponData:
@@ -24,7 +22,6 @@ var data: WeaponData:
 		speed = value.projectile_speed
 		damage = value.damage
 		despawn_time = value.projectile_lifetime
-		pierce = value.pierce
 		element = value.element
 		knockback = value.knockback
 		_is_staff_shot = value.kind == WeaponData.WeaponKind.STAFF
@@ -40,54 +37,33 @@ var data: WeaponData:
 		if rectangle_shape == null:
 			rectangle_shape = RectangleShape2D.new()
 			collision_shape.shape = rectangle_shape
-		var texture_size := projectile_texture.get_size()
+		collision_shape.position = Vector2.ZERO
+		rectangle_shape.size = value.projectile_hitbox_size
 		if _is_staff_shot:
 			# Anchor the bolt's bright tip over the hitbox. The tapered tail is visual only.
 			sprite.material = null
 			sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-			sprite.offset.x = 5.0 - texture_size.x * 0.5
-			collision_shape.position = Vector2.ZERO
-			rectangle_shape.size = Vector2(8.0, 5.0)
-			return
-		rectangle_shape.size = Vector2(
-			minf(texture_size.x, 32.0),
-			minf(maxf(4.0, texture_size.y), 32.0)
-		)
-		scale = value.projectile_scale
+			sprite.offset.x = 5.0 - projectile_texture.get_width() * 0.5
+		sprite.scale = value.projectile_scale
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
-	area_entered.connect(_on_area_entered)
 	despawn()
 
 func _physics_process(delta: float) -> void:
 	position += target_position * speed * delta
 
 func _on_body_entered(body: Node2D) -> void:
-	if _is_staff_shot:
-		# Damageable bodies receive the shot through their hurtboxes.
-		if body.is_in_group("crate") or body.get_script() == ENEMY_SCRIPT:
-			return
-		claim_target_hit()
+	# Damageable bodies receive the shot through their hurtboxes.
+	if body.is_in_group("crate") or body.get_script() == ENEMY_SCRIPT:
 		return
-	if body.get_script() != ENEMY_SCRIPT:
-		_spawn_impact_burst()
-	queue_free()
-
-func _on_area_entered(area: Area2D) -> void:
-	if _is_staff_shot:
-		return
-	if area.get_parent().get_script() != ENEMY_SCRIPT:
-		_spawn_impact_burst()
-	_hit()
+	claim_target_hit()
 
 func claim_target_hit() -> bool:
-	if not _is_staff_shot:
-		return true
-	if _staff_hit_claimed:
+	if _hit_claimed:
 		return false
 	# Several hurtboxes can report the same overlap before queue_free takes effect.
-	_staff_hit_claimed = true
+	_hit_claimed = true
 	_spawn_impact_burst.call_deferred()
 	queue_free()
 	return true
@@ -136,11 +112,6 @@ func _impact_color() -> Color:
 			return Color(0.75, 0.5, 1.0)
 		_:
 			return Color.WHITE
-
-func _hit() -> void:
-	hit_count += 1
-	if hit_count > pierce:
-		queue_free()
 
 func despawn() -> void:
 	await get_tree().create_timer(despawn_time).timeout

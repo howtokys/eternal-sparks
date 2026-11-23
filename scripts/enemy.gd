@@ -50,6 +50,8 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 		_apply_weapon_effect(area)
 		area.queue_free()
 	elif area.is_in_group("enemy_attack") and "damage" in area:
+		if area is WeaponHitbox and not area.claim_target_hit(self):
+			return
 		take_damage(area.damage)
 		_apply_weapon_effect(area)
 		if "knockback" in area and area.knockback > 0.0:

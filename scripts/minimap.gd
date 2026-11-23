@@ -1,6 +1,7 @@
 extends Control
 
-const REVEAL_RADIUS := 4
+const VISITED_RADIUS := 4
+const UNVISITED_BRIGHTNESS := 0.24
 const PANEL_COLOR := Color("#18151e")
 const FRAME_COLOR := Color("#9b7f5d")
 const FLOOR_COLOR := Color("#c6b798")
@@ -97,10 +98,10 @@ func _read_level_tiles() -> void:
 		revealed.clear()
 	map_image = Image.create_empty(bounds.size.x, bounds.size.y, false, Image.FORMAT_RGBA8)
 	for cell in revealed.keys():
-		if tiles.has(cell):
-			_paint_cell(cell)
-		else:
+		if not tiles.has(cell):
 			revealed.erase(cell)
+	for cell in tiles:
+		_paint_cell(cell)
 	map_texture = ImageTexture.create_from_image(map_image)
 
 func _is_wall(layer: TileMapLayer, cell: Vector2i) -> bool:
@@ -119,9 +120,9 @@ func _cell_at(world_position: Vector2) -> Vector2i:
 
 func _reveal_around(center: Vector2i) -> void:
 	var changed := false
-	for y in range(-REVEAL_RADIUS, REVEAL_RADIUS + 1):
-		for x in range(-REVEAL_RADIUS, REVEAL_RADIUS + 1):
-			if x * x + y * y > REVEAL_RADIUS * REVEAL_RADIUS:
+	for y in range(-VISITED_RADIUS, VISITED_RADIUS + 1):
+		for x in range(-VISITED_RADIUS, VISITED_RADIUS + 1):
+			if x * x + y * y > VISITED_RADIUS * VISITED_RADIUS:
 				continue
 			var cell := center + Vector2i(x, y)
 			if tiles.has(cell) and not revealed.has(cell):
@@ -132,7 +133,10 @@ func _reveal_around(center: Vector2i) -> void:
 		map_texture.update(map_image)
 
 func _paint_cell(cell: Vector2i) -> void:
-	map_image.set_pixelv(cell - bounds.position, WALL_COLOR if tiles[cell] else FLOOR_COLOR)
+	var color := WALL_COLOR if tiles[cell] else FLOOR_COLOR
+	if not revealed.has(cell):
+		color = color.darkened(UNVISITED_BRIGHTNESS)
+	map_image.set_pixelv(cell - bounds.position, color)
 
 func _map_position(world_position: Vector2) -> Vector2:
 	var local := grid.to_local(world_position)

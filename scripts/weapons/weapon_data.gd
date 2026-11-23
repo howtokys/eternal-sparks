@@ -43,6 +43,7 @@ enum FireMode {
 @export var texture: Texture2D
 @export var projectile_texture: Texture2D
 @export var projectile_scale: Vector2 = Vector2(1, 1)
+@export var projectile_hitbox_size: Vector2 = Vector2(8, 5)
 @export var muzzle_offset: Vector2
 @export var hitbox_offset: Vector2
 @export var hitbox_radius: float = 0.0

@@ -5,7 +5,6 @@ extends Sprite2D
 @onready var attack_hitbox: WeaponHitbox = $AttackHitbox
 @onready var player: Node2D = $".."
 const BULLET = preload("uid://bjlscu3tlwgwo")
-const DEFAULT_PROJECTILE_TEXTURE: Texture2D = preload("res://sprites/Bullet.png")
 const LASER_BEAM = preload("res://scripts/laser_beam.gd")
 const HAMMER_SHOCKWAVE = preload("res://scripts/hammer_shockwave.gd")
 const RECOIL_RECOVERY_SECONDS := 0.1
@@ -251,10 +250,6 @@ func _fire_ranged_shot(bypass_cooldown: bool) -> bool:
 	var base_direction := (get_global_mouse_position() - marker_2d.global_position).normalized()
 	if is_staff:
 		base_direction = global_transform.x.normalized()
-	var projectile_texture := data.projectile_texture
-	if projectile_texture == null:
-		projectile_texture = DEFAULT_PROJECTILE_TEXTURE
-	var spawn_offset := 0.0 if is_staff else projectile_texture.get_size().x * data.projectile_scale.x * 0.5
 	var pellet_count := maxi(data.pellet_count, 1)
 	for pellet_index in range(pellet_count):
 		var spread_ratio := 0.0
@@ -265,10 +260,7 @@ func _fire_ranged_shot(bypass_cooldown: bool) -> bool:
 		)
 		var new_bullet: Bullet = BULLET.instantiate()
 		new_bullet.data = data
-		new_bullet.position = (
-			marker_2d.global_position
-			+ direction * spawn_offset
-		)
+		new_bullet.position = marker_2d.global_position
 		new_bullet.target_position = direction
 		new_bullet.rotation = direction.angle()
 		get_tree().current_scene.add_child(new_bullet)
@@ -359,6 +351,7 @@ func _start_melee_attack() -> void:
 	if not data.play_sound_on_strike:
 		Audio.play_sfx(data.fire_sound, 0.0, randf_range(0.95, 1.05))
 
+	attack_hitbox.begin_swing()
 	attack_in_progress = true
 	buffered_attack = false
 	attack_elapsed = 0.0
