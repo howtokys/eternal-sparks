@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://0bha2me8d6io" path="res://sprites/chests/Brown_Chest.png" id="3_chest_texture"]
 [ext_resource type="AudioStream" path="res://sounds/chest_open.wav" id="5_open_sound"]
 [ext_resource type="PackedScene" path="res://scenes/interaction_prompt.tscn" id="6_prompt"]
+[ext_resource type="Texture2D" path="res://sprites/effects/chest_open_sparks.svg" id="7_sparks"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_chest"]
 shader = ExtResource("2_shader")
@@ -77,3 +78,11 @@ material = SubResource("CanvasItemMaterial_glow")
 position = Vector2(0, 2)
 scale = Vector2(0.94, 0.70)
 texture = SubResource("GradientTexture2D_glow")
+
+[node name="OpeningSparks" type="Sprite2D" parent="."]
+visible = false
+z_index = 2
+texture_filter = 1
+position = Vector2(0, -8)
+texture = ExtResource("7_sparks")
+hframes = 5

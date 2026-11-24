@@ -2,6 +2,7 @@ extends StaticBody2D
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var glow: Sprite2D = $Glow
+@onready var opening_sparks: Sprite2D = $OpeningSparks
 @onready var prompt: Control = $Prompt
 @onready var lid: Sprite2D = $Lid
 @onready var interior: Polygon2D = $Interior
@@ -11,6 +12,7 @@ const PICKUP = preload("uid://ddfou1e6ljx0n")
 const WEAPON_LOOT := preload("res://scripts/weapons/weapon_loot.gd")
 const CHEST_SPRITE_SIZE := Vector2(48, 48)
 const LID_ROWS := 26.0
+const OPENING_COLORS := [Color("#ffcb91"), Color("#aff3ff"), Color("#ffe389")]
 
 @export var closed_texture: Texture2D
 @export var loot_tier: WEAPON_LOOT.Tier = WEAPON_LOOT.Tier.BROWN
@@ -64,11 +66,7 @@ func _open() -> void:
 	Audio.play_sfx(open_sound)
 	prompt.hide()
 	_animate_opening()
-
-	glow.modulate.a = 1.0
-	var glow_tween := create_tween()
-	glow_tween.tween_property(glow, "modulate:a", 0.0, 0.36)
-	glow_tween.finished.connect(glow.hide)
+	_play_opening_effect()
 
 	var pickup = PICKUP.instantiate()
 	pickup.visible = false
@@ -80,7 +78,25 @@ func _open() -> void:
 	pickup.reset_physics_interpolation()
 
 	await get_tree().process_frame
-	pickup.visible = true
+	if is_instance_valid(pickup):
+		pickup.show()
+
+func _play_opening_effect() -> void:
+	var tint: Color = OPENING_COLORS[loot_tier]
+	opening_sparks.modulate = tint
+	glow.modulate = tint
+	var effect := create_tween()
+	effect.tween_interval(0.04)
+	effect.tween_callback(opening_sparks.show)
+	for frame in range(opening_sparks.hframes):
+		effect.tween_callback(opening_sparks.set_frame.bind(frame))
+		effect.tween_interval(0.045)
+	effect.tween_callback(opening_sparks.hide)
+
+	var halo := create_tween()
+	halo.tween_property(glow, "scale", base_glow_scale * 1.12, 0.08).set_trans(Tween.TRANS_CUBIC)
+	halo.tween_property(glow, "modulate:a", 0.0, 0.28)
+	halo.tween_callback(glow.hide)
 
 func _animate_opening() -> void:
 	var tween := create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)

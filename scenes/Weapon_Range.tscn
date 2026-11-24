@@ -1,5 +1,6 @@
 [gd_scene format=3]
 
+[ext_resource type="PackedScene" path="res://scenes/dungeon_backdrop.tscn" id="backdrop"]
 [ext_resource type="Script" path="res://scripts/weapon_range.gd" id="1"]
 [ext_resource type="TileSet" path="res://sprites/tilesets/ice_floor_tiles.tres" id="floor"]
 [ext_resource type="TileSet" path="res://sprites/tilesets/ice_wall_tiles.tres" id="walls"]
@@ -71,3 +72,8 @@ position = Vector2(352, 201)
 position = Vector2(196, 144)
 
 [node name="LevelUI" parent="." instance=ExtResource("ui")]
+
+[node name="DungeonBackdrop" parent="." instance=ExtResource("backdrop")]
+
+[node name="Shade" parent="DungeonBackdrop" index="0"]
+self_modulate = Color(0.79, 0.87, 1, 1)

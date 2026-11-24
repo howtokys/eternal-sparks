@@ -1,5 +1,6 @@
 [gd_scene format=4 uid="uid://duhwegmdkgwuo"]
 
+[ext_resource type="PackedScene" path="res://scenes/dungeon_backdrop.tscn" id="backdrop"]
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_34jtn"]
 [ext_resource type="TileSet" uid="uid://c7j6em841qtkd" path="res://sprites/tilesets/ice_floor_tiles.tres" id="2_floor"]
 [ext_resource type="PackedScene" uid="uid://2fvnydut0j2x" path="res://scenes/crate.tscn" id="3_4uy7u"]
@@ -122,3 +123,8 @@ prompt_text = "Enter Shop"
 position = Vector2(141.86137, 48.54605)
 
 [node name="LevelUI" parent="." unique_id=1306261088 instance=ExtResource("6_level_ui")]
+
+[node name="DungeonBackdrop" parent="." instance=ExtResource("backdrop")]
+
+[node name="Shade" parent="DungeonBackdrop" index="0"]
+self_modulate = Color(0.79, 0.87, 1, 1)
