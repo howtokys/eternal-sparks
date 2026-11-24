@@ -2,11 +2,13 @@ extends Control
 
 
 const BGM = preload("res://dungeon_menu_loop.wav")
+const START_ROOM := "res://scenes/First_Room.tscn"
+const LEGACY_SAVE_ROOM := "res://scenes/World.tscn"
 
 
 @onready var start_button = $VBoxContainer/Button
-@onready var continue_button = $VBoxContainer/Button2
-@onready var settings_button = $VBoxContainer/Button3
+@onready var settings_button = $VBoxContainer/Button2
+@onready var continue_button = $VBoxContainer/Button3
 @onready var exit_button = $VBoxContainer/Button4
 @onready var HoverSound : AudioStreamPlayer = $HoeverSound
 @onready var ClickSound : AudioStreamPlayer = $ClickSound
@@ -24,20 +26,9 @@ func _ready() -> void:
 	$VBoxContainer.visible = true
 	$TitleFrame.visible = true  #show title on main menu 
 	
-	# Gives the first button focus
-	$VBoxContainer/Button.call_deferred("grab_focus")
-	
-#for the debugging of keyboard navigation 
-	get_tree().process_frame.connect(func():
-		print("Focused node: ", get_viewport().gui_get_focus_owner())
-	, CONNECT_ONE_SHOT)
-
-#for debugging the keyboard navigation 
-func _input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed:
-		print("Key pressed: ", OS.get_keycode_string(event.keycode))
-		print("Is ui_down action? ", event.is_action("ui_down"))
-		print("Current focus owner: ", get_viewport().gui_get_focus_owner())
+	for button: Button in [start_button, continue_button, settings_button, exit_button]:
+		button.focus_mode = Control.FOCUS_ALL
+	start_button.grab_focus.call_deferred()
 
 func _on_start_pressed() -> void:
 	if is_processing_input: return
@@ -46,30 +37,44 @@ func _on_start_pressed() -> void:
 	play_click_sound()
 	await ClickSound.finished  #audio for when clicked
 	
-	GlobalData.is_loading_save = false # Fresh start
-	print("Start pressed")
-	get_tree().change_scene_to_file("res://scenes/World.tscn")
+	GlobalData.start_new_run()
+	_enter_room(START_ROOM)
 
 func _on_continue_pressed() -> void:
 	if is_processing_input: return
 	
 	play_click_sound()
 	
-	# Check if the file exists on the disk
-	if FileAccess.file_exists(GlobalData.SAVE_PATH):
-		var success = GlobalData.load_save_data()
-		if success:
-			is_processing_input = true
-			GlobalData.is_loading_save = true
-			print("Loading existing progress...")
-			get_tree().change_scene_to_file("res://scenes/World.tscn")
-		else:
-			show_feedback_dialog("Save file is corrupted.")
-	else:
+	if not FileAccess.file_exists(GlobalData.save_path):
 		show_feedback_dialog("No save file found.")
+		return
+	if not GlobalData.load_save_data():
+		show_feedback_dialog("Save file is corrupted.")
+		return
+
+	is_processing_input = true
+	GlobalData.is_loading_save = true
+	var room_path: String = GlobalData.saved_scene_path
+	if room_path.is_empty():
+		room_path = LEGACY_SAVE_ROOM
+	elif not ResourceLoader.exists(room_path, "PackedScene"):
+		# A renamed or removed room cannot reuse the old room's coordinates.
+		GlobalData.is_loading_save = false
+		room_path = LEGACY_SAVE_ROOM
+	await ClickSound.finished
+	_enter_room(room_path)
+
+
+func _enter_room(room_path: String) -> void:
+	var result := get_tree().change_scene_to_file(room_path)
+	if result != OK:
+		is_processing_input = false
+		GlobalData.is_loading_save = false
+		show_feedback_dialog("Could not open the saved dungeon room.")
 
 func _on_settings_pressed() -> void:
-	print("Settings pressed")
+	if is_processing_input:
+		return
 	play_click_sound()
 	# DO NOT set visible = false here! That hides the entire screen.
 	$VBoxContainer.visible = false
@@ -92,9 +97,11 @@ func show_feedback_dialog(message: String) -> void:
 	dialog.dialog_text = message
 	add_child(dialog)
 	dialog.popup_centered()
-	dialog.confirmed.connect(func():
+	dialog.visibility_changed.connect(func():
+		if dialog.visible:
+			return
 		if continue_button:
-			continue_button.grab_focus()
+			continue_button.grab_focus.call_deferred()
 		dialog.queue_free()
 )
 
@@ -108,23 +115,8 @@ func _on_back_pressed() -> void:
 	$TitleFrame.visible = true #restore eternal sparks title 
 	
 	# Return focus to the Settings button
-	$VBoxContainer/Button3.grab_focus()
+	settings_button.grab_focus()
 	
-
-
-func _on_option_button_item_selected(index: int) -> void:
-	var win = get_window()
-	match index:
-		0:
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-		1:
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-			# 2. Explicitly apply your target window dimensions
-			var target_size = Vector2i(800, 450)
-			win.size = target_size
-			
-			# 3. Center the window on the display
-			win.move_to_center()
 
 
 #func _on_mute_toggled(toggled_on: bool) -> void:

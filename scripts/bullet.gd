@@ -3,6 +3,9 @@ class_name Bullet
 
 @export var speed : int = 400
 @export var damage: int = 1
+@export var hostile := false
+var bounces_left := 0
+var sweep_walls := false
 var target_position: Vector2
 var despawn_time: float = 2.0
 var element: String = ""
@@ -10,8 +13,8 @@ var knockback: float = 0.0
 var _data: WeaponData
 var _is_staff_shot: bool = false
 var _hit_claimed: bool = false
+var _hit_targets: Dictionary[int, bool] = {}
 const DEFAULT_PROJECTILE_TEXTURE: Texture2D = preload("res://sprites/Bullet.png")
-const ENEMY_SCRIPT: Script = preload("res://scripts/enemy.gd")
 var data: WeaponData:
 	get:
 		return _data
@@ -47,20 +50,77 @@ var data: WeaponData:
 		sprite.scale = value.projectile_scale
 
 func _ready() -> void:
+	sweep_walls = bounces_left > 0
+	if hostile:
+		collision_layer = 8
+		collision_mask = 3
 	body_entered.connect(_on_body_entered)
 	despawn()
 
 func _physics_process(delta: float) -> void:
-	position += target_position * speed * delta
+	var step := target_position * speed * delta
+	if sweep_walls and not step.is_zero_approx():
+		var ray := PhysicsRayQueryParameters2D.create(global_position, global_position + step, 2)
+		var hit := get_world_2d().direct_space_state.intersect_ray(ray)
+		if not hit.is_empty() and _is_wall(hit.collider) and not Vector2(hit.normal).is_zero_approx():
+			if bounces_left == 0:
+				_spawn_impact_burst()
+				queue_free()
+				return
+			target_position = target_position.bounce(hit.normal)
+			rotation = target_position.angle()
+			global_position = hit.position + target_position * 2
+			bounces_left -= 1
+			return
+	position += step
+
+func _is_wall(body: Node) -> bool:
+	return body is TileMapLayer or (body is StaticBody2D and not body.is_in_group("crate"))
+
+func reflect_projectile() -> bool:
+	if not hostile or (data != null and (data.fire_mode == WeaponData.FireMode.BEAM or data.id == "laser_gun")):
+		return false
+	hostile = false
+	target_position = -target_position
+	rotation = target_position.angle()
+	set_deferred("collision_layer", 4)
+	set_deferred("collision_mask", 2)
+	return true
+
+func _damage_player(player: DungeonPlayer) -> void:
+	if hostile and not is_queued_for_deletion() and is_instance_valid(player):
+		player.take_damage(damage)
+		queue_free()
 
 func _on_body_entered(body: Node2D) -> void:
-	# Damageable bodies receive the shot through their hurtboxes.
-	if body.is_in_group("crate") or body.get_script() == ENEMY_SCRIPT:
+	if hostile:
+		if body is DungeonPlayer:
+			_damage_player.call_deferred(body)
+		elif not body.is_in_group("enemy"):
+			queue_free()
+		return
+	# Targets accept damage through their hurtboxes. The sweep handles wall ricochets.
+	if body is DungeonPlayer or body.is_in_group("crate") or body.is_in_group("enemy") or (sweep_walls and _is_wall(body)):
 		return
 	claim_target_hit()
 
+func hit_enemy(enemy: Node2D) -> bool:
+	var target_id := enemy.get_instance_id()
+	if _hit_targets.has(target_id):
+		return false
+	if bounces_left <= 0:
+		return claim_target_hit()
+	if hostile or _hit_claimed or is_queued_for_deletion():
+		return false
+	_hit_targets[target_id] = true
+	bounces_left -= 1
+	var normal := enemy.global_position.direction_to(global_position)
+	target_position = target_position.bounce(normal) if not normal.is_zero_approx() else -target_position
+	rotation = target_position.angle()
+	return true
+
 func claim_target_hit() -> bool:
-	if _hit_claimed:
+	if hostile or _hit_claimed or is_queued_for_deletion():
 		return false
 	# Several hurtboxes can report the same overlap before queue_free takes effect.
 	_hit_claimed = true

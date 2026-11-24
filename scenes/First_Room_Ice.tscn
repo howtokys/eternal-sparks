@@ -17,7 +17,7 @@ filter_clip = true
 
 [node name="FirstRoomIce" instance=ExtResource("1_room")]
 
-[node name="Floor" parent="." index="0"]
+[node name="Floor" parent="." index="1"]
 tile_set = ExtResource("2_floor")
 
 [node name="Wall_IndestructibleObject" parent="Floor" index="0"]

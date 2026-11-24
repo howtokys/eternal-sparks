@@ -1,190 +1,165 @@
 [gd_scene format=3 uid="uid://bnh34ybbgfyg6"]
 
-[ext_resource type="Script" uid="uid://bogu0ck60hput" path="res://scripts/pause_scene.gd" id="1_d76l8"]
-[ext_resource type="Shader" uid="uid://byci8e20ra5lr" path="res://Shaders/Pause_scene.gdshader" id="2_fvkf3"]
-[ext_resource type="Texture2D" uid="uid://mmwvik5kfkp3" path="res://sprites/Pause-UI/Pause-Frame.png" id="3_y8hyy"]
-[ext_resource type="Texture2D" uid="uid://dmo1bxolklo5" path="res://sprites/Pause-UI/blue_normal.png" id="4_y8hyy"]
-[ext_resource type="Texture2D" uid="uid://co1nf4108m2p3" path="res://sprites/Pause-UI/blue_pressed.png" id="5_o2gqd"]
-[ext_resource type="Texture2D" uid="uid://ea270ggkujqu" path="res://sprites/Pause-UI/blue_hover.png" id="6_f1y0c"]
-[ext_resource type="Texture2D" uid="uid://c4yg6elbekbte" path="res://sprites/Pause-UI/bronze_normal.png" id="7_gu7ha"]
-[ext_resource type="Texture2D" uid="uid://coclsm6hw0obx" path="res://sprites/Pause-UI/bronze_pressed.png" id="8_6eq70"]
-[ext_resource type="Texture2D" uid="uid://bqkx2dpu6jlbi" path="res://sprites/Pause-UI/bronze_hover.png" id="9_vn1a0"]
-[ext_resource type="Texture2D" uid="uid://dl4mcihjxsha7" path="res://sprites/Pause-UI/red_normal.png" id="10_sf1nf"]
-[ext_resource type="Texture2D" uid="uid://cu5rckwi5s0ih" path="res://sprites/Pause-UI/red_pressed.png" id="11_xq78h"]
-[ext_resource type="Texture2D" uid="uid://dotymr1b4ay4t" path="res://sprites/Pause-UI/red_hover.png" id="12_oj3dh"]
-[ext_resource type="Texture2D" uid="uid://pgvaa4vusrwr" path="res://sprites/Pause-UI/puase-asset.png" id="13_y8hyy"]
-[ext_resource type="AudioStream" uid="uid://b2locg3j02rw2" path="res://menu_click.wav" id="14_f1y0c"]
-[ext_resource type="AudioStream" uid="uid://ctuar7kq0oro7" path="res://menu_hover.wav" id="15_gu7ha"]
+[ext_resource type="Script" path="res://scripts/pause_scene.gd" id="pause"]
+[ext_resource type="AtlasTexture" path="res://sprites/ui/frames/gold_panel.tres" id="gold_frame"]
+[ext_resource type="Texture2D" path="res://sprites/ui/frames/pause_buttons.png" id="button_sheet"]
+[ext_resource type="AudioStream" path="res://menu_click.wav" id="click"]
+[ext_resource type="AudioStream" path="res://menu_hover.wav" id="hover"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_b08ru"]
-shader = ExtResource("2_fvkf3")
-shader_parameter/lod = 0.0
+[sub_resource type="StyleBoxTexture" id="panel"]
+texture = ExtResource("gold_frame")
+texture_margin_left = 9.0
+texture_margin_right = 9.0
+texture_margin_top = 9.0
+texture_margin_bottom = 9.0
+content_margin_left = 22.0
+content_margin_right = 22.0
+content_margin_top = 16.0
+content_margin_bottom = 18.0
+modulate_color = Color(0.84, 0.77, 0.85, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b08ru"]
+[sub_resource type="AtlasTexture" id="normal_art"]
+atlas = ExtResource("button_sheet")
+region = Rect2(0, 0, 50, 28)
+filter_clip = true
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oika7"]
-texture = ExtResource("4_y8hyy")
+[sub_resource type="StyleBoxTexture" id="normal"]
+texture = SubResource("normal_art")
+texture_margin_left = 24.0
+texture_margin_right = 24.0
+texture_margin_top = 10.0
+texture_margin_bottom = 10.0
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+modulate_color = Color(0.83, 0.72, 0.74, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ewadb"]
-texture = ExtResource("5_o2gqd")
+[sub_resource type="AtlasTexture" id="hover_art"]
+atlas = ExtResource("button_sheet")
+region = Rect2(0, 28, 50, 28)
+filter_clip = true
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_clq4i"]
-texture = ExtResource("6_f1y0c")
+[sub_resource type="StyleBoxTexture" id="hover"]
+texture = SubResource("hover_art")
+texture_margin_left = 24.0
+texture_margin_right = 24.0
+texture_margin_top = 10.0
+texture_margin_bottom = 10.0
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 4.0
+content_margin_bottom = 4.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hf1jp"]
-texture = ExtResource("7_gu7ha")
+[sub_resource type="AtlasTexture" id="pressed_art"]
+atlas = ExtResource("button_sheet")
+region = Rect2(0, 56, 50, 28)
+filter_clip = true
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r8a6v"]
-texture = ExtResource("8_6eq70")
+[sub_resource type="StyleBoxTexture" id="pressed"]
+texture = SubResource("pressed_art")
+texture_margin_left = 24.0
+texture_margin_right = 24.0
+texture_margin_top = 10.0
+texture_margin_bottom = 10.0
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 5.0
+content_margin_bottom = 3.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7yr3h"]
-texture = ExtResource("9_vn1a0")
+[sub_resource type="AtlasTexture" id="focus_art"]
+atlas = ExtResource("button_sheet")
+region = Rect2(0, 84, 50, 28)
+filter_clip = true
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_66em2"]
-texture = ExtResource("10_sf1nf")
+[sub_resource type="StyleBoxTexture" id="focus"]
+texture = SubResource("focus_art")
+texture_margin_left = 24.0
+texture_margin_right = 24.0
+texture_margin_top = 10.0
+texture_margin_bottom = 10.0
+content_margin_left = 12.0
+content_margin_right = 12.0
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+draw_center = false
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0aydc"]
-texture = ExtResource("11_xq78h")
+[sub_resource type="Theme" id="pause_theme"]
+Button/styles/normal = SubResource("normal")
+Button/styles/hover = SubResource("hover")
+Button/styles/pressed = SubResource("pressed")
+Button/styles/focus = SubResource("focus")
+Button/colors/font_color = Color(1, 0.91, 0.74, 1)
+Button/colors/font_hover_color = Color(1, 0.96, 0.83, 1)
+Button/colors/font_pressed_color = Color(1, 0.85, 0.64, 1)
+Button/colors/font_focus_color = Color(1, 0.96, 0.83, 1)
+Button/colors/font_outline_color = Color(0.17, 0.09, 0.075, 1)
+Button/constants/outline_size = 3
+Button/font_sizes/font_size = 13
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l02i6"]
-texture = ExtResource("12_oj3dh")
-
-[sub_resource type="Animation" id="Animation_i5lyy"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect:material:shader_parameter/lod")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-
-[sub_resource type="Animation" id="Animation_cpn5q"]
-resource_name = "pause_blur"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect:material:shader_parameter/lod")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_i6msw"]
-_data = {
-&"RESET": SubResource("Animation_i5lyy"),
-&"pause_blur": SubResource("Animation_cpn5q")
-}
-
-[node name="PauseScene" type="Control" unique_id=273163113]
+[node name="PauseScene" type="Control"]
+visible = false
 process_mode = 3
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_d76l8")
-
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1184401957]
-material = SubResource("ShaderMaterial_b08ru")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="PauseFrame" type="TextureRect" parent="." unique_id=528716123]
 texture_filter = 1
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -127.0
-offset_top = -172.0
-offset_right = 129.0
-offset_bottom = 162.0
-grow_horizontal = 2
-grow_vertical = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
 mouse_filter = 2
-texture = ExtResource("3_y8hyy")
-expand_mode = 1
+theme = SubResource("pause_theme")
+script = ExtResource("pause")
 
-[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1533062030]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -70.0
-offset_top = -85.0
-offset_right = 70.0
-offset_bottom = 85.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_b08ru")
+[node name="Dim" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.065, 0.05, 0.09, 0.50)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1955770692]
-layout_mode = 2
+[node name="Center" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
 
-[node name="Button" type="Button" parent="PanelContainer/VBoxContainer" unique_id=745610303]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/normal = SubResource("StyleBoxTexture_oika7")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_ewadb")
-theme_override_styles/hover = SubResource("StyleBoxTexture_clq4i")
+[node name="Panel" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(202, 0)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("panel")
+
+[node name="Options" type="VBoxContainer" parent="Center/Panel"]
+mouse_filter = 2
+theme_override_constants/separation = 7
+
+[node name="Title" type="Label" parent="Center/Panel/Options"]
+mouse_filter = 2
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 0.80, 0.58, 1)
+theme_override_colors/font_outline_color = Color(0.12, 0.09, 0.12, 1)
+theme_override_constants/outline_size = 4
+text = "PAUSED"
+
+[node name="Resume" type="Button" parent="Center/Panel/Options"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+focus_mode = 2
 text = "Resume"
 
-[node name="Button2" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1901592532]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/normal = SubResource("StyleBoxTexture_hf1jp")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_r8a6v")
-theme_override_styles/hover = SubResource("StyleBoxTexture_7yr3h")
+[node name="Restart" type="Button" parent="Center/Panel/Options"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+focus_mode = 2
 text = "Restart"
 
-[node name="Button3" type="Button" parent="PanelContainer/VBoxContainer" unique_id=943880222]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/normal = SubResource("StyleBoxTexture_66em2")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_0aydc")
-theme_override_styles/hover = SubResource("StyleBoxTexture_l02i6")
+[node name="Quit" type="Button" parent="Center/Panel/Options"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+focus_mode = 2
 text = "Quit"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1823189580]
-libraries/ = SubResource("AnimationLibrary_i6msw")
+[node name="Click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("click")
 
-[node name="Spiderweb" type="TextureRect" parent="." unique_id=395916701]
-texture_filter = 1
-layout_mode = 0
-offset_left = 491.0
-offset_top = -10.0
-offset_right = 644.0
-offset_bottom = 161.0
-mouse_filter = 2
-texture = ExtResource("13_y8hyy")
-expand_mode = 1
+[node name="Hover" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("hover")
 
-[node name="Click" type="AudioStreamPlayer" parent="." unique_id=40654401]
-stream = ExtResource("14_f1y0c")
-
-[node name="Hover" type="AudioStreamPlayer" parent="." unique_id=1194163097]
-stream = ExtResource("15_gu7ha")
-
-[connection signal="pressed" from="PanelContainer/VBoxContainer/Button" to="." method="_resume_pressed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/Button2" to="." method="_restart_pressed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/Button3" to="." method="_quit_pressed"]
+[connection signal="pressed" from="Center/Panel/Options/Resume" to="." method="_resume_pressed"]
+[connection signal="pressed" from="Center/Panel/Options/Restart" to="." method="_restart_pressed"]
+[connection signal="pressed" from="Center/Panel/Options/Quit" to="." method="_quit_pressed"]

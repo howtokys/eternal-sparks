@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BuffData" format=3 uid="uid://d1hvqm6rqkk2l"]
+
+[ext_resource type="Script" uid="uid://d1g5im1s0vl5" path="res://scripts/Buffs/buff_data.gd" id="data"]
+[ext_resource type="Texture2D" uid="uid://da6mbbtvs5b3b" path="res://sprites/buffs/special/meteor.png" id="icon"]
+
+[resource]
+script = ExtResource("data")
+buff_id = &"meteor"
+buff_name = "Heed My Call"
+description = "Every 30 seconds a meteor strikes the screen, targeting an active boss. Five kills restart the countdown."
+buff_icon = ExtResource("icon")

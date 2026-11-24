@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="BuffData" format=3 uid="uid://lyhce3psm6yk"]
+
+[ext_resource type="Script" uid="uid://d1g5im1s0vl5" path="res://scripts/Buffs/buff_data.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://d303crtloslpf" path="res://sprites/buffs/legacy/shield_boost_icon.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+buff_id = &"iron_bargain"
+buff_name = "Iron Bargain"
+description = "Gain 3 maximum shield."
+shield_bonus_per_level = 3
+buff_icon = ExtResource("2")

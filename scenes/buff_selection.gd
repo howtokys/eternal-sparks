@@ -1,115 +1,76 @@
-
 extends Control
 
-#sounds
-const SPEED_SOUND = preload("res://speed_boost.wav")
-const SHIELD_SOUND = preload("res://shield_boost.wav")
-const MANA_SOUND = preload("res://mana_regen.wav")
-const CLICK_SOUND = preload("res://buff_select_click.wav")
+const CARD := preload("res://scenes/buff_choice_card.tscn")
 
-# Assign the three existing buff resources in the Inspector
-@export var speed_buff: BuffData
-@export var shield_buff: BuffData
-@export var mana_buff: BuffData
+# The room-clear flow supplies its roll. Starting selections roll on entry.
+var clear_options: Array[BuffData] = []
+var choices: Array[BuffData] = []
+var selection_made := false
 
-# References to the selection buttons
-@onready var speed_button: Button = $PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/SpeedButton
-@onready var shield_button: Button = $PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ShieldButton
-@onready var mana_button: Button = $PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ManaButton
-
-#for audio 
-@onready var speed_sfx: AudioStreamPlayer = $Speed
-@onready var shield_sfx: AudioStreamPlayer = $Shield
-@onready var mana_sfx: AudioStreamPlayer = $Mana
+@onready var cards: HBoxContainer = %Cards
+@onready var manager: BuffManager = GlobalData.player.buff_manager
 @onready var click_sfx: AudioStreamPlayer = $Click
 
-var selection_made: bool = false
-
-
 func _ready() -> void:
-	# Allow menu buttons to work while gameplay is paused
-	process_mode = Node.PROCESS_MODE_ALWAYS
+	if clear_options.is_empty():
+		if GlobalData.starting_buff_chosen:
+			hide()
+			queue_free()
+			return
+		add_to_group(&"starting_buff_picker")
+		choices = manager.clear_choices()
+	else:
+		%Title.text = "Choose a room-clear buff"
+		choices = clear_options
 
-	# Connect the three buttons
-	speed_button.pressed.connect(
-		func(): select_buff(speed_buff)
-	)
+	if choices.is_empty():
+		# A returning player can already have every normal buff at its cap.
+		_record_choice()
+		queue_free()
+		return
 
+	for buff in choices:
+		var card := CARD.instantiate() as Button
+		cards.add_child(card)
+		var level := manager.get_buff_level(buff.buff_id)
+		card.get_node("Content/Icon").texture = buff.buff_icon
+		card.get_node("Content/Name").text = buff.buff_name
+		card.get_node("Content/Level").text = "New" if level == 0 else "Lv. %d → Lv. %d" % [level, level + 1]
+		card.get_node("Content/Effect").text = buff.description
+		card.accessibility_name = buff.buff_name
+		card.accessibility_description = "%s. %s" % [card.get_node("Content/Level").text, buff.description]
+		card.mouse_entered.connect($Hover.play.bind(0.0))
+		card.pressed.connect(select_buff.bind(buff))
 
-	shield_button.pressed.connect(
-		func(): select_buff(shield_buff)
-	)
-
-	mana_button.pressed.connect(
-		func(): select_buff(mana_buff)
-	)
-	
-	speed_button.mouse_entered.connect(play_speed_hover)
-	shield_button.mouse_entered.connect(play_shield_hover)
-	mana_button.mouse_entered.connect(play_mana_hover)
-	# Pause the dungeon until a starting buff is chosen
+	for i in choices.size():
+		var card := cards.get_child(i) as Button
+		card.focus_neighbor_left = card.get_path_to(cards.get_child(posmod(i - 1, choices.size())))
+		card.focus_neighbor_right = card.get_path_to(cards.get_child((i + 1) % choices.size()))
 	get_tree().paused = true
+	cards.get_child(0).grab_focus.call_deferred()
+
+func _input(event: InputEvent) -> void:
+	if is_visible_in_tree() and get_tree().paused and event.is_action_pressed(&"escape"):
+		get_viewport().set_input_as_handled()
 
 
-func select_buff(selected_buff: BuffData) -> void:
-	
-	# Prevent choosing more than one buff
-	if selection_made:
+func select_buff(buff: BuffData) -> void:
+	if selection_made or not choices.has(buff):
 		return
-
-	if selected_buff == null:
-		push_error("Selected buff resource is missing.")
+	var level := manager.get_buff_level(buff.buff_id)
+	var applied := manager.add_buff(buff) if level == 0 else manager.upgrade_buff(buff.buff_id)
+	if not applied:
 		return
-
-	# Find the player
-	var player = get_tree().get_first_node_in_group("player")
-
-	if player == null:
-		push_error("Player could not be found.")
-		return
-
-	# Find the player's BuffManager
-	var manager: BuffManager = player.get_node_or_null(
-		"BuffManager"
-	) as BuffManager
-
-	if manager == null:
-		push_error("Player BuffManager could not be found.")
-		return
-
-	# Apply the chosen buff
-	var added: bool = manager.add_buff(selected_buff)
-
-	if not added:
-		push_error("Could not add selected starting buff.")
-		return
-
 	selection_made = true
-
-	print("Starting buff selected: ", selected_buff.buff_name)
-	
-	play_buff_click()
-	
-	#await till sound is played
-	await click_sfx.finished
-
-	# Resume gameplay
-	get_tree().paused = false
-
-	# Close selection menu
-	queue_free()
-# Sound when hovering over Speed Boost
-func play_speed_hover() -> void:
-	speed_sfx.play()
-
-# Sound when hovering over Shield Boost
-func play_shield_hover() -> void:
-	shield_sfx.play()
-
-# Sound when hovering over Mana Regen
-func play_mana_hover() -> void:
-	mana_sfx.play()
-
-# Sound when selecting a buff
-func play_buff_click() -> void:
+	_record_choice()
 	click_sfx.play()
+	await click_sfx.finished
+	get_tree().paused = false
+	queue_free()
+
+func _record_choice() -> void:
+	if clear_options.is_empty():
+		GlobalData.starting_buff_chosen = true
+	else:
+		GlobalData.clear_rewards[get_tree().current_scene.scene_file_path] = "claimed"
+	GlobalData.request_save()

@@ -1,0 +1,32 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/shop_door.gd" id="door"]
+[ext_resource type="Texture2D" path="res://sprites/dungeon_tileset/dungeon_tiles.png" id="tiles"]
+
+[sub_resource type="CircleShape2D" id="range"]
+radius = 11.0
+
+[node name="ShopDoor" type="Area2D"]
+texture_filter = 1
+collision_layer = 0
+monitorable = false
+script = ExtResource("door")
+
+[node name="Stairs" type="Sprite2D" parent="."]
+texture = ExtResource("tiles")
+region_enabled = true
+region_rect = Rect2(80, 192, 16, 16)
+
+[node name="Range" type="CollisionShape2D" parent="."]
+shape = SubResource("range")
+
+[node name="Prompt" type="Label" parent="."]
+visible = false
+z_index = 3
+offset_left = -45.0
+offset_top = -20.0
+offset_right = 45.0
+mouse_filter = 2
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 1
