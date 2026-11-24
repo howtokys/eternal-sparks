@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bo312dwsbuf52"]
+
+[ext_resource type="Script" uid="uid://dbq3gs8ec5owh" path="res://scripts/speed_buff_title.gd" id="1_0a0wc"]
+[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="2_3drmj"]
+[ext_resource type="Texture2D" uid="uid://bgtha1wbh0xmw" path="res://sprites/speed buff.png" id="3_yefx5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fk0ug"]
+shader = ExtResource("2_3drmj")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fk0ug"]
+size = Vector2(16, 16)
+
+[node name="Speed Buff Title" type="Area2D" unique_id=981664990]
+script = ExtResource("1_0a0wc")
+speed_multiplier = 1.3
+duration = 3.0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=302131931]
+material = SubResource("ShaderMaterial_fk0ug")
+texture = ExtResource("3_yefx5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=610591477]
+shape = SubResource("RectangleShape2D_fk0ug")

@@ -18,6 +18,7 @@ radius = 64.0
 radius = 27.0
 
 [node name="Enemy" type="CharacterBody2D" unique_id=353923736 groups=["enemy"]]
+z_index = 1
 collision_layer = 2
 collision_mask = 6
 script = ExtResource("1_qi2p4")

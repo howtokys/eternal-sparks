@@ -35,6 +35,7 @@ size = Vector2(12.125, 9)
 size = Vector2(13, 22)
 
 [node name="Player" type="CharacterBody2D" unique_id=353923736 groups=["player"]]
+z_index = 1
 collision_mask = 2
 script = ExtResource("1_7xf34")
 
@@ -62,7 +63,7 @@ position = Vector2(7, 4)
 data = ExtResource("7_bruh7")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1614490843]
-zoom = Vector2(1.7, 1.7)
+zoom = Vector2(1.005, 1.005)
 position_smoothing_enabled = true
 
 [node name="HealthComponent" type="Node2D" parent="." unique_id=1253734305]

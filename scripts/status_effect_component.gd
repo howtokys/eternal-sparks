@@ -1,6 +1,8 @@
 class_name StatusEffectComponent
 extends Node
 
+const ICE_CRYSTAL = preload("uid://dxeuoxy0h60iu")
+
 signal effect_started(effect_id: StringName, level: int)
 signal effect_ended(effect_id: StringName)
 
@@ -45,6 +47,28 @@ func apply_effect(effect: StatusEffect, source: Node = null) -> void:
 			print("[Status] Instant upgrade ", id, " to level ", data.level)
 
 func _spawn_indicator(effect: StatusEffect) -> void:
+	if effect.id == &"freeze":
+		if indicators.has(effect.id):
+			return
+		
+		var crystal = ICE_CRYSTAL.instantiate()
+		crystal.visible = false
+		crystal.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+		
+		get_parent().add_child(crystal)
+		crystal.global_position = get_parent().global_position + Vector2(3, -6)
+		crystal.reset_physics_interpolation()
+		
+		crystal.modulate.a = 0.9
+		crystal.animation = "freeze"
+		crystal.frame = 0
+		crystal.pause()
+		crystal.visible = true
+		
+		indicators[effect.id] = crystal
+		return
+	
+	# (poison, fire)
 	if not effect.indicator_scene or indicators.has(effect.id):
 		return
 	
@@ -84,7 +108,10 @@ func _process(delta: float) -> void:
 		var effect: StatusEffect = data.resource
 		
 		var source_count = max(data.sources.size(), 1)
-		var speed_multiplier = source_count
+		var speed_multiplier = 1.0
+		
+		if effect.id != &"freeze":
+			speed_multiplier = source_count
 
 		data.tick_timer += delta * speed_multiplier
 
@@ -93,9 +120,12 @@ func _process(delta: float) -> void:
 			data.tick_timer = 0.0
 			data.ticks_done += 1
 			
-			var damage = effect.damage_per_level[data.level]
+			var damage := 0
+			if data.level < effect.damage_per_level.size():
+				damage = effect.damage_per_level[data.level]
+			
 			var target = get_parent()
-			if target.has_method("take_damage"):
+			if damage > 0 and target.has_method("take_damage"):
 				target.take_damage(damage)
 
 		#end level after the set number of ticks
@@ -124,16 +154,41 @@ func _process(delta: float) -> void:
 				to_remove.append(id)
 	
 	for id in to_remove:
-		_remove_indicator(id)
 		active_effects.erase(id)
 		effect_ended.emit(id)
+		_remove_indicator(id)
 
 func _remove_indicator(effect_id: StringName) -> void:
-	if indicators.has(effect_id):
-		var indicator = indicators[effect_id]
+	if not indicators.has(effect_id):
+		return
+	
+	var indicator = indicators[effect_id]
+	indicators.erase(effect_id)
+	
+	if effect_id == &"freeze" and is_instance_valid(indicator):
+		# Keep world position, unparent from player
+		var world_pos = indicator.global_position
+		indicator.get_parent().remove_child(indicator)
+		get_tree().current_scene.add_child(indicator)
+		indicator.global_position = world_pos
+		
+		indicator.frame = 1
+		indicator.z_index = 0
+		indicator.position += Vector2(0, 13)  # optional offset from where they stood
+		
+		await get_tree().create_timer(3.0).timeout
+		
+		if not is_instance_valid(indicator):
+			return
+		
+		var tween = indicator.create_tween()
+		tween.tween_property(indicator, "modulate:a", 0.0, 2.0)
+		await tween.finished
+		
 		if is_instance_valid(indicator):
 			indicator.queue_free()
-		indicators.erase(effect_id)
+	elif is_instance_valid(indicator):
+		indicator.queue_free()
 
 func has_effect(effect_id: StringName) -> bool:
 	return active_effects.has(effect_id)
