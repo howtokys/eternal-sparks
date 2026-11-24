@@ -33,7 +33,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_u3jbi")
 }],
-"loop": true,
+"loop": 1,
 "name": &"spin",
 "speed": 10.0
 }]
