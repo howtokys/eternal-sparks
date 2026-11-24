@@ -64,27 +64,23 @@ func _break_crate(area: Area2D) -> void:
 	if area is Bullet and is_instance_valid(area):
 		area.queue_free()
 	
-	# Spawn pickup
-	if possible_loot.size() > 0:
-		var valid_loot: Array[ItemData] = []
-		for item in possible_loot:
-			if randf() * 100.0 < item.drop_chance_weight:
-				valid_loot.append(item)
-		
-		if valid_loot.size() > 0:
-			var pickup = PICKUP.instantiate()	
-			pickup.visible = false
-			
-			get_tree().current_scene.add_child(pickup)
-			
-			pickup.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
-			pickup.global_position = sprite_2d.global_position
-			pickup.reset_physics_interpolation()
-			pickup.data = valid_loot[randi() % valid_loot.size()]
-			
-			await get_tree().process_frame
-			pickup.visible = true
-	
+	var player := GlobalData.player as DungeonPlayer
+	var level := player.buff_manager.get_buff_level(&"looting") if is_instance_valid(player) else 0
+	var drop := roll_loot(level)
+	if drop != null:
+		var pickup = PICKUP.instantiate()
+		pickup.visible = false
+
+		get_tree().current_scene.add_child(pickup)
+
+		pickup.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+		pickup.global_position = sprite_2d.global_position
+		pickup.reset_physics_interpolation()
+		pickup.data = drop
+
+		await get_tree().process_frame
+		pickup.visible = true
+
 	GlobalData.drop_money(global_position, 0.03) #3%
 	await get_tree().create_timer(0.2).timeout
 	queue_free()
@@ -93,3 +89,13 @@ func break_from_explosion() -> void:
 	if is_broken:
 		return
 	_break_crate(null)
+
+
+func roll_loot(looting: int) -> ItemData:
+	var candidates: Array[ItemData] = []
+	if looting > 0 and randf() < 0.05 * looting:
+		candidates.append(preload("res://Chest_loot/weapon_long_katana.tres"))
+	for item in possible_loot:
+		if randf() * 100.0 < item.drop_chance_weight * (1.0 + 0.35 * looting):
+			candidates.append(item)
+	return candidates.pick_random() if not candidates.is_empty() else null

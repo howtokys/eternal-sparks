@@ -1,0 +1,317 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/torch.gd" id="script"]
+[ext_resource type="Texture2D" path="res://sprites/trader/wall_torch.svg" id="bracket"]
+[ext_resource type="Texture2D" path="res://sprites/effects/fire/11_fire_spritesheet.png" id="fire"]
+
+[sub_resource type="AtlasTexture" id="flame_0"]
+atlas = ExtResource("fire")
+region = Rect2(0, 0, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_1"]
+atlas = ExtResource("fire")
+region = Rect2(200, 0, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_2"]
+atlas = ExtResource("fire")
+region = Rect2(400, 0, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_3"]
+atlas = ExtResource("fire")
+region = Rect2(600, 0, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_4"]
+atlas = ExtResource("fire")
+region = Rect2(0, 100, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_5"]
+atlas = ExtResource("fire")
+region = Rect2(200, 100, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_6"]
+atlas = ExtResource("fire")
+region = Rect2(400, 100, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_7"]
+atlas = ExtResource("fire")
+region = Rect2(600, 100, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_8"]
+atlas = ExtResource("fire")
+region = Rect2(0, 200, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_9"]
+atlas = ExtResource("fire")
+region = Rect2(200, 200, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_10"]
+atlas = ExtResource("fire")
+region = Rect2(400, 200, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_11"]
+atlas = ExtResource("fire")
+region = Rect2(600, 200, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_12"]
+atlas = ExtResource("fire")
+region = Rect2(0, 300, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_13"]
+atlas = ExtResource("fire")
+region = Rect2(200, 300, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_14"]
+atlas = ExtResource("fire")
+region = Rect2(400, 300, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_15"]
+atlas = ExtResource("fire")
+region = Rect2(600, 300, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_16"]
+atlas = ExtResource("fire")
+region = Rect2(0, 400, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_17"]
+atlas = ExtResource("fire")
+region = Rect2(200, 400, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_18"]
+atlas = ExtResource("fire")
+region = Rect2(400, 400, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_19"]
+atlas = ExtResource("fire")
+region = Rect2(600, 400, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_20"]
+atlas = ExtResource("fire")
+region = Rect2(0, 500, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_21"]
+atlas = ExtResource("fire")
+region = Rect2(200, 500, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_22"]
+atlas = ExtResource("fire")
+region = Rect2(400, 500, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_23"]
+atlas = ExtResource("fire")
+region = Rect2(600, 500, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_24"]
+atlas = ExtResource("fire")
+region = Rect2(0, 600, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_25"]
+atlas = ExtResource("fire")
+region = Rect2(200, 600, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_26"]
+atlas = ExtResource("fire")
+region = Rect2(400, 600, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_27"]
+atlas = ExtResource("fire")
+region = Rect2(600, 600, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_28"]
+atlas = ExtResource("fire")
+region = Rect2(0, 700, 100, 100)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="flame_29"]
+atlas = ExtResource("fire")
+region = Rect2(200, 700, 100, 100)
+filter_clip = true
+
+[sub_resource type="SpriteFrames" id="burning"]
+animations = [{
+"frames": [
+{
+"duration": 1.0,
+"texture": SubResource("flame_0")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_1")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_2")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_3")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_4")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_5")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_6")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_7")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_8")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_9")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_10")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_11")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_12")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_13")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_14")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_15")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_16")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_17")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_18")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_19")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_20")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_21")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_22")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_23")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_24")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_25")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_26")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_27")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_28")
+},
+{
+"duration": 1.0,
+"texture": SubResource("flame_29")
+}
+],
+"loop": true,
+"name": &"burn",
+"speed": 12.0
+}]
+
+[sub_resource type="Gradient" id="falloff"]
+offsets = PackedFloat32Array(0, 0.45, 1)
+colors = PackedColorArray(1, 1, 1, 0.9, 1, 1, 1, 0.32, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="light"]
+gradient = SubResource("falloff")
+width = 80
+height = 80
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="Torch" type="Node2D"]
+texture_filter = 1
+script = ExtResource("script")
+
+[node name="Bracket" type="Sprite2D" parent="."]
+texture = ExtResource("bracket")
+
+[node name="Flame" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -8.5)
+scale = Vector2(0.32, 0.32)
+texture_filter = 1
+sprite_frames = SubResource("burning")
+animation = &"burn"
+autoplay = "burn"
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(0, -5)
+color = Color(1, 0.61, 0.3, 1)
+energy = 0.64
+texture = SubResource("light")

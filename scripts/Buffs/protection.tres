@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BuffData" format=3 uid="uid://cs8ltxsbjfqob"]
+
+[ext_resource type="Script" uid="uid://d1g5im1s0vl5" path="res://scripts/Buffs/buff_data.gd" id="data"]
+[ext_resource type="Texture2D" uid="uid://12sffc6h8tml" path="res://sprites/buffs/standard/protection.png" id="icon"]
+
+[resource]
+script = ExtResource("data")
+buff_id = &"protection"
+buff_name = "Protection"
+description = "Per level: +1 shield capacity and faster shield recharge."
+max_level = 3
+shield_bonus_per_level = 1
+buff_icon = ExtResource("icon")

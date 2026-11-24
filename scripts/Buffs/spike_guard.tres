@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BuffData" format=3 uid="uid://e81ljnbnldcr"]
+
+[ext_resource type="Script" uid="uid://d1g5im1s0vl5" path="res://scripts/Buffs/buff_data.gd" id="data"]
+[ext_resource type="Texture2D" uid="uid://crlbkuf0fhlpv" path="res://sprites/buffs/special/spike_guard.png" id="icon"]
+
+[resource]
+script = ExtResource("data")
+buff_id = &"spike_guard"
+buff_name = "How Dare You Touch Me"
+description = "Requires Shockwave. Replace its wave with three stronger cross-shaped spike hits."
+buff_icon = ExtResource("icon")

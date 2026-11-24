@@ -30,6 +30,9 @@ var burn_time_remaining: float = 0.0
 var burn_tick_remaining: float = 0.0
 var slow_time_remaining: float = 0.0
 var recent_damage: int = 0
+var death_handled: bool = false
+var room_path: String
+var spawn_path: String
 
 # Detection areas update these flags as the player enters or leaves each range.
 func _on_detection_body_entered(body: Node2D) -> void:
@@ -44,9 +47,11 @@ func _on_detection_body_exited(body: Node2D) -> void:
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
 	if area is Bullet:
+		if area.hostile:
+			return
 		take_damage(area.damage)  # ← use take_damage so it stacks
 		_apply_weapon_effect(area)
-		area.queue_free()
+		area.hit_enemy(self)
 	elif area.is_in_group("enemy_attack") and "damage" in area:
 		take_damage(area.damage)
 		_apply_weapon_effect(area)
@@ -99,11 +104,19 @@ func attack_player() -> void:
 		return
 
 	print("Enemy attacking player")
-	player_hurt_box.take_damage(1)
+	player.take_damage(contact_damage)
 	attack_timer.start()
 
 # Cache node references and connect gameplay signals once the enemy enters the scene.
 func _ready() -> void:
+	# Authored spawn paths stay stable when a room is instantiated again.
+	if owner != null and owner.get_parent() == get_tree().root:
+		room_path = owner.scene_file_path
+		spawn_path = String(owner.get_path_to(self))
+		if GlobalData.enemy_was_defeated(room_path, spawn_path):
+			hide()
+			queue_free()
+			return
 	player = get_tree().get_first_node_in_group("player")
 
 	# FIXED: Changed from body_entered to area_entered to match Area2D bullets
@@ -115,8 +128,8 @@ func _ready() -> void:
 	detection_radius.body_entered.connect(_on_detection_body_entered)
 	detection_radius.body_exited.connect(_on_detection_body_exited)
 
-	#attack_range.body_entered.connect(_on_attack_body_entered)
-	#attack_range.body_exited.connect(_on_attack_body_exited)
+	attack_range.body_entered.connect(_on_attack_body_entered)
+	attack_range.body_exited.connect(_on_attack_body_exited)
 
 	attack_timer.wait_time = attack_cooldown
 	attack_timer.one_shot = true
@@ -141,9 +154,16 @@ func _update_weapon_effects(delta: float) -> void:
 		slow_time_remaining -= delta
 
 func _on_enemy_died() -> void:
+	if death_handled:
+		return
+	death_handled = true
+	if not room_path.is_empty():
+		GlobalData.record_enemy_defeat(room_path, spawn_path)
+		
 	GlobalData.drop_money(global_position, 1.0) #60% to drop coin
 	GlobalData.drop_mana(global_position, 1.0)  # same 30% chance
 	queue_free()
+	GlobalData.enemy_defeated.emit()
 
 func take_damage(amount: int) -> void:
 	health_component.take_damage(amount)

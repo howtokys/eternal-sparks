@@ -3,6 +3,9 @@ class_name Bullet
 
 @export var speed : int = 400
 @export var damage: int = 1
+@export var hostile := false
+var bounces_left := 0
+var sweep_walls := false
 var target_position: Vector2
 var despawn_time: float = 2.0
 var pierce: int = 0
@@ -11,7 +14,6 @@ var element: String = ""
 var knockback: float = 0.0
 var _data: WeaponData
 const DEFAULT_PROJECTILE_TEXTURE: Texture2D = preload("res://sprites/Bullet.png")
-const ENEMY_SCRIPT: Script = preload("res://scripts/enemy.gd")
 var data: WeaponData:
 	get:
 		return _data
@@ -52,21 +54,74 @@ var data: WeaponData:
 		scale = value.projectile_scale
 
 func _ready() -> void:
+	sweep_walls = bounces_left > 0
+	if hostile:
+		collision_layer = 8
+		collision_mask = 3
 	body_entered.connect(_on_body_entered)
 	area_entered.connect(_on_area_entered)
 	despawn()
 
 func _physics_process(delta: float) -> void:
-	position += target_position * speed * delta
+	var step := target_position * speed * delta
+	if sweep_walls and not step.is_zero_approx():
+		var ray := PhysicsRayQueryParameters2D.create(global_position, global_position + step, 2)
+		var hit := get_world_2d().direct_space_state.intersect_ray(ray)
+		if not hit.is_empty() and _is_wall(hit.collider) and not Vector2(hit.normal).is_zero_approx():
+			if bounces_left == 0:
+				_spawn_impact_burst()
+				queue_free()
+				return
+			target_position = target_position.bounce(hit.normal)
+			rotation = target_position.angle()
+			global_position = hit.position + target_position * 2
+			bounces_left -= 1
+			return
+	position += step
+
+func _is_wall(body: Node) -> bool:
+	return body is TileMapLayer or (body is StaticBody2D and not body.has_method("break_from_explosion"))
+
+func reflect_projectile() -> bool:
+	if not hostile or (data != null and (data.fire_mode == WeaponData.FireMode.BEAM or data.id == "laser_gun")):
+		return false
+	hostile = false
+	target_position = -target_position
+	rotation = target_position.angle()
+	set_deferred("collision_layer", 4)
+	set_deferred("collision_mask", 2)
+	return true
+
+func hit_enemy(enemy: Node2D) -> void:
+	if bounces_left > 0:
+		bounces_left -= 1
+		var normal := enemy.global_position.direction_to(global_position)
+		target_position = target_position.bounce(normal) if not normal.is_zero_approx() else -target_position
+		rotation = target_position.angle()
+	else:
+		_hit()
+
+func _damage_player(player: DungeonPlayer) -> void:
+	if hostile and not is_queued_for_deletion() and is_instance_valid(player):
+		player.take_damage(damage)
+		queue_free()
 
 func _on_body_entered(body: Node2D) -> void:
-	if body.get_script() != ENEMY_SCRIPT:
-		_spawn_impact_burst()
+	if hostile:
+		if body is DungeonPlayer:
+			_damage_player.call_deferred(body)
+		elif _is_wall(body):
+			queue_free()
+		return
+	if body is DungeonPlayer or body.is_in_group("enemy") or (sweep_walls and _is_wall(body)):
+		return
+	_spawn_impact_burst()
 	queue_free()
 
 func _on_area_entered(area: Area2D) -> void:
-	if area.get_parent().get_script() != ENEMY_SCRIPT:
-		_spawn_impact_burst()
+	if hostile or area.get_parent().is_in_group("enemy") or area.get_parent() is DungeonPlayer or area is WeaponHitbox:
+		return
+	_spawn_impact_burst()
 	_hit()
 
 func _spawn_impact_burst() -> void:

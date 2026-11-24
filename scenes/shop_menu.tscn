@@ -1,0 +1,428 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/shop_menu.gd" id="menu"]
+[ext_resource type="Texture2D" path="res://sprites/Gold coin.png" id="coin"]
+[ext_resource type="AudioStream" path="res://menu_hover.wav" id="sfx_hover"]
+[ext_resource type="AudioStream" path="res://menu_click.wav" id="sfx_click"]
+
+[ext_resource type="Script" path="res://scripts/shop_item_data.gd" id="item_type"]
+[ext_resource type="AudioStream" path="res://buff_select_click.wav" id="sfx_purchase"]
+[ext_resource type="AudioStream" path="res://menu_back.wav" id="sfx_error"]
+[ext_resource type="Resource" path="res://scripts/Shop/health_potion.tres" id="health_potion"]
+[ext_resource type="Resource" path="res://scripts/Shop/shield_recharge.tres" id="shield_recharge"]
+[ext_resource type="Resource" path="res://scripts/Shop/mana_potion.tres" id="mana_potion"]
+[ext_resource type="Resource" path="res://scripts/Shop/movement_surge.tres" id="movement_surge"]
+[ext_resource type="Resource" path="res://scripts/Shop/arcane_pact.tres" id="arcane_pact"]
+[ext_resource type="Resource" path="res://scripts/Shop/iron_bargain.tres" id="iron_bargain"]
+
+[ext_resource type="Resource" path="res://scripts/Shop/reflect.tres" id="reflect"]
+[ext_resource type="Resource" path="res://scripts/Shop/spike_guard.tres" id="spike_guard"]
+[ext_resource type="Resource" path="res://scripts/Shop/meteor.tres" id="meteor"]
+[ext_resource type="Resource" path="res://scripts/Shop/reflect_exchange.tres" id="reflect_exchange"]
+
+[sub_resource type="AtlasTexture" id="coin_icon"]
+atlas = ExtResource("coin")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="StyleBoxFlat" id="button_normal"]
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.20, 0.16, 0.18, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(0.44, 0.31, 0.28, 1)
+
+[sub_resource type="StyleBoxFlat" id="button_hover"]
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.36, 0.26, 0.20, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(0.79, 0.53, 0.31, 1)
+
+[sub_resource type="StyleBoxFlat" id="button_pressed"]
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.43, 0.28, 0.17, 1)
+border_width_left = 1
+border_width_top = 2
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.96, 0.65, 0.35, 1)
+
+[sub_resource type="StyleBoxFlat" id="button_disabled"]
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.15, 0.13, 0.16, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(0.29, 0.24, 0.27, 1)
+
+[sub_resource type="StyleBoxFlat" id="pact_normal"]
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.28, 0.17, 0.26, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(0.49, 0.28, 0.40, 1)
+
+[sub_resource type="StyleBoxFlat" id="pact_hover"]
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.39, 0.21, 0.33, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(0.85, 0.47, 0.60, 1)
+
+[sub_resource type="StyleBoxFlat" id="pact_pressed"]
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.45, 0.23, 0.34, 1)
+border_width_left = 1
+border_width_top = 2
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.61, 0.65, 1)
+
+[sub_resource type="StyleBoxFlat" id="focus"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.96, 0.84, 0.62, 1)
+
+[sub_resource type="StyleBoxFlat" id="panel"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 12.0
+bg_color = Color(0.12, 0.095, 0.105, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.55, 0.38, 0.27, 1)
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 5
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="regular_card"]
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.19, 0.145, 0.15, 1)
+border_width_left = 3
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 1
+border_color = Color(0.55, 0.36, 0.23, 1)
+
+[sub_resource type="StyleBoxFlat" id="pact_card"]
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.22, 0.14, 0.22, 1)
+border_width_left = 3
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 1
+border_color = Color(0.65, 0.32, 0.47, 1)
+
+[sub_resource type="StyleBoxFlat" id="wallet"]
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.23, 0.17, 0.13, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.66, 0.44, 0.25, 1)
+
+[sub_resource type="StyleBoxFlat" id="confirmation_panel"]
+content_margin_left = 13.0
+content_margin_right = 13.0
+content_margin_top = 12.0
+content_margin_bottom = 12.0
+bg_color = Color(0.21, 0.12, 0.19, 1)
+border_width_left = 2
+border_width_top = 1
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.69, 0.34, 0.48, 1)
+
+[sub_resource type="StyleBoxFlat" id="feedback_panel"]
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.17, 0.135, 0.155, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.34, 0.25, 0.28, 1)
+
+[sub_resource type="Theme" id="shop_theme"]
+Button/styles/normal = SubResource("button_normal")
+Button/styles/hover = SubResource("button_hover")
+Button/styles/pressed = SubResource("button_pressed")
+Button/styles/focus = SubResource("focus")
+Button/styles/disabled = SubResource("button_disabled")
+Button/colors/font_disabled_color = Color(0.67, 0.61, 0.60, 1)
+Button/colors/font_pressed_color = Color(1, 0.89, 0.69, 1)
+PactButton/base_type = &"Button"
+PactButton/styles/normal = SubResource("pact_normal")
+PactButton/styles/hover = SubResource("pact_hover")
+PactButton/styles/pressed = SubResource("pact_pressed")
+PactButton/colors/font_pressed_color = Color(1, 0.82, 0.89, 1)
+RegularCard/base_type = &"PanelContainer"
+RegularCard/styles/panel = SubResource("regular_card")
+PactCard/base_type = &"PanelContainer"
+PactCard/styles/panel = SubResource("pact_card")
+
+[node name="ShopMenu" type="Control"]
+process_mode = 3
+visible = false
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = SubResource("shop_theme")
+script = ExtResource("menu")
+regular_items = Array[ExtResource("item_type")]([ExtResource("health_potion"), ExtResource("shield_recharge"), ExtResource("mana_potion"), ExtResource("reflect")])
+pacts = Array[ExtResource("item_type")]([ExtResource("movement_surge"), ExtResource("arcane_pact"), ExtResource("iron_bargain"), ExtResource("spike_guard"), ExtResource("meteor"), ExtResource("reflect_exchange")])
+
+[node name="Shade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.05, 0.035, 0.07, 0.20)
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchor_left = 0.08
+anchor_top = 0.055
+anchor_right = 0.92
+anchor_bottom = 0.945
+mouse_filter = 2
+theme_override_styles/panel = SubResource("panel")
+
+[node name="Layout" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 7
+
+[node name="Header" type="HBoxContainer" parent="Panel/Layout"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Panel/Layout/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.96, 0.84, 0.62, 1)
+theme_override_font_sizes/font_size = 20
+text = "Dungeon Shop"
+
+[node name="Wallet" type="PanelContainer" parent="Panel/Layout/Header"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("wallet")
+
+[node name="WalletRow" type="HBoxContainer" parent="Panel/Layout/Header/Wallet"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="CoinIcon" type="TextureRect" parent="Panel/Layout/Header/Wallet/WalletRow"]
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("coin_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CoinBalance" type="Label" parent="Panel/Layout/Header/Wallet/WalletRow"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.83, 0.48, 1)
+theme_override_font_sizes/font_size = 14
+text = "0 coins"
+
+[node name="Browsing" type="VBoxContainer" parent="Panel/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Tabs" type="HBoxContainer" parent="Panel/Layout/Browsing"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="RegularTab" type="Button" parent="Panel/Layout/Browsing/Tabs"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+toggle_mode = true
+button_pressed = true
+text = "Regular Shop"
+
+[node name="MysteriousTab" type="Button" parent="Panel/Layout/Browsing/Tabs"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+toggle_mode = true
+button_pressed = false
+theme_type_variation = &"PactButton"
+text = "Mysterious Shop"
+
+[node name="Contents" type="MarginContainer" parent="Panel/Layout/Browsing"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Inventory" type="ScrollContainer" parent="Panel/Layout/Browsing/Contents"]
+unique_name_in_owner = true
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="Stock" type="VBoxContainer" parent="Panel/Layout/Browsing/Contents/Inventory"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="RegularContents" type="VBoxContainer" parent="Panel/Layout/Browsing/Contents/Inventory/Stock"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MysteriousContents" type="VBoxContainer" parent="Panel/Layout/Browsing/Contents/Inventory/Stock"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Footer" type="HBoxContainer" parent="Panel/Layout/Browsing"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="FeedbackPanel" type="PanelContainer" parent="Panel/Layout/Browsing/Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("feedback_panel")
+
+[node name="Feedback" type="Label" parent="Panel/Layout/Browsing/Footer/FeedbackPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 3
+
+[node name="Back" type="Button" parent="Panel/Layout/Browsing/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(94, 30)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Back"
+
+[node name="Confirmation" type="VBoxContainer" parent="Panel/Layout"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="PactWarning" type="PanelContainer" parent="Panel/Layout/Confirmation"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("confirmation_panel")
+
+[node name="ConfirmationText" type="RichTextLabel" parent="Panel/Layout/Confirmation/PactWarning"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 14
+theme_override_font_sizes/bold_font_size = 20
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+
+[node name="Actions" type="HBoxContainer" parent="Panel/Layout/Confirmation"]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+theme_override_constants/separation = 8
+
+[node name="Cancel" type="Button" parent="Panel/Layout/Confirmation/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(102, 30)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Cancel"
+
+[node name="Confirm" type="Button" parent="Panel/Layout/Confirmation/Actions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(102, 30)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_type_variation = &"PactButton"
+text = "Confirm"
+
+[node name="Hover" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("sfx_hover")
+
+[node name="Click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("sfx_click")
+
+[node name="Purchase" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("sfx_purchase")
+
+[node name="Error" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("sfx_error")

@@ -14,6 +14,7 @@ enum CoinType { BRONZE, SILVER, GOLD }
 var amount: int = 1
 var player: Node2D = null
 var is_attracted: bool = false
+var collected: bool = false
 
 func _ready() -> void:
 	match coin_type:
@@ -29,12 +30,14 @@ func _ready() -> void:
 		
 		CoinType.GOLD:
 			amount = 5
-			if silver_frames:
+			if gold_frames:
 				animated_sprite_2d.sprite_frames = gold_frames
 	animated_sprite_2d.play("spin")
 	body_entered.connect(_on_body_entered)
 
 func _physics_process(delta: float) -> void:
+	if collected:
+		return
 	if not is_instance_valid(player):
 		player = get_tree().get_first_node_in_group("player")
 		return
@@ -49,10 +52,16 @@ func _physics_process(delta: float) -> void:
 		global_position += dir * attract_speed * delta
 		
 		if dist < 8.0:
-			GlobalData.add_money(amount)
-			queue_free()
+			_collect()
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		GlobalData.add_money(amount)
-		queue_free()
+		_collect()
+
+
+func _collect() -> void:
+	if collected:
+		return
+	collected = true
+	GlobalData.add_money(amount)
+	queue_free()

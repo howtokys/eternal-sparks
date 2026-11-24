@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ShopItemData" format=3]
+
+[ext_resource type="Script" path="res://scripts/shop_item_data.gd" id="data"]
+[ext_resource type="Resource" path="res://scripts/Buffs/meteor.tres" id="buff"]
+
+[resource]
+script = ExtResource("data")
+buff = ExtResource("buff")
+kind = 1
+stat = 2
+sacrifice_amount = 30
