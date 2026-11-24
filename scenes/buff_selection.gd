@@ -49,6 +49,11 @@ func _ready() -> void:
 	get_tree().paused = true
 	cards.get_child(0).grab_focus.call_deferred()
 
+func _input(event: InputEvent) -> void:
+	if is_visible_in_tree() and get_tree().paused and event.is_action_pressed(&"escape"):
+		get_viewport().set_input_as_handled()
+
+
 func select_buff(buff: BuffData) -> void:
 	if selection_made or not choices.has(buff):
 		return

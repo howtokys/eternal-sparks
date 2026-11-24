@@ -1,55 +1,40 @@
 [gd_scene format=3]
 
 [ext_resource type="FontFile" path="res://fonts/Minecraftia-Regular.ttf" id="pixel"]
+[ext_resource type="AtlasTexture" path="res://sprites/ui/frames/gold_panel.tres" id="gold_frame"]
 
-[sub_resource type="StyleBoxFlat" id="normal"]
-bg_color = Color(0.13, 0.13, 0.18, 1)
-border_color = Color(0.38, 0.34, 0.40, 1)
-draw_center = true
-border_width_left = 1
-content_margin_left = 8.0
-border_width_top = 1
-content_margin_top = 8.0
-border_width_right = 1
-content_margin_right = 8.0
-border_width_bottom = 1
-content_margin_bottom = 8.0
-[sub_resource type="StyleBoxFlat" id="hover"]
-bg_color = Color(0.19, 0.19, 0.25, 1)
-border_color = Color(0.68, 0.60, 0.47, 1)
-draw_center = true
-border_width_left = 1
-content_margin_left = 8.0
-border_width_top = 1
-content_margin_top = 8.0
-border_width_right = 1
-content_margin_right = 8.0
-border_width_bottom = 1
-content_margin_bottom = 8.0
-[sub_resource type="StyleBoxFlat" id="pressed"]
-bg_color = Color(0.11, 0.12, 0.16, 1)
-border_color = Color(0.92, 0.73, 0.40, 1)
-draw_center = true
-border_width_left = 1
-content_margin_left = 8.0
-border_width_top = 1
-content_margin_top = 8.0
-border_width_right = 1
-content_margin_right = 8.0
-border_width_bottom = 1
-content_margin_bottom = 8.0
-[sub_resource type="StyleBoxFlat" id="focus"]
-bg_color = Color(0, 0, 0, 1)
-border_color = Color(1, 0.81, 0.47, 1)
+[sub_resource type="StyleBoxTexture" id="normal"]
+texture = ExtResource("gold_frame")
+texture_margin_left = 9.0
+texture_margin_right = 9.0
+texture_margin_top = 9.0
+texture_margin_bottom = 9.0
+modulate_color = Color(0.55, 0.53, 0.62, 1)
+
+[sub_resource type="StyleBoxTexture" id="hover"]
+texture = ExtResource("gold_frame")
+texture_margin_left = 9.0
+texture_margin_right = 9.0
+texture_margin_top = 9.0
+texture_margin_bottom = 9.0
+modulate_color = Color(0.81, 0.74, 0.79, 1)
+
+[sub_resource type="StyleBoxTexture" id="pressed"]
+texture = ExtResource("gold_frame")
+texture_margin_left = 9.0
+texture_margin_right = 9.0
+texture_margin_top = 9.0
+texture_margin_bottom = 9.0
+modulate_color = Color(0.43, 0.38, 0.44, 1)
+
+[sub_resource type="StyleBoxTexture" id="focus"]
+texture = ExtResource("gold_frame")
+texture_margin_left = 9.0
+texture_margin_right = 9.0
+texture_margin_top = 9.0
+texture_margin_bottom = 9.0
+modulate_color = Color(1.14, 1.08, 0.84, 1)
 draw_center = false
-border_width_left = 2
-content_margin_left = 0.0
-border_width_top = 2
-content_margin_top = 0.0
-border_width_right = 2
-content_margin_right = 0.0
-border_width_bottom = 2
-content_margin_bottom = 0.0
 
 [node name="BuffChoice" type="Button"]
 texture_filter = 1
@@ -64,10 +49,10 @@ theme_override_styles/focus = SubResource("focus")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 9
-offset_right = -9
-offset_top = 9
-offset_bottom = -9
+offset_left = 11
+offset_right = -11
+offset_top = 12
+offset_bottom = -10
 mouse_filter = 2
 theme_override_constants/separation = 3
 alignment = 0

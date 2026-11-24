@@ -1,0 +1,107 @@
+[gd_scene format=4]
+
+[ext_resource type="Texture2D" path="res://sprites/dungeon_tileset/dungeon_tiles.png" id="tiles"]
+[ext_resource type="Texture2D" path="res://sprites/dungeon_tileset/crate.png" id="crate"]
+[ext_resource type="Texture2D" path="res://sprites/dungeon_tileset/column.png" id="column"]
+[ext_resource type="PackedScene" path="res://scenes/torch.tscn" id="torch"]
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="player"]
+[ext_resource type="PackedScene" path="res://scenes/HUD.tscn" id="hud"]
+[ext_resource type="PackedScene" path="res://scenes/Pause_scene.tscn" id="pause"]
+[ext_resource type="PackedScene" path="res://scenes/shop_door.tscn" id="door"]
+
+[sub_resource type="TileSetAtlasSource" id="atlas"]
+texture = ExtResource("tiles")
+texture_region_size = Vector2i(16, 16)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:4/0 = 0
+1:2/0 = 0
+2:4/0 = 0
+2:2/0 = 0
+3:1/0 = 0
+3:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:1/0 = 0
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="dungeon"]
+tile_size = Vector2i(16, 16)
+physics_layer_0/collision_layer = 2
+physics_layer_0/collision_mask = 0
+sources/0 = SubResource("atlas")
+
+[sub_resource type="RectangleShape2D" id="threshold"]
+size = Vector2(48, 4)
+
+[node name="ShopRoomBase" type="Node2D"]
+texture_filter = 1
+
+[node name="Backdrop" type="Polygon2D" parent="."]
+light_mask = 0
+color = Color(0.055, 0.045, 0.075, 1)
+polygon = PackedVector2Array(-500, -400, 600, -400, 600, 500, -500, 500)
+
+[node name="Dungeon" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD9/wAAAAABAAAAAAD+/wAAAAACAAAAAAD//wAAAAACAAAAAAAAAAAAAAACAAAAAAABAAAAAAACAAAAAAACAAAAAAACAAAAAAADAAAAAAACAAAAAAAEAAAAAAACAAAAAAAFAAAAAAACAAAAAAAGAAAAAAACAAAAAAAHAAAAAAACAAAAAAAIAAAAAAACAAAAAAAJAAAAAAACAAAAAAAKAAAAAAACAAAAAAALAAAAAAACAAAAAAAMAAAAAAACAAAAAAANAAAAAAADAAAAAAD9/wEAAAABAAEAAAD+/wEAAAABAAQAAAD//wEAAAABAAQAAAAAAAEAAAABAAQAAAABAAEAAAABAAQAAAACAAEAAAABAAIAAAADAAEAAAABAAQAAAAEAAEAAAACAAQAAAAFAAEAAAABAAQAAAAGAAEAAAABAAQAAAAHAAEAAAABAAQAAAAIAAEAAAACAAIAAAAJAAEAAAABAAQAAAAKAAEAAAABAAQAAAALAAEAAAABAAQAAAAMAAEAAAABAAQAAAANAAEAAAADAAEAAAD9/wIAAAABAAEAAAD+/wIAAAACAAQAAAD//wIAAAACAAQAAAAAAAIAAAACAAQAAAABAAIAAAACAAQAAAACAAIAAAABAAQAAAADAAIAAAABAAQAAAAEAAIAAAABAAQAAAAFAAIAAAABAAQAAAAGAAIAAAABAAQAAAAHAAIAAAABAAQAAAAIAAIAAAACAAQAAAAJAAIAAAABAAQAAAAKAAIAAAABAAQAAAALAAIAAAABAAQAAAAMAAIAAAABAAQAAAANAAIAAAADAAEAAAD9/wMAAAABAAEAAAD+/wMAAAABAAQAAAD//wMAAAABAAQAAAAAAAMAAAABAAQAAAABAAMAAAABAAQAAAACAAMAAAABAAQAAAADAAMAAAABAAQAAAAEAAMAAAABAAQAAAAFAAMAAAACAAQAAAAGAAMAAAABAAQAAAAHAAMAAAABAAQAAAAIAAMAAAABAAQAAAAJAAMAAAABAAQAAAAKAAMAAAABAAQAAAALAAMAAAABAAQAAAAMAAMAAAABAAQAAAANAAMAAAADAAEAAAD9/wQAAAABAAEAAAD+/wQAAAABAAQAAAD//wQAAAABAAQAAAAAAAQAAAABAAQAAAABAAQAAAABAAQAAAACAAQAAAACAAQAAAADAAQAAAABAAQAAAAEAAQAAAABAAQAAAAFAAQAAAABAAQAAAAGAAQAAAABAAQAAAAHAAQAAAABAAQAAAAIAAQAAAABAAQAAAAJAAQAAAACAAQAAAAKAAQAAAACAAQAAAALAAQAAAACAAQAAAAMAAQAAAACAAQAAAANAAQAAAADAAEAAAD9/wUAAAABAAEAAAD+/wUAAAABAAQAAAD//wUAAAABAAQAAAAAAAUAAAABAAQAAAABAAUAAAABAAQAAAACAAUAAAABAAQAAAADAAUAAAABAAQAAAAEAAUAAAABAAQAAAAFAAUAAAABAAQAAAAGAAUAAAACAAQAAAAHAAUAAAABAAQAAAAIAAUAAAABAAQAAAAJAAUAAAABAAQAAAAKAAUAAAABAAQAAAALAAUAAAABAAQAAAAMAAUAAAABAAQAAAANAAUAAAADAAEAAAD9/wYAAAABAAEAAAD+/wYAAAABAAQAAAD//wYAAAABAAQAAAAAAAYAAAABAAQAAAABAAYAAAABAAQAAAACAAYAAAABAAQAAAADAAYAAAACAAQAAAAEAAYAAAABAAQAAAAFAAYAAAABAAQAAAAGAAYAAAABAAQAAAAHAAYAAAABAAQAAAAIAAYAAAABAAQAAAAJAAYAAAABAAQAAAAKAAYAAAABAAQAAAALAAYAAAABAAQAAAAMAAYAAAABAAQAAAANAAYAAAADAAEAAAD9/wcAAAABAAEAAAD+/wcAAAABAAQAAAD//wcAAAABAAQAAAAAAAcAAAABAAQAAAABAAcAAAABAAQAAAACAAcAAAABAAQAAAADAAcAAAABAAQAAAAEAAcAAAABAAQAAAAFAAcAAAABAAQAAAAGAAcAAAABAAQAAAAHAAcAAAACAAQAAAAIAAcAAAABAAQAAAAJAAcAAAABAAQAAAAKAAcAAAABAAQAAAALAAcAAAABAAQAAAAMAAcAAAABAAQAAAANAAcAAAADAAEAAAD9/wgAAAABAAEAAAD+/wgAAAABAAQAAAD//wgAAAABAAQAAAAAAAgAAAABAAQAAAABAAgAAAABAAQAAAACAAgAAAABAAQAAAADAAgAAAABAAQAAAAEAAgAAAACAAQAAAAFAAgAAAABAAQAAAAGAAgAAAABAAQAAAAHAAgAAAABAAQAAAAIAAgAAAABAAQAAAAJAAgAAAABAAQAAAAKAAgAAAABAAQAAAALAAgAAAABAAQAAAAMAAgAAAABAAQAAAANAAgAAAADAAEAAAD9/wkAAAABAAEAAAD+/wkAAAACAAQAAAD//wkAAAACAAQAAAAAAAkAAAACAAQAAAABAAkAAAACAAQAAAACAAkAAAABAAQAAAADAAkAAAACAAEAAAAEAAkAAAABAAQAAAAFAAkAAAABAAQAAAAGAAkAAAABAAQAAAAHAAkAAAACAAEAAAAIAAkAAAACAAQAAAAJAAkAAAABAAQAAAAKAAkAAAABAAQAAAALAAkAAAABAAQAAAAMAAkAAAABAAQAAAANAAkAAAADAAEAAAD9/woAAAABAAEAAAD+/woAAAACAAEAAAD//woAAAACAAEAAAAAAAoAAAACAAEAAAABAAoAAAACAAEAAAACAAoAAAACAAEAAAADAAoAAAACAAEAAAAEAAoAAAABAAQAAAAFAAoAAAACAAQAAAAGAAoAAAABAAQAAAAHAAoAAAACAAEAAAAIAAoAAAACAAEAAAAJAAoAAAACAAEAAAAKAAoAAAACAAEAAAALAAoAAAACAAEAAAAMAAoAAAACAAEAAAANAAoAAAADAAEAAAA=")
+tile_set = SubResource("dungeon")
+
+[node name="Decor" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="WestColumn" type="Sprite2D" parent="Decor"]
+position = Vector2(-40, 92)
+texture = ExtResource("column")
+
+[node name="EastColumn" type="Sprite2D" parent="Decor"]
+position = Vector2(216, 92)
+texture = ExtResource("column")
+
+[node name="WestTorch" parent="Decor" instance=ExtResource("torch")]
+position = Vector2(-40, 69)
+
+[node name="EastTorch" parent="Decor" instance=ExtResource("torch")]
+position = Vector2(216, 69)
+
+[node name="WestCrate" type="Sprite2D" parent="Decor"]
+position = Vector2(-24, 147)
+texture = ExtResource("crate")
+
+[node name="EastCrate" type="Sprite2D" parent="Decor"]
+position = Vector2(200, 147)
+texture = ExtResource("crate")
+
+[node name="Doorway" parent="." instance=ExtResource("door")]
+position = Vector2(88, 168)
+destination = "res://scenes/First_Room.tscn"
+arrival_marker = NodePath("ShopReturnSpawn")
+use_return_route = true
+
+[node name="Threshold" type="StaticBody2D" parent="Doorway"]
+position = Vector2(0, 10)
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doorway/Threshold"]
+shape = SubResource("threshold")
+
+[node name="RoomCamera" type="Camera2D" parent="."]
+position = Vector2(88, 88)
+zoom = Vector2(1.8, 1.8)
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(85, 140)
+
+[node name="Player" parent="PlayerSpawn" instance=ExtResource("player")]
+
+[node name="CanvasLayer" parent="." instance=ExtResource("hud")]
+
+[node name="PauseLayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="PauseScene" parent="PauseLayer" instance=ExtResource("pause")]
+visible = false

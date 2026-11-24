@@ -43,6 +43,7 @@ scale = Vector2(0.16666667, 0.16666667)
 texture = ExtResource("red_stand")
 
 [node name="ItemIcon" type="TextureRect" parent="."]
+texture_filter = 1
 z_index = 1
 offset_left = -9.0
 offset_top = -19.0

@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://5daivydu6730"]
 
 [ext_resource type="Script" path="res://scripts/hud.gd" id="hud"]
-[ext_resource type="Texture2D" path="res://sprites/Boost-UI/hud_icons.svg" id="hud_icons"]
+[ext_resource type="Texture2D" path="res://sprites/hud/icons/hud_icons.svg" id="hud_icons"]
 
-[ext_resource type="Texture2D" path="res://sprites/Boost-UI/vitals_frame.svg" id="frame_art"]
+[ext_resource type="Texture2D" path="res://sprites/ui/frames/vitals_frame.svg" id="frame_art"]
 
 [sub_resource type="AtlasTexture" id="life"]
 atlas = ExtResource("hud_icons")

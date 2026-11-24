@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="ShopItemData" format=3]
+[gd_resource type="Resource" script_class="ShopItemData" format=3 uid="uid://cxd4fl5f7uwni"]
 
-[ext_resource type="Script" path="res://scripts/shop_item_data.gd" id="1"]
-[ext_resource type="Texture2D" path="res://sprites/Boost-UI/shield.png" id="2"]
+[ext_resource type="Script" uid="uid://nwaswa06nhsq" path="res://scripts/shop_item_data.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://22tppyaivqrs" path="res://sprites/shop/icons/shield.png" id="2"]
 
 [resource]
 script = ExtResource("1")

@@ -1,12 +1,11 @@
-[gd_resource type="Resource" script_class="BuffData" format=3]
+[gd_resource type="Resource" script_class="BuffData" format=3 uid="uid://bgalxgpw375iv"]
 
-[ext_resource type="Script" path="res://scripts/Buffs/buff_data.gd" id="data"]
-[ext_resource type="Texture2D" path="res://sprites/Boost-UI/shield_boost_icon.png" id="icon"]
+[ext_resource type="Script" uid="uid://d1g5im1s0vl5" path="res://scripts/Buffs/buff_data.gd" id="data"]
+[ext_resource type="Texture2D" uid="uid://c8u7wkb8fq7da" path="res://sprites/buffs/standard/reflect.png" id="icon"]
 
 [resource]
 script = ExtResource("data")
 buff_id = &"reflect"
 buff_name = "Reflect"
 description = "Melee strikes return incoming non-laser projectiles."
-max_level = 1
 buff_icon = ExtResource("icon")

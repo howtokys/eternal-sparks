@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="BuffData" format=3]
+[gd_resource type="Resource" script_class="BuffData" format=3 uid="uid://dyv8yeyvx3kba"]
 
-[ext_resource type="Script" path="res://scripts/Buffs/buff_data.gd" id="data"]
-[ext_resource type="Texture2D" path="res://sprites/Health_potion.png" id="icon"]
+[ext_resource type="Script" uid="uid://d1g5im1s0vl5" path="res://scripts/Buffs/buff_data.gd" id="data"]
+[ext_resource type="Texture2D" uid="uid://bfbixf480qfbs" path="res://sprites/buffs/standard/life.png" id="icon"]
 
 [resource]
 script = ExtResource("data")

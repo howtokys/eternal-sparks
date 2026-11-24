@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="BuffData" format=3]
+[gd_resource type="Resource" script_class="BuffData" format=3 uid="uid://cl70n7ayhtd76"]
 
-[ext_resource type="Script" path="res://scripts/Buffs/buff_data.gd" id="data"]
-[ext_resource type="Texture2D" path="res://sprites/trap effect.png" id="icon"]
+[ext_resource type="Script" uid="uid://d1g5im1s0vl5" path="res://scripts/Buffs/buff_data.gd" id="data"]
+[ext_resource type="Texture2D" uid="uid://vov18rpgwrk" path="res://sprites/buffs/standard/shockwave.png" id="icon"]
 
 [resource]
 script = ExtResource("data")

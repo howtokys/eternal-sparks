@@ -51,12 +51,16 @@ func description() -> String:
 	return "Restores up to %d %s." % [restore_amount, RESTORE_UNITS[stat]]
 
 
+func is_pact() -> bool:
+	return kind == Kind.PACT or (kind == Kind.WEAPON and sacrifice_amount > 0)
+
+
 func cost_text() -> String:
 	if not trade_buff.is_empty():
 		return "Trade Reflect (no maximum stat loss)"
 	if discount_percent > 0:
 		return "%d coins (was %d, %d%% off)" % [price(), coin_cost, discount_percent]
-	if kind == Kind.PACT:
+	if is_pact():
 		return "Permanent cost: -%d max %s" % [sacrifice_amount, STAT_NAMES[stat]]
 	return "%d coins" % coin_cost
 
@@ -91,6 +95,8 @@ func purchase_error(player: DungeonPlayer) -> String:
 		for held in player.weapon_slots:
 			if held != null and held.id == weapon.id:
 				return "Already equipped."
+		if is_pact():
+			return "" if player.can_sacrifice_stat(stat, sacrifice_amount) else "Must keep at least %s." % _minimum_text()
 	elif restore_amount <= 0:
 		return "Item unavailable."
 	if price() <= 0:
@@ -114,9 +120,12 @@ func purchase(player: DungeonPlayer, drop_position := Vector2.INF) -> String:
 			elif not player.apply_shop_pact(buff, stat, sacrifice_amount):
 				return "Pact unavailable."
 		Kind.WEAPON, Kind.NORMAL_BUFF, Kind.RESTORATION:
-			if not GlobalData.try_spend_money(price()):
+			if is_pact():
+				if not player.apply_weapon_pact(weapon, stat, sacrifice_amount, drop_position):
+					return "Pact unavailable."
+			elif not GlobalData.try_spend_money(price()):
 				return "Not enough coins."
-			if not is_instance_valid(player) or player.is_queued_for_deletion() or not _grant_coin_item(player, drop_position):
+			elif not is_instance_valid(player) or player.is_queued_for_deletion() or not _grant_coin_item(player, drop_position):
 				GlobalData.add_money(price())
 				return "Item could not be used."
 	GlobalData.request_save()

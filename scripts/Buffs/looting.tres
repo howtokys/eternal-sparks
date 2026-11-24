@@ -1,11 +1,7 @@
-[gd_resource type="Resource" script_class="BuffData" format=3]
+[gd_resource type="Resource" script_class="BuffData" format=3 uid="uid://bnkn5t5em03np"]
 
-[ext_resource type="Script" path="res://scripts/Buffs/buff_data.gd" id="data"]
-[ext_resource type="Texture2D" path="res://sprites/Gold coin.png" id="icon"]
-
-[sub_resource type="AtlasTexture" id="frame"]
-atlas = ExtResource("icon")
-region = Rect2(0, 0, 16, 16)
+[ext_resource type="Script" uid="uid://d1g5im1s0vl5" path="res://scripts/Buffs/buff_data.gd" id="data"]
+[ext_resource type="Texture2D" uid="uid://ci31jr578uqo5" path="res://sprites/buffs/standard/looting.png" id="icon"]
 
 [resource]
 script = ExtResource("data")
@@ -13,4 +9,4 @@ buff_id = &"looting"
 buff_name = "Looting"
 description = "Improves potion drops and unlocks weapon drops from crates."
 max_level = 3
-buff_icon = SubResource("frame")
+buff_icon = ExtResource("icon")

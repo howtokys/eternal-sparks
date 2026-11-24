@@ -6,6 +6,7 @@ const PACT_COLOR := Color("#ff9eb9")
 @export var offer: ShopItemData
 ## Use a unique ID for this position in the dungeon to retain the sale across room loads.
 @export var stock_id: StringName
+@export var prompt_name: String
 @export var prompt_offset := Vector2(0, -33)
 
 @onready var item_icon: TextureRect = $ItemIcon
@@ -30,6 +31,15 @@ func _ready() -> void:
 		return
 
 	$PromptAnchor.position = prompt_offset
+	_refresh_art()
+	if GlobalData.is_shop_stock_sold(stock_id):
+		_show_sold()
+
+
+func _refresh_art() -> void:
+	item_icon.offset_left = -9
+	item_icon.offset_right = 9
+	item_icon.offset_top = -19
 	item_icon.texture = offer.display_icon()
 	if offer.kind == ShopItemData.Kind.WEAPON and item_icon.texture:
 		var art := AtlasTexture.new()
@@ -38,14 +48,12 @@ func _ready() -> void:
 		item_icon.texture = art
 		item_icon.offset_left = -13
 		item_icon.offset_right = 13
-		item_icon.position.y += 5
-	price.text = offer.cost_text().trim_prefix("Permanent cost: ")
-	if offer.kind == ShopItemData.Kind.PACT:
+		item_icon.offset_top = -14
+	price.text = _cost_tag() if offer.is_pact() else offer.cost_text()
+	if offer.is_pact():
 		price.modulate = PACT_COLOR
 		wooden_stand.hide()
 		pact_altar.show()
-	if GlobalData.is_shop_stock_sold(stock_id):
-		_show_sold()
 
 
 func _notification(what: int) -> void:
@@ -55,7 +63,7 @@ func _notification(what: int) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not event.is_action_pressed(&"interact") or sold or purchasing or offer == null:
+	if not is_visible_in_tree() or not event.is_action_pressed(&"interact") or sold or purchasing or offer == null:
 		return
 	if not is_instance_valid(nearby_player) or nearby_player.is_queued_for_deletion():
 		return
@@ -64,7 +72,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	get_viewport().set_input_as_handled()
 
-	if offer.kind == ShopItemData.Kind.PACT and not armed:
+	if offer.is_pact() and not armed:
 		var failure := offer.purchase_error(nearby_player)
 		if not failure.is_empty():
 			_show_error(failure)
@@ -106,11 +114,9 @@ func _show_prompt() -> void:
 		return
 	prompt.add_theme_color_override("font_color", PACT_COLOR if armed else Color.WHITE)
 	if armed:
-		var cost := "Trade Reflect" if not offer.trade_buff.is_empty() else "-%d Max %s" % [
-			offer.sacrifice_amount, ShopItemData.STAT_NAMES[offer.stat].capitalize()]
-		prompt.text = "%s\n[E] Confirm" % cost
+		prompt.text = "%s\n[E] Confirm" % _cost_tag()
 	else:
-		prompt.text = "[E] %s" % offer.display_name()
+		prompt.text = "[E] %s" % (offer.display_name() if prompt_name.is_empty() or offer.kind == ShopItemData.Kind.WEAPON else prompt_name)
 		if offer.kind == ShopItemData.Kind.WEAPON:
 			prompt.text += "\n%s | %s" % [offer.description(), "Equip" if nearby_player.weapon_slots.has(null) else "Swap"]
 
@@ -132,3 +138,18 @@ func _show_error(message: String) -> void:
 	prompt.text = message
 	prompt.add_theme_color_override("font_color", Color("#ffc49d"))
 	error_sfx.play()
+
+
+func change_offer(replacement: ShopItemData) -> void:
+	if sold or purchasing or offer == replacement:
+		return
+	armed = false
+	offer = replacement
+	_refresh_art()
+	_show_prompt()
+
+
+func _cost_tag() -> String:
+	if not offer.trade_buff.is_empty():
+		return "Trade Reflect"
+	return "-%d Max %s" % [offer.sacrifice_amount, ["HP", "Shield", "Mana"][offer.stat]]

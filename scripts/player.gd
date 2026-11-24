@@ -475,7 +475,23 @@ func apply_shop_pact(buff: BuffData, stat: Stat, amount: int) -> bool:
 	if not can_sacrifice_stat(stat, amount) or not buff_manager.can_add_buff(buff):
 		return false
 
-	# Commit the sacrifice before BuffManager notifies the player and HUD.
+	_commit_sacrifice(stat, amount)
+	return buff_manager.add_buff(buff)
+
+
+func apply_weapon_pact(weapon: WeaponData, stat: Stat, amount: int, drop_position: Vector2) -> bool:
+	if weapon == null or not can_sacrifice_stat(stat, amount):
+		return false
+	for held in weapon_slots:
+		if held != null and held.id == weapon.id:
+			return false
+	_commit_sacrifice(stat, amount)
+	_update_effective_stats(false)
+	equip_weapon(weapon, drop_position)
+	return true
+
+
+func _commit_sacrifice(stat: Stat, amount: int) -> void:
 	match stat:
 		Stat.HEALTH:
 			health_sacrifice += amount
@@ -483,7 +499,6 @@ func apply_shop_pact(buff: BuffData, stat: Stat, amount: int) -> bool:
 			shield_sacrifice += amount
 		Stat.MANA:
 			mana_sacrifice += amount
-	return buff_manager.add_buff(buff)
 
 
 func _on_buff_added(_buff: BuffData) -> void:

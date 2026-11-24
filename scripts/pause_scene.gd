@@ -2,22 +2,17 @@ extends Control
 
 @onready var hover_sfx: AudioStreamPlayer = $Hover
 @onready var click_sfx: AudioStreamPlayer = $Click
-@onready var pause_buttons: PanelContainer = $PanelContainer
-@onready var resume_button: Button = $PanelContainer/VBoxContainer/Button
-@onready var shop_button: Button = $PanelContainer/VBoxContainer/Shop
-@onready var restart_button: Button = $PanelContainer/VBoxContainer/Button2
-@onready var quit_button: Button = $PanelContainer/VBoxContainer/Button3
-@onready var shop_menu = $ShopMenu
+@onready var resume_button: Button = %Resume
+@onready var restart_button: Button = %Restart
+@onready var quit_button: Button = %Quit
 
 var owns_pause: bool = false
 var leaving_scene: bool = false
 
 
 func _ready() -> void:
-	for button: Button in [resume_button, shop_button, restart_button, quit_button]:
+	for button: Button in [resume_button, restart_button, quit_button]:
 		button.mouse_entered.connect(play_hover_sfx)
-	shop_button.pressed.connect(_shop_pressed)
-	shop_menu.back_requested.connect(_return_from_shop)
 	hide()
 
 
@@ -30,9 +25,7 @@ func _input(event: InputEvent) -> void:
 	get_viewport().set_input_as_handled()
 	if leaving_scene:
 		return
-	if shop_menu.visible:
-		shop_menu.request_back()
-	elif owns_pause:
+	if owns_pause:
 		resume()
 	else:
 		pause()
@@ -43,7 +36,6 @@ func resume() -> void:
 		return
 	owns_pause = false
 	get_tree().paused = false
-	$AnimationPlayer.play_backwards("pause_blur")
 	hide()
 
 
@@ -53,27 +45,8 @@ func pause() -> void:
 	owns_pause = true
 	show()
 	get_tree().paused = true
-	$AnimationPlayer.play("pause_blur")
 	resume_button.call_deferred("grab_focus")
 	GlobalData.request_save()
-
-
-func _shop_pressed() -> void:
-	if not owns_pause or leaving_scene:
-		return
-	play_click_sfx()
-	pause_buttons.hide()
-	$PauseFrame.hide()
-	$Spiderweb.hide()
-	shop_menu.open()
-
-
-func _return_from_shop() -> void:
-	shop_menu.hide()
-	pause_buttons.show()
-	$PauseFrame.show()
-	$Spiderweb.show()
-	shop_button.call_deferred("grab_focus")
 
 
 func play_hover_sfx() -> void:
@@ -100,10 +73,10 @@ func _restart_pressed() -> void:
 
 	GlobalData.start_new_run()
 	resume()
-	var result := get_tree().reload_current_scene()
+	var result := get_tree().change_scene_to_file("res://scenes/First_Room.tscn")
 	if result != OK:
 		leaving_scene = false
-		push_error("Could not restart the current scene: %s" % error_string(result))
+		push_error("Could not restart the run: %s" % error_string(result))
 
 
 func _quit_pressed() -> void:

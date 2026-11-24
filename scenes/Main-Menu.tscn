@@ -11,10 +11,10 @@
 [ext_resource type="Texture2D" uid="uid://dbigfb6kq6a35" path="res://sprites/Main-ui/title_frame.png" id="8_40ee3"]
 [ext_resource type="Script" uid="uid://dd1j800gqtc4n" path="res://scripts/settings_menu.gd" id="10_2j1qy"]
 [ext_resource type="Texture2D" uid="uid://dfy8fjqw6tsew" path="res://sprites/Main-ui/crystal_emblem.png" id="10_kle1k"]
-[ext_resource type="Texture2D" uid="uid://ctjk5tvnd2jst" path="res://sprites/Main-ui/settings.png" id="10_pgwnv"]
-[ext_resource type="Texture2D" uid="uid://dbejjepguuwf4" path="res://sprites/Main-ui/master_volume_icon.png" id="11_2j1qy"]
+[ext_resource type="Texture2D" uid="uid://ctjk5tvnd2jst" path="res://sprites/Main-ui/icons/settings.png" id="10_pgwnv"]
+[ext_resource type="Texture2D" uid="uid://dbejjepguuwf4" path="res://sprites/Main-ui/icons/master_volume_icon.png" id="11_2j1qy"]
 [ext_resource type="Texture2D" uid="uid://nmcfyjc3l1vn" path="res://sprites/Main-ui/divider.png" id="11_h7lvb"]
-[ext_resource type="Texture2D" uid="uid://bmh41yde2o574" path="res://sprites/Main-ui/music_volume_icon.png" id="12_vtt1y"]
+[ext_resource type="Texture2D" uid="uid://bmh41yde2o574" path="res://sprites/Main-ui/icons/music_volume_icon.png" id="12_vtt1y"]
 [ext_resource type="AudioStream" uid="uid://ctuar7kq0oro7" path="res://menu_hover.wav" id="16_8sq5u"]
 [ext_resource type="AudioStream" uid="uid://b2locg3j02rw2" path="res://menu_click.wav" id="16_vtt1y"]
 

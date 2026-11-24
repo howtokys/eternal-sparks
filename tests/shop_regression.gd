@@ -2,6 +2,7 @@ extends Node
 
 const FIRST_ROOM = "res://scenes/First_Room.tscn"
 const SHOP_ROOM = "res://scenes/shop_room.tscn"
+const MYSTERIOUS_ROOM = "res://scenes/mysterious_shop_room.tscn"
 const WORLD = "res://scenes/World.tscn"
 const MAIN_MENU = "res://scenes/Main-Menu.tscn"
 const TEST_SAVE_PATH = "user://shop_regression_save.json"
@@ -77,7 +78,82 @@ func offer(list: VBoxContainer, slot: int) -> Button:
 	return list.get_child(slot).get_node("Row/Action") as Button
 
 
+func _test_buff_icons() -> void:
+	var buffs := BuffManager.CLEAR_POOL.duplicate()
+	buffs.append_array([preload("res://scripts/Buffs/movement_surge.tres"),
+		preload("res://scripts/Buffs/spike_guard.tres"), preload("res://scripts/Buffs/meteor.tres")])
+	var textures := {}
+	for buff: BuffData in buffs:
+		var icon := buff.buff_icon
+		var folder := "standard" if BuffManager.CLEAR_POOL.has(buff) else "special"
+		var expected_path := "res://sprites/buffs/%s/%s.png" % [folder, buff.buff_id]
+		check(icon != null and icon.resource_path == expected_path
+			and icon.get_size() == Vector2(16, 16) and not textures.has(icon), "%s has distinct 16px Raven artwork" % buff.buff_name)
+		textures[icon] = true
+
+func _test_texture_dependencies() -> void:
+	var pending: Array[String] = [MAIN_MENU, FIRST_ROOM, SHOP_ROOM, MYSTERIOUS_ROOM,
+		"res://scenes/HUD.tscn", "res://scenes/BuffSelection.tscn", "res://scenes/buff_choice_card.tscn",
+		"res://scenes/Pause_scene.tscn", "res://scenes/shop_pedestal.tscn"]
+	for buff: BuffData in BuffManager.KNOWN_BUFFS + BuffManager.CLEAR_POOL:
+		pending.append(buff.resource_path)
+
+	var seen := {}
+	var broken: PackedStringArray = []
+	var texture_count := 0
+	while not pending.is_empty():
+		var resource_path: String = pending.pop_back()
+		if seen.has(resource_path):
+			continue
+		seen[resource_path] = true
+		for dependency: String in ResourceLoader.get_dependencies(resource_path):
+			# Text resources report a UID and fallback path, or just the path.
+			var path: String = dependency.get_slice("::", dependency.get_slice_count("::") - 1)
+			match path.get_extension().to_lower():
+				"tscn", "tres", "gd":
+					pending.append(path)
+				"png", "svg", "webp", "jpg", "jpeg":
+					texture_count += 1
+					if not FileAccess.file_exists(path) or not ResourceLoader.exists(path, "Texture2D"):
+						if not broken.has(path):
+							broken.append(path)
+	check(texture_count > 0 and broken.is_empty(), "active buffs, HUD, menus and rooms have no broken texture paths (%d references checked) %s"
+		% [texture_count, ", ".join(broken)])
+
+
+func _test_torch_scene() -> void:
+	var torch := preload("res://scenes/torch.tscn").instantiate()
+	add_child(torch)
+	var flame := torch.get_node("Flame") as AnimatedSprite2D
+	var frames := flame.sprite_frames
+	var count := frames.get_frame_count(&"burn")
+	var valid := count > 1
+	for i in count:
+		var frame := frames.get_frame_texture(&"burn", i) as AtlasTexture
+		valid = valid and frame != null and frame.atlas != null and frame.atlas.resource_path == "res://sprites/effects/fire/11_fire_spritesheet.png"
+		valid = valid and frame.get_image().get_used_rect().has_area()
+	check(valid and flame.is_playing() and frames.get_animation_loop(&"burn")
+		and is_equal_approx(frames.get_animation_speed(&"burn"), 12.0)
+		and flame.texture_filter == CanvasItem.TEXTURE_FILTER_NEAREST, "torch autoplays valid fire frames at 12 FPS with nearest filtering")
+	torch.free()
+
+
+func _test_room_torches(room: Node2D, light_color: Color) -> void:
+	var valid := true
+	for side in ["WestTorch", "EastTorch"]:
+		var torch := room.get_node("Decor/" + side)
+		var flame := torch.get_node("Flame") as AnimatedSprite2D
+		var glow := torch.get_node("Glow") as PointLight2D
+		valid = valid and flame.is_visible_in_tree() and flame.is_playing() and glow.enabled and glow.color.is_equal_approx(light_color)
+		valid = valid and room.get_viewport_rect().has_point(flame.get_global_transform_with_canvas().origin)
+		valid = valid and torch.find_children("*", "CollisionObject2D", true, false).is_empty()
+	check(valid, "%s has two visible, lit wall torches without collision" % room.name)
+
+
 func _run() -> void:
+	_test_torch_scene()
+	_test_buff_icons()
+	_test_texture_dependencies()
 	var tree := get_tree()
 	var root := tree.root
 	reparent(root)
@@ -85,7 +161,7 @@ func _run() -> void:
 	GlobalData.save_path = TEST_SAVE_PATH
 	GlobalData.start_new_run()
 	# Use a test-specific save even when launched with F6 in the editor.
-	tree.create_timer(20.0).timeout.connect(func():
+	tree.create_timer(45.0).timeout.connect(func():
 		push_error("Shop regression timed out.")
 		tree.quit(1))
 	print("Shop regression window: ", root.size)
@@ -103,12 +179,28 @@ func _run() -> void:
 	var health := player.health_component
 	var manager := player.buff_manager
 	var pause := room.get_node("PauseLayer/PauseScene")
-	var shop := pause.shop_menu as Control
+
 	key(KEY_ESCAPE)
 	await settle()
-	click(pause.shop_button)
+	check(tree.paused and pause.resume_button.has_focus() and pause.find_child("ShopMenu", true, false) == null, "pause opens with Resume focused and no shop shortcut")
+	var panel := pause.get_node("Center/Panel") as PanelContainer
+	var pause_frame := panel.get_theme_stylebox("panel") as StyleBoxTexture
+	var atlas := pause_frame.texture as AtlasTexture
+	var states := {}
+	for state in ["normal", "hover", "focus", "pressed"]:
+		var style := pause.resume_button.get_theme_stylebox(state) as StyleBoxTexture
+		if style != null and style.texture is AtlasTexture:
+			states[style.texture.region] = true
+	check(atlas != null and atlas.atlas.resource_path == "res://sprites/ui/ui_big_pieces.png"
+		and states.size() == 4 and pause.texture_filter == CanvasItem.TEXTURE_FILTER_NEAREST
+		and panel.mouse_filter == Control.MOUSE_FILTER_IGNORE,
+		"pause panel and four distinct button states use nearest-filtered pixel-art atlas slices")
+	key(KEY_DOWN)
+	check(pause.restart_button.has_focus(), "pause navigation moves from Resume to Restart")
+	click(pause.resume_button)
+	var shop := _open_shop_fixture(room)
 	await settle()
-	check(shop.visible and tree.paused and shop.regular_tab.has_focus(), "Phase 1 pause and shop focus are preserved")
+	check(shop.visible and tree.paused and shop.regular_tab.has_focus(), "standalone shop focuses Regular while paused")
 	check(shop.get_viewport_rect().encloses(shop.get_node("Panel").get_global_rect()), "shop panel fits the viewport")
 	check(shop.regular_contents.get_child_count() == shop.regular_items.size() and shop.mysterious_contents.get_child_count() == shop.pacts.size(), "both categories build a card for every resource-backed offer")
 	var first_icon := hud.weapon_slot_1.get_node("Icon") as TextureRect
@@ -245,12 +337,16 @@ func _run() -> void:
 	check(not player.can_sacrifice_stat(DungeonPlayer.Stat.MANA, 111) and player.can_sacrifice_stat(DungeonPlayer.Stat.MANA, 110), "mana floor is 50")
 	key(KEY_ESCAPE)
 	await settle()
-	check(tree.paused and pause.shop_button.has_focus() and not shop.visible, "Back after purchases still restores pause focus")
+	check(not shop.visible and not tree.paused, "Back closes the standalone shop")
+	key(KEY_ESCAPE)
+	await settle()
 	key(KEY_ESCAPE)
 	check(not tree.paused, "Resume still works")
 	await _test_checkpoint(room, player, starting_id)
 	await _test_legacy_saves()
 	await _test_coins_and_combat()
+	await _test_fallback_pacts()
+	await _test_trader_exchange()
 	await _test_pedestals()
 	await _test_new_game_and_restart()
 	await _test_combat_buffs()
@@ -507,14 +603,15 @@ func _test_pedestals() -> void:
 		"the corridor enters the shop at its south spawn")
 	var regular := room.get_node("DungeonTrader/HealthPedestal")
 	var shield := room.get_node("DungeonTrader/ShieldPedestal")
-	var pact := room.get_node("DungeonTrader/PactPedestal")
+	_test_room_torches(room, Color(1, 0.61, 0.30))
+	check(not room.has_node("MysteriousTrader") and not room.has_node("DungeonTrader/PactPedestal") and _row_fits([regular, shield, room.get_node("ManaPedestal"), room.get_node("ShotgunPedestal"), room.get_node("KatanaPedestal")], false), "regular shop contains five blue coin stands in one clear row")
 	var hud := room.get_node("CanvasLayer")
 	await _approach_pedestal(shield)
 	var hit := KinematicCollision2D.new()
 	check(player.test_move(player.global_transform, Vector2.UP * 60, hit)
 			and hit.get_collider() == room.get_node("DungeonTrader/Counter"), "the wooden counter blocks the player")
 	await _approach_pedestal(regular)
-	check(regular.prompt.visible and regular.price.text == "20 coins" and pact.price.text == "-1 max shield",
+	check(regular.prompt.visible and regular.price.text == "20 coins" and shield.price.text == "15 coins",
 		"proximity shows the offer prompt alongside the coin and sacrifice labels")
 	key(KEY_E)
 	check(not regular.sold and regular.error_sfx.playing and regular.prompt.text.contains("full"),
@@ -537,11 +634,36 @@ func _test_pedestals() -> void:
 	check(shield.sold and GlobalData.money == 15 and player.current_shield == 4
 			and hud.shield_bar.value == 4, "the shield pedestal uses the shared shop purchase and HUD updates")
 
+	await _use_shop_door("Doorway")
+	await _use_shop_door("PactEntrance")
+	room = tree.current_scene
+	player = GlobalData.player
+	hud = room.get_node("CanvasLayer")
+	_test_room_torches(room, Color(1, 0.28, 0.44))
+	check(room.scene_file_path == MYSTERIOUS_ROOM and not room.has_node("DungeonTrader"), "First Room pact stairs enter a separate special chamber")
+	var pact := room.get_node("PactPedestal")
+	var pact_icon := pact.get_node("ItemIcon") as TextureRect
+	check(pact_icon.texture == pact.offer.buff.buff_icon and pact_icon.texture_filter == CanvasItem.TEXTURE_FILTER_NEAREST
+		and pact_icon.stretch_mode == TextureRect.STRETCH_KEEP_ASPECT_CENTERED, "pact pedestal shows the buff artwork with crisp proportional scaling")
+	var trader := room.get_node("MysteriousTrader") as AnimatedSprite2D
+	var pose := trader.sprite_frames.get_frame_texture(&"idle", 0) as AtlasTexture
+	check(trader.is_playing() and pose.atlas.resource_path == "res://sprites/trader/mysterious_trader_idle.png" and trader.texture_filter == CanvasItem.TEXTURE_FILTER_NEAREST and pact.pact_altar.visible, "animated Mysterious Trader uses the supplied pixel art beside the red pact stock")
+	player.buff_manager.clear_buffs()
+	var spike := room.get_node("SpikePedestal")
+	var meteor := room.get_node("MeteorPedestal")
+	check(_row_fits([pact, spike, meteor], true) and spike.visible and spike.offer.weapon != null and spike.price.text == "-1 Max HP" and meteor.offer.sacrifice_amount == 30, "all three red stands are stocked with Shockwave locked; center offers a weapon for HP")
+	player.buff_manager.add_buff(preload("res://scripts/Buffs/shockwave.tres"))
+	player.buff_manager.add_buff(preload("res://scripts/Buffs/reflect.tres"))
+	await _approach_pedestal(spike)
+	check(_row_fits([pact, spike, meteor], true), "all three red sacrifice labels fit in a single spaced row")
+	check(spike.visible and spike.offer.buff.buff_id == &"spike_guard" and spike.offer.sacrifice_amount == 1 and trader.get_node("Greeting").visible and meteor.offer.trade_buff == &"reflect", "approaching the corner reveals the greeting, unlocked Spike Guard and Reflect exchange")
+	player.buff_manager.clear_buffs()
+	check(spike.offer.weapon != null and meteor.offer.sacrifice_amount == 30, "removing prerequisites restores the standard Meteor offer")
 	await _approach_pedestal(pact)
 	player.buff_manager.add_buff(pact.offer.buff)
 	key(KEY_E)
-	check(not pact.armed and not pact.sold and pact.prompt.text == "Already owned."
-			and player.shield_sacrifice == 0, "a pact acquired elsewhere cannot be purchased at the pedestal")
+	check(pact.armed and not pact.sold and pact.offer.weapon != null and pact.prompt.text.contains("Confirm")
+			and player.shield_sacrifice == 0, "an externally acquired pact is replaced by a weapon requiring fresh confirmation")
 	player.buff_manager.clear_buffs()
 	key(KEY_E)
 	check(pact.armed and not pact.sold and pact.prompt.text == "-1 Max Shield\n[E] Confirm"
@@ -593,6 +715,15 @@ func _test_pedestals() -> void:
 	var stock: Dictionary = _read_checkpoint().get("sold_shop_stock", {})
 	check(stock.size() == 3 and stock.get("first_room.movement_surge") == true,
 		"all three sales are recorded in the run checkpoint")
+	await _continue_from_menu()
+	check(get_tree().current_scene.get_node("PactPedestal").sold, "Continue inside the pact chamber preserves the Movement Surge sale")
+	await _use_shop_door("Doorway")
+	room = tree.current_scene
+	check(room.scene_file_path == FIRST_ROOM and GlobalData.player.global_position == room.get_node("PactReturnSpawn").position, "saved pact exit returns to its own entrance marker")
+	await _use_shop_door("ShopEntrance")
+	room = tree.current_scene
+	player = GlobalData.player
+	hud = room.get_node("CanvasLayer")
 	var shotgun_stand := room.get_node("ShotgunPedestal")
 	var katana_stand := room.get_node("KatanaPedestal")
 	await _approach_pedestal(shotgun_stand)
@@ -631,7 +762,7 @@ func _test_pedestals() -> void:
 	await _continue_from_menu()
 	room = tree.current_scene
 	check(room.get_node("DungeonTrader/HealthPedestal").sold and room.get_node("DungeonTrader/ShieldPedestal").sold
-			and room.get_node("DungeonTrader/PactPedestal").sold and GlobalData.money == 15,
+			and GlobalData.is_shop_stock_sold(&"first_room.movement_surge") and GlobalData.money == 15,
 		"Continue restores sold stock and the remaining balance")
 	check(room.get_node("ShotgunPedestal").sold and room.get_node("KatanaPedestal").sold
 			and GlobalData.player.gun.data.id == "long_katana" and GlobalData.player.weapon_slots[1].id == "shotgun",
@@ -739,6 +870,18 @@ func _test_new_game_and_restart() -> void:
 		var effect := card.get_node("Content/Effect") as Label
 		fits = fits and effect.text == buff.description and card.get_global_rect().encloses(effect.get_global_rect())
 	check(seen.size() == 3 and fits, "three distinct normal buff cards show their icon, name, status and effect inside the viewport")
+	var modal := picker.get_node("Center/Panel") as PanelContainer
+	var modal_frame := modal.get_theme_stylebox("panel") as StyleBoxTexture
+	var first_card := picker.cards.get_child(0) as Button
+	var atlas_styles := {}
+	for state in ["normal", "hover", "pressed", "focus"]:
+		var style := first_card.get_theme_stylebox(state) as StyleBoxTexture
+		if style != null and style.texture == modal_frame.texture:
+			atlas_styles[style.modulate_color] = true
+	check(atlas_styles.size() == 4 and picker.texture_filter == CanvasItem.TEXTURE_FILTER_NEAREST
+		and first_card.texture_filter == CanvasItem.TEXTURE_FILTER_NEAREST
+		and not (first_card.get_theme_stylebox("focus") as StyleBoxTexture).draw_center,
+		"buff modal and four card states share a nearest-filtered atlas frame with outline-only focus")
 	key(KEY_RIGHT)
 	check(picker.cards.get_child(1).has_focus(), "keyboard navigation moves to the second buff card")
 	key(KEY_ENTER)
@@ -761,15 +904,12 @@ func _test_combat_buffs() -> void:
 	var player := GlobalData.player as DungeonPlayer
 	var manager := player.buff_manager
 	var room := tree.current_scene
-	var shop := room.get_node("PauseLayer/PauseScene").shop_menu as Control
+	var shop := _open_shop_fixture(room)
 	manager.clear_buffs() # Test pact prerequisites independently of the random starter.
 	var spike := preload("res://scripts/Shop/spike_guard.tres")
 	var meteor := preload("res://scripts/Shop/meteor.tres")
 	var reflect := preload("res://scripts/Shop/reflect.tres")
 	var trade := preload("res://scripts/Shop/reflect_exchange.tres")
-	var pause_ui := room.get_node("PauseLayer/PauseScene")
-	pause_ui.pause()
-	pause_ui.shop_button.pressed.emit()
 	shop.mysterious_tab.pressed.emit()
 	check(not shop.mysterious_contents.get_child(3).visible and not spike.purchase(player).is_empty(),
 		"Spike Guard is hidden and rejected without Shockwave")
@@ -779,7 +919,6 @@ func _test_combat_buffs() -> void:
 	check(shop.mysterious_contents.get_child(3).visible and spike.purchase(player).is_empty()
 			and player.health_sacrifice == 1, "Shockwave unlocks Spike Guard for one maximum HP")
 	shop.request_back()
-	pause_ui.resume()
 	var enemy := room.get_node("Floor/Enemy") as CharacterBody2D
 	enemy.global_position = player.global_position + Vector2(32, 0)
 	enemy.set_physics_process(false)
@@ -1107,20 +1246,113 @@ func _test_screen_mode() -> void:
 		var popup := selector.get_popup()
 		await get_tree().create_timer(0.25).timeout
 		var bounds := popup.get_visible_rect().size
-		var point := Vector2(bounds.x / 2, bounds.y * (row + 0.5) / selector.item_count)
+		var local_point := Vector2(bounds.x / 2, bounds.y * (row + 0.5) / selector.item_count)
+		var point := window.get_screen_transform().affine_inverse() * (popup.get_screen_transform() * local_point)
 		var motion := InputEventMouseMotion.new()
 		motion.position = point
-		popup.push_input(motion, true)
-		print('TRACE ', row, ' open ',popup.visible, ' bounds ',bounds,' point ',point,' focused ', popup.get_focused_item())
+		window.push_input(motion, true)
 		for down: bool in [true, false]:
 			var press := InputEventMouseButton.new()
 			press.position = point
+			press.global_position = point
 			press.button_index = MOUSE_BUTTON_LEFT
 			press.pressed = down
-			popup.push_input(press, true)
+			window.push_input(press, true)
 		await get_tree().create_timer(1.1).timeout
-		print('TRACE selected ',selector.selected,' caption ',selector.text,' window ',window.mode,' open ',popup.visible)
 		var label := selector.get_item_text(row)
 		var expected := DisplayServer.WINDOW_MODE_FULLSCREEN if label == "Fullscreen" else DisplayServer.WINDOW_MODE_WINDOWED
 		check(not popup.visible and selector.text == label and selector.selected == row and DisplayServer.window_get_mode(window.get_window_id()) == expected, "clicking %s keeps both the visible caption and native mode after the acknowledgement timeout" % label)
 	window.mode = original_mode
+
+func _open_shop_fixture(room: Node) -> Control:
+	var shop := preload("res://scenes/shop_menu.tscn").instantiate()
+	room.get_node("PauseLayer").add_child(shop)
+	get_tree().paused = true
+	shop.back_requested.connect(func():
+		shop.hide()
+		get_tree().paused = false
+	)
+	shop.open()
+	return shop
+
+func _test_trader_exchange() -> void:
+	GlobalData.start_new_run()
+	await load_room(MYSTERIOUS_ROOM)
+	var room := get_tree().current_scene
+	var player := GlobalData.player as DungeonPlayer
+	var spike := room.get_node("SpikePedestal")
+	var meteor := room.get_node("MeteorPedestal")
+	player.buff_manager.add_buff(preload("res://scripts/Buffs/shockwave.tres"))
+	await _approach_pedestal(spike)
+	key(KEY_E)
+	check(spike.armed and player.health_sacrifice == 0, "the unlocked Spike Guard stand asks before charging HP")
+	key(KEY_E)
+	check(spike.sold and player.health_sacrifice == 1 and player.buff_manager.get_buff_level(&"spike_guard") == 1, "confirming Spike Guard pays one max HP")
+	player.buff_manager.add_buff(preload("res://scripts/Buffs/reflect.tres"))
+	await _approach_pedestal(meteor)
+	key(KEY_E)
+	check(meteor.armed and meteor.prompt.text.contains("Trade Reflect"), "the Meteor stand confirms the Reflect payment explicitly")
+	key(KEY_E)
+	await settle()
+	check(meteor.sold and player.mana_sacrifice == 0 and player.buff_manager.get_buff_level(&"reflect") == 0 and player.buff_manager.get_buff_level(&"meteor") == 1, "the physical Reflect exchange grants Meteor without a mana sacrifice")
+	await _continue_from_menu()
+	check(get_tree().current_scene.get_node("MeteorPedestal").sold and get_tree().current_scene.get_node("SpikePedestal").sold, "Continue restores both red stands as sold")
+	key(KEY_ESCAPE)
+	await settle()
+	click(get_tree().current_scene.get_node("PauseLayer/PauseScene").restart_button)
+	await get_tree().scene_changed
+	await settle()
+	check(get_tree().current_scene.scene_file_path == FIRST_ROOM and _run_is_fresh(GlobalData.player) and GlobalData.return_room_path.is_empty() and GlobalData.sold_shop_stock.is_empty(), "Restart from the pact chamber clears both shops and starts at the first room")
+	await choose_starter()
+
+func _row_fits(stands: Array, red: bool) -> bool:
+	var previous_end := -INF
+	for stand: Area2D in stands:
+		var price_rect: Rect2 = stand.get_node("Price").get_global_rect()
+		# Label controls can be wider than the centered text they draw.
+		var label := stand.get_node("Price") as Label
+		var width := label.get_theme_font("font").get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, label.get_theme_font_size("font_size")).x
+		var left := price_rect.get_center().x - width / 2
+		if left <= previous_end or stand.global_position.y != stands[0].global_position.y or stand.get_node("PactAltar").visible != red:
+			return false
+		previous_end = left + width
+	return true
+
+
+func _use_shop_door(door_name: String) -> void:
+	var tree := get_tree()
+	var door := tree.current_scene.get_node(door_name) as Area2D
+	var player := GlobalData.player as DungeonPlayer
+	player.global_position = door.global_position - player.get_node("CollisionShape2D").position
+	await _wait_for_physics()
+	key(KEY_E)
+	await tree.scene_changed
+	await settle()
+
+func _test_fallback_pacts() -> void:
+	GlobalData.start_new_run()
+	await load_room(MYSTERIOUS_ROOM)
+	var room := get_tree().current_scene
+	var player := GlobalData.player as DungeonPlayer
+	var left := room.get_node("PactPedestal")
+	var center := room.get_node("SpikePedestal")
+	var right := room.get_node("MeteorPedestal")
+	player.buff_manager.add_buff(left.offer.buff)
+	player.buff_manager.add_buff(right.offer.buff)
+	check(left.offer.weapon != null and center.offer.weapon != null and right.offer.weapon != null and left.offer.weapon != center.offer.weapon and center.offer.weapon != right.offer.weapon and left.offer.weapon != right.offer.weapon, "three distinct pact weapons replace owned or locked buffs")
+	await _approach_pedestal(center)
+	key(KEY_E)
+	var first_weapon: WeaponData = center.offer.weapon
+	check(center.armed and center.prompt.text.contains("-1 Max HP") and player.health_sacrifice == 0, "fallback weapon previews the permanent cost before equipping")
+	key(KEY_E)
+	check(center.sold and player.weapon_slots[1] == first_weapon and player.health_sacrifice == 1 and GlobalData.money == 0, "confirmed fallback fills the open slot for max HP")
+	await _approach_pedestal(left)
+	var replacement: WeaponData = left.offer.weapon
+	key(KEY_E)
+	key(KEY_E)
+	var drops := room.get_children().filter(func(node): return node.scene_file_path == "res://scenes/pickup.tscn")
+	check(left.sold and player.weapon_slots[1] == replacement and player.shield_sacrifice == 1 and drops.size() == 1 and drops[0].data.weapon_data == first_weapon, "second fallback swaps the active weapon and drops its predecessor")
+	await settle()
+	await _continue_from_menu()
+	room = get_tree().current_scene
+	check(room.get_node("SpikePedestal").sold and room.get_node("PactPedestal").sold and not room.get_node("MeteorPedestal").sold and GlobalData.player.weapon_slots[1] == replacement and GlobalData.player.health_sacrifice == 1, "Continue preserves fallback sales, equipment and permanent cost")

@@ -1,0 +1,8 @@
+[gd_resource type="AtlasTexture" format=3]
+
+[ext_resource type="Texture2D" path="res://sprites/ui/ui_big_pieces.png" id="sheet"]
+
+[resource]
+atlas = ExtResource("sheet")
+region = Rect2(30, 288, 40, 40)
+filter_clip = true

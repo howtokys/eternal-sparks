@@ -1,7 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/shop_door.gd" id="door"]
-[ext_resource type="Texture2D" path="res://sprites/DungeonTilesetII/dungeon_tiles.png" id="tiles"]
+[ext_resource type="Texture2D" path="res://sprites/dungeon_tileset/dungeon_tiles.png" id="tiles"]
 
 [sub_resource type="CircleShape2D" id="range"]
 radius = 11.0

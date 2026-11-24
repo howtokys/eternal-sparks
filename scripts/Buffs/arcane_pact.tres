@@ -1,13 +1,12 @@
-[gd_resource type="Resource" script_class="BuffData" format=3]
+[gd_resource type="Resource" script_class="BuffData" format=3 uid="uid://cao1v2vkddx22"]
 
-[ext_resource type="Script" path="res://scripts/Buffs/buff_data.gd" id="1"]
-[ext_resource type="Texture2D" path="res://sprites/Boost-UI/mana_regen_icon.png" id="2"]
+[ext_resource type="Script" uid="uid://d1g5im1s0vl5" path="res://scripts/Buffs/buff_data.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cy6v36u2blc8w" path="res://sprites/buffs/legacy/mana_regen_icon.png" id="2"]
 
 [resource]
 script = ExtResource("1")
 buff_id = &"arcane_pact"
 buff_name = "Arcane Pact"
 description = "Regenerate 5 extra mana per second."
-max_level = 1
 mana_regen_bonus_per_level = 5
 buff_icon = ExtResource("2")

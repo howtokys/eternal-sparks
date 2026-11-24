@@ -65,6 +65,12 @@ func open() -> void:
 	regular_tab.call_deferred("grab_focus")
 
 
+func _input(event: InputEvent) -> void:
+	if is_visible_in_tree() and event.is_action_pressed("escape") and not event.is_echo():
+		get_viewport().set_input_as_handled()
+		request_back()
+
+
 func request_back() -> void:
 	click_sfx.play()
 	if confirmation.visible:

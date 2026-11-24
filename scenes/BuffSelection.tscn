@@ -2,22 +2,22 @@
 
 [ext_resource type="Script" path="res://scenes/buff_selection.gd" id="script"]
 [ext_resource type="FontFile" path="res://fonts/Minecraftia-Regular.ttf" id="pixel"]
-[ext_resource type="Texture2D" path="res://sprites/DungeonTilesetII/dungeon_tiles.png" id="tiles"]
+[ext_resource type="Texture2D" path="res://sprites/dungeon_tileset/dungeon_tiles.png" id="tiles"]
+[ext_resource type="AtlasTexture" path="res://sprites/ui/frames/gold_panel.tres" id="gold_frame"]
 [ext_resource type="AudioStream" path="res://menu_hover.wav" id="hover"]
 [ext_resource type="AudioStream" path="res://buff_select_click.wav" id="click"]
 
-[sub_resource type="StyleBoxFlat" id="panel"]
-bg_color = Color(0.085, 0.08, 0.115, 1)
-border_color = Color(0.54, 0.41, 0.28, 1)
-draw_center = true
-border_width_left = 2
-content_margin_left = 12.0
-border_width_top = 2
-content_margin_top = 12.0
-border_width_right = 2
-content_margin_right = 12.0
-border_width_bottom = 2
-content_margin_bottom = 12.0
+[sub_resource type="StyleBoxTexture" id="panel"]
+texture = ExtResource("gold_frame")
+texture_margin_left = 9.0
+texture_margin_right = 9.0
+texture_margin_top = 9.0
+texture_margin_bottom = 9.0
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 14.0
+content_margin_bottom = 16.0
+modulate_color = Color(0.78, 0.70, 0.79, 1)
 
 [sub_resource type="AtlasTexture" id="banner"]
 atlas = ExtResource("tiles")
@@ -29,13 +29,14 @@ texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 script = ExtResource("script")
 
 [node name="Shade" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-color = Color(0.028, 0.022, 0.045, 0.78)
+color = Color(0.065, 0.05, 0.09, 0.68)
 
 [node name="Center" type="CenterContainer" parent="."]
 anchor_right = 1.0
@@ -66,6 +67,8 @@ mouse_filter = 2
 theme_override_fonts/font = ExtResource("pixel")
 theme_override_font_sizes/font_size = 16
 theme_override_colors/font_color = Color(1, 0.84, 0.58, 1)
+theme_override_colors/font_outline_color = Color(0.12, 0.09, 0.12, 1)
+theme_override_constants/outline_size = 3
 text = "Choose a starting buff"
 
 [node name="RightBanner" type="TextureRect" parent="Center/Panel/Body/Header"]

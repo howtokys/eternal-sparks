@@ -14,6 +14,8 @@ var is_loading_save: bool = false
 # Player data to save/load
 var saved_position: Vector2 = Vector2.ZERO
 var has_saved_position: bool = false
+var return_room_path := ""
+var return_spawn_id := ""
 var saved_scene_path: String = ""
 var starting_buff_chosen: bool = false
 var run_player_state: Dictionary = {}
@@ -52,6 +54,8 @@ func start_new_run() -> void:
 	saved_position = Vector2.ZERO
 	has_saved_position = false
 	saved_scene_path = ""
+	return_room_path = ""
+	return_spawn_id = ""
 	starting_buff_chosen = false
 	run_player_state.clear()
 	sold_shop_stock.clear()
@@ -166,6 +170,8 @@ func save_game() -> void:
 		"pos_x": saved_position.x,
 		"pos_y": saved_position.y,
 		"scene": saved_scene_path,
+		"return_room_path": return_room_path,
+		"return_spawn_id": return_spawn_id,
 		"money": money,
 		"starting_buff_chosen": starting_buff_chosen,
 		"sold_shop_stock": sold_shop_stock,
@@ -205,6 +211,10 @@ func load_save_data() -> bool:
 	var position := Vector2(read_number(data, "pos_x", NAN), read_number(data, "pos_y", NAN))
 	has_saved_position = position.is_finite()
 	saved_position = position if has_saved_position else Vector2.ZERO
+	var origin: Variant = data.get("return_room_path")
+	var spawn: Variant = data.get("return_spawn_id")
+	return_room_path = origin if origin is String else ""
+	return_spawn_id = spawn if spawn is String else ""
 	var scene_path: Variant = data.get("scene")
 	saved_scene_path = scene_path if scene_path is String else ""
 	starting_buff_chosen = data.get("starting_buff_chosen", false) == true

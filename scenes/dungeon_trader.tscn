@@ -3,9 +3,8 @@
 [ext_resource type="PackedScene" path="res://scenes/shop_pedestal.tscn" id="13_shop_pedestal"]
 [ext_resource type="Resource" path="res://scripts/Shop/health_potion.tres" id="14_shop_health"]
 [ext_resource type="Resource" path="res://scripts/Shop/shield_recharge.tres" id="15_shop_shield"]
-[ext_resource type="Resource" path="res://scripts/Shop/movement_surge.tres" id="16_shop_pact"]
 
-[ext_resource type="Texture2D" path="res://sprites/DungeonTilesetII/floor_5.png" id="stall_floor"]
+[ext_resource type="Texture2D" path="res://sprites/dungeon_tileset/floor_5.png" id="stall_floor"]
 [ext_resource type="Texture2D" path="res://sprites/trader/trader_idle.png" id="trader"]
 
 [ext_resource type="Texture2D" path="res://sprites/trader/Npc_Trader_shop_big.webp" id="booth"]
@@ -121,16 +120,11 @@ text = "Dungeon Trader"
 horizontal_alignment = 1
 
 [node name="HealthPedestal" parent="." instance=ExtResource("13_shop_pedestal")]
-position = Vector2(-48, 75)
+position = Vector2(-96, 75)
 offer = ExtResource("14_shop_health")
 stock_id = &"first_room.health_potion"
 
 [node name="ShieldPedestal" parent="." instance=ExtResource("13_shop_pedestal")]
-position = Vector2(0, 75)
+position = Vector2(-48, 75)
 offer = ExtResource("15_shop_shield")
 stock_id = &"first_room.shield_recharge"
-
-[node name="PactPedestal" parent="." instance=ExtResource("13_shop_pedestal")]
-position = Vector2(48, 75)
-offer = ExtResource("16_shop_pact")
-stock_id = &"first_room.movement_surge"

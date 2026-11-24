@@ -1,7 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scenes/game_over.gd" id="script"]
-[ext_resource type="Texture2D" path="res://sprites/Boost-UI/vitals_frame.svg" id="frame"]
+[ext_resource type="Texture2D" path="res://sprites/ui/frames/vitals_frame.svg" id="frame"]
 
 [ext_resource type="Texture2D" path="res://scenes/background_concept.png" id="dungeon"]
 
