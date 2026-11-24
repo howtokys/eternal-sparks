@@ -220,7 +220,7 @@ func _run() -> void:
 	var health_buy := offer(shop.regular_contents, 0)
 	var shield_buy := offer(shop.regular_contents, 1)
 	var mana_buy := offer(shop.regular_contents, 2)
-	check(hud.health_value.text == "6/6" and hud.shield_value.text == "5/5" and hud.mana_value.text == "200/200",
+	check(hud.health_value.text == "6/6" and hud.shield_value.text == "5/5" and hud.mana_value.text == "100/100",
 		"HUD starts with exact current and maximum values")
 	var centered := true
 	for label: Label in [hud.health_value, hud.shield_value, hud.mana_value]:
@@ -239,7 +239,12 @@ func _run() -> void:
 	health.take_damage(4)
 	player.take_damage(4)
 	check(hud.health_warning.visible and hud.shield_warning.visible, "HP at the quarter-cap threshold and one shield show both warnings while paused")
-	player.use_mana(100)
+	check(player.use_mana(100) and not player.use_mana(1), "mana spending cannot overdraw the 100-mana pool")
+	player._process(0.70)
+	check(player.current_mana == 0, "mana regeneration waits for the post-shot delay")
+	player._process(0.25)
+	check(is_equal_approx(player.current_mana, 1.0), "mana regenerates at five per second after the delay")
+	player.restore_mana(49)
 	GlobalData.add_money(1)
 	check(health_buy.disabled and health_buy.tooltip_text.contains("19 more"), "unaffordable item is disabled with missing balance")
 	click(health_buy)
@@ -261,13 +266,13 @@ func _run() -> void:
 	check(GlobalData.money == 65 and player.current_shield == 4 and hud.shield_bar.value == 4, "Shield Recharge restores 3 shield for 15 coins")
 	check(not hud.health_warning.visible and not hud.shield_warning.visible, "healing and recharging hide each warning while paused")
 	click(mana_buy)
-	check(GlobalData.money == 50 and player.current_mana == 120 and hud.mana_bar.value == 120 and hud.mana_value.text == "120/200" and hud.shield_value.text == "4/5" and hud.health_value.text == "5/6", "Mana Potion restores 20 mana for 15 coins")
+	check(GlobalData.money == 50 and player.current_mana == 70 and hud.mana_bar.value == 70 and hud.mana_value.text == "70/100" and hud.shield_value.text == "4/5" and hud.health_value.text == "5/6", "Mana Potion restores 20 mana for 15 coins")
 	await tree.create_timer(0.37).timeout
-	check(player.restore_mana(71.0), "mana restored on request below cap")
+	check(player.restore_mana(21.0), "mana restored on request below cap")
 	click(health_buy)
 	click(shield_buy)
 	click(mana_buy)
-	check(GlobalData.money == 0 and health.current_health == 6 and player.current_shield == 5 and player.current_mana == 200, "all three restorations clamp to their effective maximums")
+	check(GlobalData.money == 0 and health.current_health == 6 and player.current_shield == 5 and player.current_mana == 100, "all three restorations clamp to their effective maximums")
 	check(health_buy.disabled and shield_buy.disabled and mana_buy.disabled and tree.paused, "full-item purchases disable immediately while paused")
 	await settle()
 
@@ -312,7 +317,7 @@ func _run() -> void:
 	click(iron)
 	await settle()
 	click(shop.confirm_button)
-	check(player.max_mana == 160 and player.current_mana == 160 and hud.mana_bar.max_value == 160 and hud.mana_bar.value == 160, "Iron Bargain immediately clamps mana and HUD")
+	check(player.max_mana == 80 and player.current_mana == 80 and hud.mana_bar.max_value == 80 and hud.mana_bar.value == 80, "Iron Bargain immediately clamps mana and HUD")
 	check(player.max_shield == 7 and player.current_shield == 7 and hud.shield_bar.max_value == 7 and GlobalData.money == 0 and hud.buff_list.get_child_count() == 4, "Iron Bargain adds 3 shield without spending coins and all 3 pacts appear in HUD")
 	await settle()
 	var frame := hud.get_node("StatusRow/StatFrame") as PanelContainer
@@ -326,7 +331,8 @@ func _run() -> void:
 			and icon.size.y == 23 and first.get_child(1).get_theme_font_size("font_size") == 10 and icon.texture_filter == CanvasItem.TEXTURE_FILTER_NEAREST,
 		"paused buff HUD wraps beside the stat frame with compact pixel icons and clears the weapon slots")
 	var pact_checkpoint := _read_checkpoint()
-	check(pact_checkpoint.get("mana_sacrifice") == 40 and pact_checkpoint.get("mana") == 160
+	check(pact_checkpoint.get("mana_sacrifice") == 20 and pact_checkpoint.get("mana") == 80
+			and pact_checkpoint.get("base_max_mana") == 100
 			and pact_checkpoint.get("buffs", []).size() == 4,
 		"pact checkpoints its sacrifice, affected current stat, and buff")
 
@@ -334,7 +340,7 @@ func _run() -> void:
 	check(manager.add_buff(normal_shield) and player.max_shield == 9 and manager.upgrade_buff(normal_shield.buff_id) and player.max_shield == 11, "normal buff upgrades preserve the separate shield sacrifice")
 	check(not player.can_sacrifice_stat(DungeonPlayer.Stat.SHIELD, 4) and player.can_sacrifice_stat(DungeonPlayer.Stat.SHIELD, 3), "shield floor ignores bonus capacity and permits the exact floor")
 	check(not player.can_sacrifice_stat(DungeonPlayer.Stat.HEALTH, 4) and player.can_sacrifice_stat(DungeonPlayer.Stat.HEALTH, 3), "health floor is 2")
-	check(not player.can_sacrifice_stat(DungeonPlayer.Stat.MANA, 111) and player.can_sacrifice_stat(DungeonPlayer.Stat.MANA, 110), "mana floor is 50")
+	check(not player.can_sacrifice_stat(DungeonPlayer.Stat.MANA, 31) and player.can_sacrifice_stat(DungeonPlayer.Stat.MANA, 30), "mana floor is 50")
 	key(KEY_ESCAPE)
 	await settle()
 	check(not shop.visible and not tree.paused, "Back closes the standalone shop")
@@ -394,17 +400,17 @@ func _test_checkpoint(room: Node, player: DungeonPlayer, starting_id: StringName
 	await settle()
 	player.health_component.take_damage(2)
 	player.take_damage(player.current_shield - 2)
-	player.use_mana(80)
+	player.use_mana(40)
 	var saved_position := player.global_position
 	GlobalData.add_money(21)
 	await settle()
 	var checkpoint := _read_checkpoint()
 	check(checkpoint.get("money") == 21 and checkpoint.get("health") == 3
-			and checkpoint.get("shield") == 2 and checkpoint.get("mana") == 80,
+			and checkpoint.get("shield") == 2 and checkpoint.get("mana") == 40,
 		"pickup checkpoint stores balance and live HP, shield, and mana")
 	check(checkpoint.get("scene") == FIRST_ROOM and checkpoint.get("buffs", []).size() == 5
 			and checkpoint.get("health_sacrifice") == 1 and checkpoint.get("shield_sacrifice") == 1
-			and checkpoint.get("mana_sacrifice") == 40,
+			and checkpoint.get("mana_sacrifice") == 20,
 		"checkpoint stores the scene, buff IDs and levels, and all sacrifices")
 	check(float(checkpoint.get("shield_recharge_remaining", 0)) > 0
 			and is_equal_approx(float(checkpoint.get("mana_regen_delay", 0)), 0.75),
@@ -414,8 +420,8 @@ func _test_checkpoint(room: Node, player: DungeonPlayer, starting_id: StringName
 	player = GlobalData.player as DungeonPlayer
 	check(tree.current_scene.scene_file_path == FIRST_ROOM and player.global_position.is_equal_approx(saved_position),
 		"Continue opens the saved room and position")
-	check(player.health_component.current_health == 3 and player.current_shield == 2 and player.current_mana == 80
-			and player.health_component.max_health == 5 and player.max_shield == 11 and player.max_mana == 160,
+	check(player.health_component.current_health == 3 and player.current_shield == 2 and player.current_mana == 40
+			and player.health_component.max_health == 5 and player.max_shield == 11 and player.max_mana == 80,
 		"Continue derives effective caps before restoring current values without a shield refill")
 	check(GlobalData.money == 21 and player.shield_timer.time_left > 0
 			and player.buff_manager.get_buff_level(&"shield_boost") == 2,
@@ -425,7 +431,7 @@ func _test_checkpoint(room: Node, player: DungeonPlayer, starting_id: StringName
 	await load_room(WORLD)
 	player = GlobalData.player as DungeonPlayer
 	check(player.health_component.current_health == 2 and player.max_shield == 11 and player.current_shield == 2
-			and player.mana_sacrifice == 40 and GlobalData.money == 21 and player.shield_timer.time_left > 0
+			and player.mana_sacrifice == 20 and GlobalData.money == 21 and player.shield_timer.time_left > 0
 			and player.buff_manager.get_buff_level(&"movement_surge") == 1,
 		"scene replacement carries live state newer than the last checkpoint")
 	check(not player.global_position.is_equal_approx(saved_position) and not tree.paused
@@ -448,7 +454,7 @@ func _test_legacy_saves() -> void:
 	var player := GlobalData.player as DungeonPlayer
 	check(tree.current_scene.scene_file_path == WORLD and player.global_position.is_equal_approx(old_position)
 			and player.health_component.current_health == 6 and player.current_shield == 5
-			and player.current_mana == 200 and GlobalData.money == 0 and player.buff_manager.get_active_buffs().is_empty(),
+			and player.current_mana == 100 and GlobalData.money == 0 and player.buff_manager.get_active_buffs().is_empty(),
 		"legacy save restores coordinates and defaults absent shop fields")
 	var picker := tree.current_scene.get_node("LevelUI/PauseLayer/BuffSelection")
 	picker.select_buff(picker.choices[0])
@@ -478,7 +484,7 @@ func _test_legacy_saves() -> void:
 	await _continue_from_menu()
 	player = GlobalData.player as DungeonPlayer
 	check(player.health_component.current_health == 5 and player.current_shield == 7
-			and player.current_mana == 160 and player.buff_manager.get_active_buffs().size() == 1
+			and player.current_mana == 80 and player.buff_manager.get_active_buffs().size() == 1
 			and player.buff_manager.get_buff_level(&"iron_bargain") == 1,
 		"load clamps stats and levels, and ignores duplicate or unknown buff IDs")
 	check(tree.paused and tree.current_scene.has_node("LevelUI/PauseLayer/BuffSelection"), "Continue prompts for an outstanding First Room starting choice")
@@ -651,14 +657,14 @@ func _test_pedestals() -> void:
 	player.buff_manager.clear_buffs()
 	var spike := room.get_node("SpikePedestal")
 	var meteor := room.get_node("MeteorPedestal")
-	check(_row_fits([pact, spike, meteor], true) and spike.visible and spike.offer.weapon != null and spike.price.text == "-1 Max HP" and meteor.offer.sacrifice_amount == 30, "all three red stands are stocked with Shockwave locked; center offers a weapon for HP")
+	check(_row_fits([pact, spike, meteor], true) and spike.visible and spike.offer.weapon != null and spike.price.text == "-1 Max HP" and meteor.offer.sacrifice_amount == 15, "all three red stands are stocked with Shockwave locked; center offers a weapon for HP")
 	player.buff_manager.add_buff(preload("res://scripts/Buffs/shockwave.tres"))
 	player.buff_manager.add_buff(preload("res://scripts/Buffs/reflect.tres"))
 	await _approach_pedestal(spike)
 	check(_row_fits([pact, spike, meteor], true), "all three red sacrifice labels fit in a single spaced row")
 	check(spike.visible and spike.offer.buff.buff_id == &"spike_guard" and spike.offer.sacrifice_amount == 1 and trader.get_node("Greeting").visible and meteor.offer.trade_buff == &"reflect", "approaching the corner reveals the greeting, unlocked Spike Guard and Reflect exchange")
 	player.buff_manager.clear_buffs()
-	check(spike.offer.weapon != null and meteor.offer.sacrifice_amount == 30, "removing prerequisites restores the standard Meteor offer")
+	check(spike.offer.weapon != null and meteor.offer.sacrifice_amount == 15, "removing prerequisites restores the standard Meteor offer")
 	await _approach_pedestal(pact)
 	player.buff_manager.add_buff(pact.offer.buff)
 	key(KEY_E)
@@ -816,7 +822,7 @@ func _test_new_game_and_restart() -> void:
 
 	player.apply_shop_pact(preload("res://scripts/Buffs/movement_surge.tres"), DungeonPlayer.Stat.SHIELD, 1)
 	player.apply_shop_pact(preload("res://scripts/Buffs/arcane_pact.tres"), DungeonPlayer.Stat.HEALTH, 1)
-	player.apply_shop_pact(preload("res://scripts/Buffs/iron_bargain.tres"), DungeonPlayer.Stat.MANA, 40)
+	player.apply_shop_pact(preload("res://scripts/Buffs/iron_bargain.tres"), DungeonPlayer.Stat.MANA, 20)
 	GlobalData.add_money(17)
 	GlobalData.mark_shop_stock_sold(&"first_room.health_potion")
 	GlobalData.starting_buff_chosen = true
@@ -1023,7 +1029,7 @@ func _test_combat_buffs() -> void:
 	check(_run_is_fresh(player) and player.meteor_remaining == 30 and player.meteor_kills == 0
 			and GlobalData.clear_rewards.is_empty(), "Restart clears new buffs, meteor progress and room rewards")
 	await choose_starter()
-	check(meteor.purchase(player).is_empty() and player.mana_sacrifice == 30, "Meteor accepts its ordinary max mana sacrifice")
+	check(meteor.purchase(player).is_empty() and player.mana_sacrifice == 15, "Meteor accepts its ordinary max mana sacrifice")
 	await load_room(MAIN_MENU)
 	click(tree.current_scene.start_button)
 	await tree.scene_changed
@@ -1153,7 +1159,7 @@ func _run_is_fresh(player: DungeonPlayer) -> bool:
 	return GlobalData.money == 0 and not GlobalData.starting_buff_chosen and not GlobalData.is_loading_save \
 		and player.buff_manager.get_active_buffs().is_empty() \
 		and player.health_sacrifice == 0 and player.shield_sacrifice == 0 and player.mana_sacrifice == 0 \
-		and player.health_component.current_health == 6 and player.current_shield == 5 and player.current_mana == 200
+		and player.health_component.current_health == 6 and player.current_shield == 5 and player.current_mana == 100
 
 func _test_game_over() -> void:
 	var tree := get_tree()

@@ -1,6 +1,5 @@
 [gd_scene format=4 uid="uid://duhwegmdkgwuo"]
 
-[ext_resource type="PackedScene" path="res://scenes/dungeon_backdrop.tscn" id="backdrop"]
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_34jtn"]
 [ext_resource type="TileSet" uid="uid://c7j6em841qtkd" path="res://sprites/tilesets/ice_floor_tiles.tres" id="2_floor"]
 [ext_resource type="PackedScene" uid="uid://2fvnydut0j2x" path="res://scenes/crate.tscn" id="3_4uy7u"]
@@ -13,10 +12,11 @@
 [ext_resource type="Texture2D" uid="uid://djh3bo72pjv57" path="res://sprites/chests/Golden_Chest.png" id="9_golden_chest"]
 [ext_resource type="PackedScene" uid="uid://i2xcix43ba4p" path="res://scenes/fireblast_crate.tscn" id="9_of64y"]
 [ext_resource type="PackedScene" uid="uid://b8xqh1sph4580" path="res://scenes/spike.tscn" id="9_uyibl"]
+[ext_resource type="PackedScene" path="res://scenes/dungeon_backdrop.tscn" id="backdrop"]
 [ext_resource type="PackedScene" path="res://scenes/shop_door.tscn" id="door"]
-[ext_resource type="PackedScene" path="res://scenes/speed_buff_title.tscn" id="speed_up"]
-[ext_resource type="PackedScene" path="res://scenes/speed_debuff_title.tscn" id="speed_down"]
-[ext_resource type="PackedScene" path="res://scenes/ice_crate.tscn" id="ice_crate"]
+[ext_resource type="PackedScene" uid="uid://c13dfrbp01ttw" path="res://scenes/ice_crate.tscn" id="ice_crate"]
+[ext_resource type="PackedScene" uid="uid://dn0ookbq4conu" path="res://scenes/speed_debuff_title.tscn" id="speed_down"]
+[ext_resource type="PackedScene" uid="uid://bo312dwsbuf52" path="res://scenes/speed_buff_title.tscn" id="speed_up"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4uy7u"]
 shader = ExtResource("1_34jtn")
@@ -103,16 +103,16 @@ position = Vector2(263, 127)
 [node name="Enemy3" parent="Floor" unique_id=1687225250 instance=ExtResource("4_m1l7b")]
 position = Vector2(360, 128)
 
-[node name="SpeedBoostTile" parent="Floor" instance=ExtResource("speed_up")]
-position = Vector2(238, 48)
+[node name="SpeedBoostTile" parent="Floor" unique_id=1533657715 instance=ExtResource("speed_up")]
+position = Vector2(249, 40)
 
-[node name="SlowTile" parent="Floor" instance=ExtResource("speed_down")]
-position = Vector2(275, 178)
+[node name="SlowTile" parent="Floor" unique_id=818160856 instance=ExtResource("speed_down")]
+position = Vector2(185, 57)
 
-[node name="IceCrate" parent="Floor" instance=ExtResource("ice_crate")]
+[node name="IceCrate" parent="Floor" unique_id=1318412150 instance=ExtResource("ice_crate")]
 position = Vector2(181, 91)
 
-[node name="IceCrate2" parent="Floor" instance=ExtResource("ice_crate")]
+[node name="IceCrate2" parent="Floor" unique_id=1630328134 instance=ExtResource("ice_crate")]
 position = Vector2(350, 180)
 
 [node name="PactReturnSpawn" type="Marker2D" parent="." unique_id=1346886233]
@@ -139,7 +139,4 @@ position = Vector2(141.86137, 48.54605)
 
 [node name="LevelUI" parent="." unique_id=1306261088 instance=ExtResource("6_level_ui")]
 
-[node name="DungeonBackdrop" parent="." instance=ExtResource("backdrop")]
-
-[node name="Shade" parent="DungeonBackdrop" index="0"]
-self_modulate = Color(0.79, 0.87, 1, 1)
+[node name="DungeonBackdrop" parent="." unique_id=1938333804 instance=ExtResource("backdrop")]

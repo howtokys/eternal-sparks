@@ -248,8 +248,8 @@ custom_minimum_size = Vector2(94, 16)
 size_flags_vertical = 4
 theme_override_styles/background = SubResource("track")
 theme_override_styles/fill = SubResource("ManaFill")
-max_value = 200
-value = 200
+max_value = 100
+value = 100
 show_percentage = false
 
 [node name="ManaValue" type="Label" parent="StatusRow/StatFrame/Vitals/Mana/ManaBar"]
@@ -262,7 +262,7 @@ unique_name_in_owner = true
 theme_override_colors/font_outline_color = Color(0.07, 0.06, 0.10, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 9
-text = "200/200"
+text = "100/100"
 
 [node name="Loadout" type="HBoxContainer" parent="."]
 mouse_filter = 2

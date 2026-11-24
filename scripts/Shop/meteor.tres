@@ -8,4 +8,4 @@ script = ExtResource("data")
 buff = ExtResource("buff")
 kind = 1
 stat = 2
-sacrifice_amount = 30
+sacrifice_amount = 15
