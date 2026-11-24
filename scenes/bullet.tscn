@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dbdeb1dw1amd" path="res://sprites/Bullet.png" id="2_t4vbm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2b2rl"]
+resource_local_to_scene = true
 size = Vector2(9, 7)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b7duk"]

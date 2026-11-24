@@ -8,4 +8,4 @@ func _ready() -> void:
 func _on_area_entered(area: Area2D) -> void:
 	# Expects attack hitboxes to define a 'damage' variable
 	if area.is_in_group("enemy_attack") and "damage" in area:
-		health_component.take_damage(area.damage)
+		get_parent().take_damage(area.damage)

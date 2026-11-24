@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/shop_room_base.tscn" id="base"]
+[ext_resource type="PackedScene" path="res://scenes/dungeon_trader.tscn" id="trader"]
+[ext_resource type="PackedScene" path="res://scenes/shop_pedestal.tscn" id="stand"]
+[ext_resource type="Resource" path="res://scripts/Shop/shotgun.tres" id="shotgun"]
+[ext_resource type="Resource" path="res://scripts/Shop/long_katana.tres" id="katana"]
+
+[ext_resource type="Resource" path="res://scripts/Shop/mana_potion.tres" id="mana"]
+
+[node name="ShopRoom" instance=ExtResource("base")]
+
+[node name="DungeonTrader" parent="." instance=ExtResource("trader")]
+position = Vector2(88, 39)
+
+[node name="ManaPedestal" parent="." instance=ExtResource("stand")]
+position = Vector2(88, 114)
+offer = ExtResource("mana")
+stock_id = &"shop_room.mana_potion"
+[node name="ShotgunPedestal" parent="." instance=ExtResource("stand")]
+position = Vector2(136, 114)
+offer = ExtResource("shotgun")
+stock_id = &"shop_room.shotgun"
+prompt_offset = Vector2(0, -38)
+
+[node name="KatanaPedestal" parent="." instance=ExtResource("stand")]
+position = Vector2(184, 114)
+offer = ExtResource("katana")
+stock_id = &"shop_room.long_katana"
+prompt_offset = Vector2(-10, -38)

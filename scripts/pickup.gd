@@ -42,7 +42,8 @@ func _on_body_exited(body: Node2D) -> void:
 			label.hide()
 			
 func _unhandled_input(event: InputEvent) -> void:
-	if player_in_range and event.is_action_pressed("interact"):
+	if player_in_range and not is_queued_for_deletion() and event.is_action_pressed("interact"):
+		get_viewport().set_input_as_handled()
 		use_item(player_in_range)
 
 func use_item(body: Node2D) -> void:
@@ -59,7 +60,7 @@ func use_item(body: Node2D) -> void:
 			if data.weapon_data == null:
 				push_error("Weapon pickup is missing WeaponData.")
 				return
-			body.equip_weapon(data.weapon_data)
+			body.equip_weapon(data.weapon_data, global_position)
 			print("Equipped weapon: ", data.item_name)
 			
 	queue_free()

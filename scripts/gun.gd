@@ -42,8 +42,14 @@ func _ready() -> void:
 	base_position = position
 	attack_hitbox.collision_layer = 0
 	attack_hitbox.monitoring = false
+	attack_hitbox.collision_mask |= 8
+	attack_hitbox.area_entered.connect(_on_strike_overlap)
 	_create_muzzle_flash()
 	_update_weapon_data()
+
+func _on_strike_overlap(area: Area2D) -> void:
+	if area is Bullet and attack_phase == AttackPhase.STRIKE and player.buff_manager.get_buff_level(&"reflect") > 0:
+		area.reflect_projectile()
 
 func set_weapon_data(value: WeaponData) -> void:
 	data = value
@@ -184,16 +190,20 @@ func _fire_ranged_shot(bypass_cooldown: bool) -> bool:
 	if projectile_texture == null:
 		projectile_texture = DEFAULT_PROJECTILE_TEXTURE
 	var projectile_length := projectile_texture.get_size().x * data.projectile_scale.x
+	var deadly: int = player.buff_manager.get_buff_level(&"deadly_strike")
 	var pellet_count := maxi(data.pellet_count, 1)
 	for pellet_index in range(pellet_count):
 		var spread_ratio := 0.0
 		if pellet_count > 1:
 			spread_ratio = float(pellet_index) / float(pellet_count - 1) * 2.0 - 1.0
 		var direction := base_direction.rotated(
-			deg_to_rad(data.spread_degrees * spread_ratio)
+			deg_to_rad(data.spread_degrees * spread_ratio * (1.0 - 0.2 * deadly))
 		)
 		var new_bullet: Bullet = BULLET.instantiate()
 		new_bullet.data = data
+		new_bullet.bounces_left = player.buff_manager.get_buff_level(&"ricochet")
+		if deadly > 0 and randf() < 0.1 * deadly:
+			new_bullet.damage *= 2
 		new_bullet.position = (
 			marker_2d.global_position
 			+ direction * projectile_length * 0.5

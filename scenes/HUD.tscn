@@ -1,206 +1,328 @@
 [gd_scene format=3 uid="uid://5daivydu6730"]
 
-[ext_resource type="Script" uid="uid://drscyja3olkle" path="res://scripts/hud.gd" id="1_qpvh6"]
-[ext_resource type="Texture2D" uid="uid://cpseqdfgydca4" path="res://sprites/Boost-UI/life.png" id="2_7hsmw"]
-[ext_resource type="Texture2D" uid="uid://22tppyaivqrs" path="res://sprites/Boost-UI/shield.png" id="3_7hsmw"]
-[ext_resource type="Texture2D" uid="uid://dlc8l76cxgvkg" path="res://sprites/Boost-UI/mana.png" id="4_nysna"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="hud"]
+[ext_resource type="Texture2D" path="res://sprites/hud/icons/hud_icons.svg" id="hud_icons"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ewadb"]
-content_margin_left = 5.0
-content_margin_top = 4.0
-content_margin_right = 5.0
-content_margin_bottom = 4.0
-bg_color = Color(0.44705883, 0.3529412, 0.2627451, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.7607843, 0.6392157, 0.47058824, 1)
+[ext_resource type="Texture2D" path="res://sprites/ui/frames/vitals_frame.svg" id="frame_art"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7hsmw"]
-content_margin_left = 0.0
-content_margin_top = 0.0
-content_margin_right = 0.0
-content_margin_bottom = 0.0
-bg_color = Color(0.08235294, 0.08235294, 0.105882354, 1)
-corner_radius_top_left = 1
-corner_radius_top_right = 1
-corner_radius_bottom_right = 1
-corner_radius_bottom_left = 1
+[sub_resource type="AtlasTexture" id="life"]
+atlas = ExtResource("hud_icons")
+region = Rect2(0, 0, 16, 16)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f6qnu"]
-bg_color = Color(0.9490196, 0.28235295, 0.35686275, 1)
-corner_radius_top_left = 1
-corner_radius_top_right = 1
-corner_radius_bottom_right = 1
-corner_radius_bottom_left = 1
+[sub_resource type="AtlasTexture" id="shield"]
+atlas = ExtResource("hud_icons")
+region = Rect2(16, 0, 16, 16)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nysna"]
-bg_color = Color(0.06666667, 0.11372549, 0.16862746, 1)
-corner_radius_top_left = 1
-corner_radius_top_right = 1
-corner_radius_bottom_right = 1
-corner_radius_bottom_left = 1
+[sub_resource type="AtlasTexture" id="mana"]
+atlas = ExtResource("hud_icons")
+region = Rect2(32, 0, 16, 16)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k4w17"]
-bg_color = Color(0.24705882, 0.654902, 1, 1)
-corner_radius_top_left = 1
-corner_radius_top_right = 1
-corner_radius_bottom_right = 1
-corner_radius_bottom_left = 1
+[sub_resource type="AtlasTexture" id="coin"]
+atlas = ExtResource("hud_icons")
+region = Rect2(48, 0, 16, 16)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b08ru"]
-bg_color = Color(0.11372549, 0.08235294, 0.16862746, 1)
-corner_radius_top_left = 1
-corner_radius_top_right = 1
-corner_radius_bottom_right = 1
-corner_radius_bottom_left = 1
+[sub_resource type="AtlasTexture" id="empty_slot"]
+atlas = ExtResource("hud_icons")
+region = Rect2(64, 0, 16, 16)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_twldb"]
-bg_color = Color(0.54509807, 0.36078432, 0.9647059, 1)
-corner_radius_top_left = 1
-corner_radius_top_right = 1
-corner_radius_bottom_right = 1
-corner_radius_bottom_left = 1
+[sub_resource type="StyleBoxTexture" id="stat_frame"]
+texture = ExtResource("frame_art")
+texture_margin_left = 4.0
+texture_margin_right = 4.0
+texture_margin_top = 4.0
+texture_margin_bottom = 4.0
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 7.0
+content_margin_bottom = 7.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oika7"]
-content_margin_left = 2.0
-content_margin_top = 2.0
-content_margin_right = 2.0
-content_margin_bottom = 2.0
-bg_color = Color(0.0665, 0.109725, 0.19, 0)
+[sub_resource type="StyleBoxFlat" id="weapon_slot"]
+bg_color = Color(0.085, 0.10, 0.14, 0.96)
+border_color = Color(0.96, 0.78, 0.48, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+content_margin_left = 5
+content_margin_top = 4
+content_margin_right = 5
+content_margin_bottom = 4
 
-[node name="CanvasLayer" type="CanvasLayer" unique_id=1979618489]
-script = ExtResource("1_qpvh6")
+[sub_resource type="StyleBoxFlat" id="track"]
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_left = 2
+corner_radius_bottom_right = 2
+corner_detail = 1
+anti_aliasing = false
+bg_color = Color(0.18, 0.17, 0.21, 1)
 
-[node name="StatBars" type="Control" parent="." unique_id=638759318]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[sub_resource type="StyleBoxFlat" id="HealthFill"]
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_left = 2
+corner_radius_bottom_right = 2
+corner_detail = 1
+anti_aliasing = false
+bg_color = Color(0.95, 0.28, 0.38, 1)
 
-[node name="StatusFrame" type="PanelContainer" parent="StatBars" unique_id=1447611561]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_ewadb")
+[sub_resource type="StyleBoxFlat" id="ShieldFill"]
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_left = 2
+corner_radius_bottom_right = 2
+corner_detail = 1
+anti_aliasing = false
+bg_color = Color(0.22, 0.68, 0.98, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="StatBars/StatusFrame" unique_id=750158814]
-layout_mode = 2
+[sub_resource type="StyleBoxFlat" id="ManaFill"]
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_left = 2
+corner_radius_bottom_right = 2
+corner_detail = 1
+anti_aliasing = false
+bg_color = Color(0.62, 0.42, 0.98, 1)
+
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("hud")
+
+[node name="StatusRow" type="HBoxContainer" parent="."]
+mouse_filter = 2
+offset_left = 5
+offset_top = 4
+theme_override_constants/separation = 6
+
+[node name="StatFrame" type="PanelContainer" parent="StatusRow"]
+texture_filter = 1
+mouse_filter = 2
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("stat_frame")
+
+[node name="Vitals" type="VBoxContainer" parent="StatusRow/StatFrame"]
+mouse_filter = 2
 theme_override_constants/separation = 2
 
-[node name="HealthRow" type="HBoxContainer" parent="StatBars/StatusFrame/VBoxContainer" unique_id=1531304762]
-layout_mode = 2
+[node name="Health" type="HBoxContainer" parent="StatusRow/StatFrame/Vitals"]
+mouse_filter = 2
+theme_override_constants/separation = 4
 
-[node name="HealthIcon" type="TextureRect" parent="StatBars/StatusFrame/VBoxContainer/HealthRow" unique_id=313299807]
+[node name="Icon" type="TextureRect" parent="StatusRow/StatFrame/Vitals/Health"]
+mouse_filter = 2
 texture_filter = 1
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-texture = ExtResource("2_7hsmw")
+custom_minimum_size = Vector2(16, 16)
+texture = SubResource("life")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="HealthBar" type="ProgressBar" parent="StatBars/StatusFrame/VBoxContainer/HealthRow" unique_id=666025936]
-custom_minimum_size = Vector2(135, 14)
-layout_mode = 2
+[node name="HealthBar" type="ProgressBar" parent="StatusRow/StatFrame/Vitals/Health"]
+mouse_filter = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(94, 16)
 size_flags_vertical = 4
-theme_override_constants/outline_size = 0
-theme_override_styles/background = SubResource("StyleBoxFlat_7hsmw")
-theme_override_styles/fill = SubResource("StyleBoxFlat_f6qnu")
-max_value = 6.0
-value = 6.0
+theme_override_styles/background = SubResource("track")
+theme_override_styles/fill = SubResource("HealthFill")
+max_value = 6
+value = 6
 show_percentage = false
 
-[node name="HealthPercent" type="Label" parent="StatBars/StatusFrame/VBoxContainer/HealthRow" unique_id=991865986]
-layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "100%"
+[node name="HealthValue" type="Label" parent="StatusRow/StatFrame/Vitals/Health/HealthBar"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+unique_name_in_owner = true
+theme_override_colors/font_outline_color = Color(0.07, 0.06, 0.10, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 9
+text = "6/6"
 
-[node name="ShieldRow" type="HBoxContainer" parent="StatBars/StatusFrame/VBoxContainer" unique_id=330460590]
-layout_mode = 2
+[node name="WarningSlot" type="Control" parent="StatusRow/StatFrame/Vitals/Health"]
+custom_minimum_size = Vector2(9, 0)
+mouse_filter = 2
 
-[node name="ShieldIcon" type="TextureRect" parent="StatBars/StatusFrame/VBoxContainer/ShieldRow" unique_id=244413459]
-texture_filter = 1
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-texture = ExtResource("3_7hsmw")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="ShieldBar" type="ProgressBar" parent="StatBars/StatusFrame/VBoxContainer/ShieldRow" unique_id=444105457]
-custom_minimum_size = Vector2(135, 14)
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/outline_size = 0
-theme_override_styles/background = SubResource("StyleBoxFlat_nysna")
-theme_override_styles/fill = SubResource("StyleBoxFlat_k4w17")
-max_value = 5.0
-value = 5.0
-show_percentage = false
-
-[node name="ShieldPercent" type="Label" parent="StatBars/StatusFrame/VBoxContainer/ShieldRow" unique_id=441238735]
-layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "100%"
-
-[node name="ManaRow" type="HBoxContainer" parent="StatBars/StatusFrame/VBoxContainer" unique_id=528028748]
-layout_mode = 2
-
-[node name="ManaIcon" type="TextureRect" parent="StatBars/StatusFrame/VBoxContainer/ManaRow" unique_id=2144791783]
-texture_filter = 1
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-texture = ExtResource("4_nysna")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="ManaBar" type="ProgressBar" parent="StatBars/StatusFrame/VBoxContainer/ManaRow" unique_id=960507838]
-custom_minimum_size = Vector2(135, 14)
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/outline_size = 0
-theme_override_styles/background = SubResource("StyleBoxFlat_b08ru")
-theme_override_styles/fill = SubResource("StyleBoxFlat_twldb")
-max_value = 50.0
-value = 50.0
-show_percentage = false
-
-[node name="ManaPercent" type="Label" parent="StatBars/StatusFrame/VBoxContainer/ManaRow" unique_id=1903327618]
-layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "100%"
-
-[node name="WeaponSlots" type="VBoxContainer" parent="StatBars/StatusFrame/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="WeaponSlot1" type="Label" parent="StatBars/StatusFrame/VBoxContainer/WeaponSlots"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "1  Railgun"
-
-[node name="WeaponSlot2" type="Label" parent="StatBars/StatusFrame/VBoxContainer/WeaponSlots"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "2  —"
-
-[node name="Buff Panel" type="PanelContainer" parent="." unique_id=1285189694]
-offset_left = 212.0
-offset_top = 2.0
-offset_right = 332.0
-offset_bottom = 67.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_oika7")
-
-[node name="Buff-Container" type="VBoxContainer" parent="Buff Panel" unique_id=1666305231]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="BuffTitle" type="Label" parent="Buff Panel/Buff-Container" unique_id=1716111106]
+[node name="HealthWarning" type="Label" parent="StatusRow/StatFrame/Vitals/Health/WarningSlot"]
 visible = false
-layout_mode = 2
-theme_override_font_sizes/font_size = 14
-text = "ACTIVE BUFFS"
+unique_name_in_owner = true
+texture_filter = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(1, 0.38, 0.40, 1)
+theme_override_constants/outline_size = 2
+text = "!"
 
-[node name="BuffList" type="HBoxContainer" parent="Buff Panel/Buff-Container" unique_id=1824178004]
-layout_mode = 2
-theme_override_constants/separation = 8
+[node name="Shield" type="HBoxContainer" parent="StatusRow/StatFrame/Vitals"]
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="StatusRow/StatFrame/Vitals/Shield"]
+mouse_filter = 2
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+texture = SubResource("shield")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ShieldBar" type="ProgressBar" parent="StatusRow/StatFrame/Vitals/Shield"]
+mouse_filter = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(94, 16)
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("track")
+theme_override_styles/fill = SubResource("ShieldFill")
+max_value = 5
+value = 5
+show_percentage = false
+
+[node name="ShieldValue" type="Label" parent="StatusRow/StatFrame/Vitals/Shield/ShieldBar"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+unique_name_in_owner = true
+theme_override_colors/font_outline_color = Color(0.07, 0.06, 0.10, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 9
+text = "5/5"
+
+[node name="WarningSlot" type="Control" parent="StatusRow/StatFrame/Vitals/Shield"]
+custom_minimum_size = Vector2(9, 0)
+mouse_filter = 2
+
+[node name="ShieldWarning" type="Label" parent="StatusRow/StatFrame/Vitals/Shield/WarningSlot"]
+visible = false
+unique_name_in_owner = true
+texture_filter = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.40, 0.81, 1, 1)
+theme_override_constants/outline_size = 2
+text = "!"
+
+[node name="Mana" type="HBoxContainer" parent="StatusRow/StatFrame/Vitals"]
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="StatusRow/StatFrame/Vitals/Mana"]
+mouse_filter = 2
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+texture = SubResource("mana")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ManaBar" type="ProgressBar" parent="StatusRow/StatFrame/Vitals/Mana"]
+mouse_filter = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(94, 16)
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("track")
+theme_override_styles/fill = SubResource("ManaFill")
+max_value = 200
+value = 200
+show_percentage = false
+
+[node name="ManaValue" type="Label" parent="StatusRow/StatFrame/Vitals/Mana/ManaBar"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+unique_name_in_owner = true
+theme_override_colors/font_outline_color = Color(0.07, 0.06, 0.10, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 9
+text = "200/200"
+
+[node name="Loadout" type="HBoxContainer" parent="."]
+mouse_filter = 2
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -7
+offset_right = -7
+offset_top = 4
+grow_horizontal = 0
+theme_override_constants/separation = 5
+
+[node name="WeaponSlot1" type="PanelContainer" parent="Loadout"]
+unique_name_in_owner = true
+mouse_filter = 2
+custom_minimum_size = Vector2(48, 32)
+theme_override_styles/panel = SubResource("weapon_slot")
+
+[node name="Icon" type="TextureRect" parent="Loadout/WeaponSlot1"]
+mouse_filter = 2
+texture_filter = 1
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EmptyMark" type="TextureRect" parent="Loadout/WeaponSlot1"]
+mouse_filter = 2
+custom_minimum_size = Vector2(16, 16)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("empty_slot")
+texture_filter = 1
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WeaponSlot2" type="PanelContainer" parent="Loadout"]
+unique_name_in_owner = true
+mouse_filter = 2
+custom_minimum_size = Vector2(48, 32)
+theme_override_styles/panel = SubResource("weapon_slot")
+
+[node name="Icon" type="TextureRect" parent="Loadout/WeaponSlot2"]
+mouse_filter = 2
+texture_filter = 1
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EmptyMark" type="TextureRect" parent="Loadout/WeaponSlot2"]
+mouse_filter = 2
+custom_minimum_size = Vector2(16, 16)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("empty_slot")
+texture_filter = 1
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CoinRow" type="HBoxContainer" parent="Loadout"]
+mouse_filter = 2
+theme_override_constants/separation = 3
+
+[node name="CoinIcon" type="TextureRect" parent="Loadout/CoinRow"]
+mouse_filter = 2
+texture_filter = 1
+custom_minimum_size = Vector2(16, 16)
+texture = SubResource("coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CoinCount" type="Label" parent="Loadout/CoinRow"]
+mouse_filter = 2
+unique_name_in_owner = true
+theme_override_colors/font_outline_color = Color(0.07, 0.06, 0.10, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(1, 0.84, 0.43, 1)
+text = "0"
+
+[node name="BuffList" type="GridContainer" parent="StatusRow"]
+unique_name_in_owner = true
+mouse_filter = 2
+size_flags_vertical = 0
+columns = 3
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 1
