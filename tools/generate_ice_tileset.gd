@@ -2,11 +2,11 @@ extends SceneTree
 ## Run with: godot --headless --path . --script tools/generate_ice_tileset.gd
 ## Add -- --rebuild-tilesets only when the forest tile definitions need to be recaptured.
 
-const FOREST_ATLAS := "res://sprites/Forest_titlesset.png"
+const FOREST_ATLAS := "res://sprites/tilesets/Forest_titlesset.png"
 const FOREST_ROOM := "res://scenes/First_Room.tscn"
-const ICE_ATLAS := "res://sprites/Ice_tileset.png"
-const ICE_FLOOR := "res://sprites/ice_floor_tiles.tres"
-const ICE_WALLS := "res://sprites/ice_wall_tiles.tres"
+const ICE_ATLAS := "res://sprites/tilesets/Ice_tileset.png"
+const ICE_FLOOR := "res://sprites/tilesets/ice_floor_tiles.tres"
+const ICE_WALLS := "res://sprites/tilesets/ice_wall_tiles.tres"
 const TILE_SIZE := 16
 const FLOOR_BASES := [
 	Color("#345867"), Color("#263f53"), Color("#3a5e70"), Color("#426b76"),

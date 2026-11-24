@@ -1,9 +1,9 @@
 [gd_scene format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/First_Room.tscn" id="1_room"]
-[ext_resource type="TileSet" path="res://sprites/ice_floor_tiles.tres" id="2_floor"]
-[ext_resource type="TileSet" path="res://sprites/ice_wall_tiles.tres" id="3_walls"]
-[ext_resource type="Texture2D" path="res://sprites/Ice_tileset.png" id="4_atlas"]
+[ext_resource type="TileSet" path="res://sprites/tilesets/ice_floor_tiles.tres" id="2_floor"]
+[ext_resource type="TileSet" path="res://sprites/tilesets/ice_wall_tiles.tres" id="3_walls"]
+[ext_resource type="Texture2D" path="res://sprites/tilesets/Ice_tileset.png" id="4_atlas"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_crate"]
 atlas = ExtResource("4_atlas")
