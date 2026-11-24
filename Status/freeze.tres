@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="StatusEffect" format=3 uid="uid://dm52dkmdjcs1m"]
+
+[ext_resource type="Script" uid="uid://dlxi1apcv8ucw" path="res://scripts/StatusEffect.gd" id="1_yep4b"]
+
+[resource]
+script = ExtResource("1_yep4b")
+id = &"freeze"
+max_level = 1
+duration_per_level = 2.0
+damage_per_level = Array[int]([0, 0, 0])
+ticks_per_level = 999
+metadata/_custom_type_script = "uid://dlxi1apcv8ucw"

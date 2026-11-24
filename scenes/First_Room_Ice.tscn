@@ -14,6 +14,9 @@
 [ext_resource type="PackedScene" uid="uid://i2xcix43ba4p" path="res://scenes/fireblast_crate.tscn" id="9_of64y"]
 [ext_resource type="PackedScene" uid="uid://b8xqh1sph4580" path="res://scenes/spike.tscn" id="9_uyibl"]
 [ext_resource type="PackedScene" path="res://scenes/shop_door.tscn" id="door"]
+[ext_resource type="PackedScene" path="res://scenes/speed_buff_title.tscn" id="speed_up"]
+[ext_resource type="PackedScene" path="res://scenes/speed_debuff_title.tscn" id="speed_down"]
+[ext_resource type="PackedScene" path="res://scenes/ice_crate.tscn" id="ice_crate"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4uy7u"]
 shader = ExtResource("1_34jtn")
@@ -99,6 +102,18 @@ position = Vector2(263, 127)
 
 [node name="Enemy3" parent="Floor" unique_id=1687225250 instance=ExtResource("4_m1l7b")]
 position = Vector2(360, 128)
+
+[node name="SpeedBoostTile" parent="Floor" instance=ExtResource("speed_up")]
+position = Vector2(238, 48)
+
+[node name="SlowTile" parent="Floor" instance=ExtResource("speed_down")]
+position = Vector2(275, 178)
+
+[node name="IceCrate" parent="Floor" instance=ExtResource("ice_crate")]
+position = Vector2(181, 91)
+
+[node name="IceCrate2" parent="Floor" instance=ExtResource("ice_crate")]
+position = Vector2(350, 180)
 
 [node name="PactReturnSpawn" type="Marker2D" parent="." unique_id=1346886233]
 position = Vector2(175, 32)

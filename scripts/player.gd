@@ -52,6 +52,9 @@ var shield_sacrifice: int
 var mana_sacrifice: int
 var applied_shield_bonus: int
 
+var temp_speed_multiplier: float = 1.0
+var temp_speed_time_left: float = 0.0
+
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var buff_manager: BuffManager = $BuffManager  #for the speed buff
 @onready var shield_timer: Timer = $ShieldTimer
@@ -125,6 +128,9 @@ func _exit_tree() -> void:
 			GlobalData.run_player_state = capture_run_state()
 		GlobalData.player = null
 
+func apply_temporary_speed(multiplier: float, duration: float) -> void:
+	temp_speed_multiplier = multiplier
+	temp_speed_time_left = duration
 
 func capture_run_state() -> Dictionary:
 	return {
@@ -210,6 +216,17 @@ func _process(delta: float) -> void:
 
 # speed buf movement 
 func _physics_process(_delta: float) -> void:
+	var status = get_node_or_null("StatusEffectComponent")
+	if status and status.has_effect(&"freeze"):
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
+
+	if temp_speed_time_left > 0.0:
+		temp_speed_time_left -= _delta
+		if temp_speed_time_left <= 0.0:
+			temp_speed_multiplier = 1.0
+
 	var input_direction: Vector2 = Input.get_vector(
 		"move_left",
 		"move_right",
@@ -217,9 +234,8 @@ func _physics_process(_delta: float) -> void:
 		"move_down"
 	)
 
-	var speed_multiplier: float = buff_manager.get_speed_multiplier()
-
-	velocity = input_direction * SPEED * speed_multiplier
+	var final_speed = SPEED * buff_manager.get_speed_multiplier() * temp_speed_multiplier
+	velocity = input_direction * final_speed
 	move_and_slide()
 
 

@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dn0ookbq4conu"]
+
+[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_d1mmc"]
+[ext_resource type="Script" uid="uid://dgl5tchpaqq80" path="res://scripts/speed_debuff_title.gd" id="1_u5c4r"]
+[ext_resource type="Texture2D" uid="uid://b7y388gwedjpx" path="res://sprites/speed debuff.png" id="2_u5c4r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rhuii"]
+size = Vector2(16, 16)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_70b74"]
+shader = ExtResource("1_d1mmc")
+
+[node name="Speed Debuff Title" type="Area2D" unique_id=1642271954]
+script = ExtResource("1_u5c4r")
+speed_multiplier = 0.7
+duration = 3.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=406778774]
+shape = SubResource("RectangleShape2D_rhuii")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=29159543]
+material = SubResource("ShaderMaterial_70b74")
+texture = ExtResource("2_u5c4r")
