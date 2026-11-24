@@ -55,7 +55,7 @@ func load_room(path: String) -> void:
 	await settle()
 
 func choose_starter() -> StringName:
-	var picker := get_tree().current_scene.get_node("PauseLayer/BuffSelection")
+	var picker := get_tree().current_scene.get_node("LevelUI/PauseLayer/BuffSelection")
 	# These shop fixtures measure baseline HP/shield and their pact modifiers.
 	var index := 0
 	while picker.choices[index].buff_id in [&"life", &"protection"]:
@@ -174,11 +174,11 @@ func _run() -> void:
 	var starting_id := await choose_starter()
 
 	var room := tree.current_scene
-	var hud := room.get_node("CanvasLayer")
+	var hud := room.get_node("LevelUI/HUD")
 	var player := GlobalData.player as DungeonPlayer
 	var health := player.health_component
 	var manager := player.buff_manager
-	var pause := room.get_node("PauseLayer/PauseScene")
+	var pause := room.get_node("LevelUI/PauseLayer/PauseScene")
 
 	key(KEY_ESCAPE)
 	await settle()
@@ -356,7 +356,7 @@ func _run() -> void:
 	await _test_picker_caps()
 	if failures == 0:
 		# Exercise the real Quit button after the completed checks.
-		var quit_menu := tree.current_scene.get_node("PauseLayer/PauseScene")
+		var quit_menu := tree.current_scene.get_node("LevelUI/PauseLayer/PauseScene")
 		key(KEY_ESCAPE)
 		await settle()
 		click(quit_menu.quit_button)
@@ -389,7 +389,7 @@ func _continue_from_menu() -> void:
 
 func _test_checkpoint(room: Node, player: DungeonPlayer, starting_id: StringName) -> void:
 	var tree := get_tree()
-	var pause := room.get_node("PauseLayer/PauseScene")
+	var pause := room.get_node("LevelUI/PauseLayer/PauseScene")
 	key(KEY_ESCAPE)
 	await settle()
 	player.health_component.take_damage(2)
@@ -429,13 +429,13 @@ func _test_checkpoint(room: Node, player: DungeonPlayer, starting_id: StringName
 			and player.buff_manager.get_buff_level(&"movement_surge") == 1,
 		"scene replacement carries live state newer than the last checkpoint")
 	check(not player.global_position.is_equal_approx(saved_position) and not tree.paused
-			and not tree.current_scene.has_node("UI/BuffSelection"),
+			and not tree.current_scene.has_node("LevelUI/PauseLayer/BuffSelection"),
 		"World uses its authored spawn and keeps the completed First Room choice")
 	check(_read_checkpoint().get("starting_buff_chosen") == true, "the starting choice persists in the room checkpoint")
 	await _continue_from_menu()
 	player = GlobalData.player as DungeonPlayer
 	check(tree.current_scene.scene_file_path == WORLD and not tree.paused
-			and not tree.current_scene.has_node("UI/BuffSelection")
+			and not tree.current_scene.has_node("LevelUI/PauseLayer/BuffSelection")
 			and player.buff_manager.get_buff_level(starting_id) == 1,
 		"Continue preserves the starting buff and skips the completed picker")
 
@@ -450,7 +450,7 @@ func _test_legacy_saves() -> void:
 			and player.health_component.current_health == 6 and player.current_shield == 5
 			and player.current_mana == 200 and GlobalData.money == 0 and player.buff_manager.get_active_buffs().is_empty(),
 		"legacy save restores coordinates and defaults absent shop fields")
-	var picker := tree.current_scene.get_node("UI/BuffSelection")
+	var picker := tree.current_scene.get_node("LevelUI/PauseLayer/BuffSelection")
 	picker.select_buff(picker.choices[0])
 	await picker.tree_exited
 	_write_checkpoint({})
@@ -461,7 +461,7 @@ func _test_legacy_saves() -> void:
 	authored_room.free()
 	check(player.global_position.is_equal_approx(authored_spawn) and tree.paused,
 		"minimal save without coordinates uses the existing room spawn")
-	picker = tree.current_scene.get_node("UI/BuffSelection")
+	picker = tree.current_scene.get_node("LevelUI/PauseLayer/BuffSelection")
 	picker.select_buff(picker.choices[0])
 	await picker.tree_exited
 	await settle()
@@ -481,7 +481,7 @@ func _test_legacy_saves() -> void:
 			and player.current_mana == 160 and player.buff_manager.get_active_buffs().size() == 1
 			and player.buff_manager.get_buff_level(&"iron_bargain") == 1,
 		"load clamps stats and levels, and ignores duplicate or unknown buff IDs")
-	check(tree.paused and tree.current_scene.has_node("PauseLayer/BuffSelection"), "Continue prompts for an outstanding First Room starting choice")
+	check(tree.paused and tree.current_scene.has_node("LevelUI/PauseLayer/BuffSelection"), "Continue prompts for an outstanding First Room starting choice")
 	var legacy_choice := await choose_starter()
 	var reward := tree.current_scene.find_child("BuffSelection", true, false)
 	check(tree.paused and is_instance_valid(reward) and player.buff_manager.get_buff_level(legacy_choice) == 1,
@@ -510,7 +510,7 @@ func _test_coins_and_combat() -> void:
 	var tree := get_tree()
 	var room := tree.current_scene
 	var player := GlobalData.player as DungeonPlayer
-	var hud := room.get_node("CanvasLayer")
+	var hud := room.get_node("LevelUI/HUD")
 	var coin = preload("res://coin.tscn").instantiate()
 	coin.coin_type = 2
 	coin.position = player.position
@@ -605,7 +605,7 @@ func _test_pedestals() -> void:
 	var shield := room.get_node("DungeonTrader/ShieldPedestal")
 	_test_room_torches(room, Color(1, 0.61, 0.30))
 	check(not room.has_node("MysteriousTrader") and not room.has_node("DungeonTrader/PactPedestal") and _row_fits([regular, shield, room.get_node("ManaPedestal"), room.get_node("ShotgunPedestal"), room.get_node("KatanaPedestal")], false), "regular shop contains five blue coin stands in one clear row")
-	var hud := room.get_node("CanvasLayer")
+	var hud := room.get_node("LevelUI/HUD")
 	await _approach_pedestal(shield)
 	var hit := KinematicCollision2D.new()
 	check(player.test_move(player.global_transform, Vector2.UP * 60, hit)
@@ -614,11 +614,11 @@ func _test_pedestals() -> void:
 	check(regular.prompt.visible and regular.price.text == "20 coins" and shield.price.text == "15 coins",
 		"proximity shows the offer prompt alongside the coin and sacrifice labels")
 	key(KEY_E)
-	check(not regular.sold and regular.error_sfx.playing and regular.prompt.text.contains("full"),
+	check(not regular.sold and regular.error_sfx.playing and regular.prompt.title.text.contains("full"),
 		"a full-health pedestal attempt is rejected with feedback")
 	player.health_component.take_damage(4)
 	key(KEY_E)
-	check(not regular.sold and regular.prompt.text.contains("20 more coins") and player.health_component.current_health == 2,
+	check(not regular.sold and regular.prompt.title.text.contains("20 more coins") and player.health_component.current_health == 2,
 		"insufficient funds leave the offer and HP untouched")
 	GlobalData.add_money(50)
 	key(KEY_E)
@@ -638,7 +638,7 @@ func _test_pedestals() -> void:
 	await _use_shop_door("PactEntrance")
 	room = tree.current_scene
 	player = GlobalData.player
-	hud = room.get_node("CanvasLayer")
+	hud = room.get_node("LevelUI/HUD")
 	_test_room_torches(room, Color(1, 0.28, 0.44))
 	check(room.scene_file_path == MYSTERIOUS_ROOM and not room.has_node("DungeonTrader"), "First Room pact stairs enter a separate special chamber")
 	var pact := room.get_node("PactPedestal")
@@ -662,15 +662,15 @@ func _test_pedestals() -> void:
 	await _approach_pedestal(pact)
 	player.buff_manager.add_buff(pact.offer.buff)
 	key(KEY_E)
-	check(pact.armed and not pact.sold and pact.offer.weapon != null and pact.prompt.text.contains("Confirm")
+	check(pact.armed and not pact.sold and pact.offer.weapon != null and pact.prompt.title.text == "Confirm Pact"
 			and player.shield_sacrifice == 0, "an externally acquired pact is replaced by a weapon requiring fresh confirmation")
 	player.buff_manager.clear_buffs()
 	key(KEY_E)
-	check(pact.armed and not pact.sold and pact.prompt.text == "-1 Max Shield\n[E] Confirm"
+	check(pact.armed and not pact.sold and pact.prompt.title.text == "Confirm Pact" and pact.prompt.detail.text == "-1 Max Shield"
 			and player.shield_sacrifice == 0 and not tree.paused,
 		"the first pact interaction warns of the permanent cost while gameplay continues")
 	await settle()
-	var prompt_rect: Rect2 = pact.prompt.get_global_rect()
+	var prompt_rect: Rect2 = pact.prompt.get_node("Plate").get_global_rect()
 	var clear_of_props := true
 	for crate: Sprite2D in [room.get_node("Decor/WestCrate"), room.get_node("Decor/EastCrate")]:
 		clear_of_props = clear_of_props and not prompt_rect.intersects(crate.global_transform * crate.get_rect())
@@ -703,7 +703,7 @@ func _test_pedestals() -> void:
 	player.base_max_shield = 1
 	key(KEY_E)
 	check(not pact.sold and not pact.armed and player.shield_sacrifice == 0
-			and pact.prompt.text.contains("1 base shield"), "the second press revalidates the safe floor")
+			and pact.prompt.title.text.contains("1 base shield"), "the second press revalidates the safe floor")
 	player.base_max_shield = 5
 	key(KEY_E)
 	key(KEY_E)
@@ -723,7 +723,7 @@ func _test_pedestals() -> void:
 	await _use_shop_door("ShopEntrance")
 	room = tree.current_scene
 	player = GlobalData.player
-	hud = room.get_node("CanvasLayer")
+	hud = room.get_node("LevelUI/HUD")
 	var shotgun_stand := room.get_node("ShotgunPedestal")
 	var katana_stand := room.get_node("KatanaPedestal")
 	await _approach_pedestal(shotgun_stand)
@@ -792,14 +792,14 @@ func _test_pedestals() -> void:
 func _test_new_game_and_restart() -> void:
 	var tree := get_tree()
 	var player := GlobalData.player as DungeonPlayer
-	var pause := tree.current_scene.get_node("PauseLayer/PauseScene")
+	var pause := tree.current_scene.get_node("LevelUI/PauseLayer/PauseScene")
 	key(KEY_ESCAPE)
 	await settle()
 	click(pause.restart_button)
 	await tree.scene_changed
 	await settle()
 	player = GlobalData.player as DungeonPlayer
-	check(tree.current_scene.scene_file_path == FIRST_ROOM and tree.paused and tree.current_scene.has_node("PauseLayer/BuffSelection") and _run_is_fresh(player),
+	check(tree.current_scene.scene_file_path == FIRST_ROOM and tree.paused and tree.current_scene.has_node("LevelUI/PauseLayer/BuffSelection") and _run_is_fresh(player),
 		"Restart reloads the room and clears coins, buffs, sacrifices, and current damage")
 	check(not GlobalData.is_shop_stock_sold(&"first_room.health_potion")
 			and not GlobalData.is_shop_stock_sold(&"first_room.movement_surge")
@@ -850,10 +850,10 @@ func _test_new_game_and_restart() -> void:
 			and checkpoint.get("health_sacrifice") == 0 and checkpoint.get("shield_sacrifice") == 0
 			and checkpoint.get("mana_sacrifice") == 0,
 		"New Game uses the authored spawn and replaces the old checkpoint with First Room")
-	var picker := tree.current_scene.get_node("PauseLayer/BuffSelection")
+	var picker := tree.current_scene.get_node("LevelUI/PauseLayer/BuffSelection")
 	key(KEY_ESCAPE)
 	check(tree.paused and picker.visible and picker.cards.get_child(0).has_focus()
-			and not tree.current_scene.get_node("PauseLayer/PauseScene").visible,
+			and not tree.current_scene.get_node("LevelUI/PauseLayer/PauseScene").visible,
 		"New Game opens the starting picker with keyboard focus and Escape keeps gameplay paused")
 	var starting_id: StringName = picker.choices[1].buff_id
 	var seen := {}
@@ -889,13 +889,13 @@ func _test_new_game_and_restart() -> void:
 	await picker.tree_exited
 	await settle()
 	check(not tree.paused and GlobalData.starting_buff_chosen and player.buff_manager.get_buff_level(starting_id) == 1
-			and player.buff_manager.get_active_buffs().size() == 1 and tree.current_scene.get_node("CanvasLayer").buff_list.get_child_count() == 1,
+			and player.buff_manager.get_active_buffs().size() == 1 and tree.current_scene.get_node("LevelUI/HUD").buff_list.get_child_count() == 1,
 		"choosing one starting buff updates the HUD, guards a second press and resumes First Room")
 	await _continue_from_menu()
 	player = GlobalData.player as DungeonPlayer
 	check(tree.current_scene.scene_file_path == FIRST_ROOM and player.global_position.is_equal_approx(authored_spawn)
 			and GlobalData.starting_buff_chosen and player.buff_manager.get_buff_level(starting_id) == 1
-			and not tree.current_scene.has_node("PauseLayer/BuffSelection") and not tree.paused,
+			and not tree.current_scene.has_node("LevelUI/PauseLayer/BuffSelection") and not tree.paused,
 		"Continue restores the chosen starting buff in First Room without prompting again")
 
 
@@ -1013,7 +1013,7 @@ func _test_combat_buffs() -> void:
 			and not tree.paused and GlobalData.clear_rewards.get(FIRST_ROOM) == "claimed"
 			and GlobalData.player.capture_run_state().buffs == earned,
 		"return through the shop doorway preserves the clear and never grants a second reward")
-	var pause := tree.current_scene.get_node("PauseLayer/PauseScene")
+	var pause := tree.current_scene.get_node("LevelUI/PauseLayer/PauseScene")
 	key(KEY_ESCAPE)
 	await settle()
 	click(pause.restart_button)
@@ -1136,7 +1136,7 @@ func _test_picker_caps() -> void:
 		records.append({"id": String(buff.buff_id), "level": level})
 	_write_checkpoint({"scene": FIRST_ROOM, "buffs": records, "starting_buff_chosen": false})
 	await _continue_from_menu()
-	var picker := get_tree().current_scene.get_node("PauseLayer/BuffSelection")
+	var picker := get_tree().current_scene.get_node("LevelUI/PauseLayer/BuffSelection")
 	var button := picker.cards.get_child(0) as Button
 	check(picker.choices.size() == 1 and picker.choices[0].buff_id == &"life"
 			and button.get_node("Content/Level").text == "Lv. 2 → Lv. 3", "capped buffs are excluded and Life shows its next level")
@@ -1147,7 +1147,7 @@ func _test_picker_caps() -> void:
 			and GlobalData.starting_buff_chosen, "the starting picker applies an upgrade and releases gameplay")
 	await _continue_from_menu()
 	check(GlobalData.player.buff_manager.get_buff_level(&"life") == 3 and not get_tree().paused
-			and not get_tree().current_scene.has_node("PauseLayer/BuffSelection"), "Continue restores the chosen upgrade without prompting")
+			and not get_tree().current_scene.has_node("LevelUI/PauseLayer/BuffSelection"), "Continue restores the chosen upgrade without prompting")
 
 func _run_is_fresh(player: DungeonPlayer) -> bool:
 	return GlobalData.money == 0 and not GlobalData.starting_buff_chosen and not GlobalData.is_loading_save \
@@ -1266,7 +1266,7 @@ func _test_screen_mode() -> void:
 
 func _open_shop_fixture(room: Node) -> Control:
 	var shop := preload("res://scenes/shop_menu.tscn").instantiate()
-	room.get_node("PauseLayer").add_child(shop)
+	room.get_node("LevelUI/PauseLayer").add_child(shop)
 	get_tree().paused = true
 	shop.back_requested.connect(func():
 		shop.hide()
@@ -1291,7 +1291,7 @@ func _test_trader_exchange() -> void:
 	player.buff_manager.add_buff(preload("res://scripts/Buffs/reflect.tres"))
 	await _approach_pedestal(meteor)
 	key(KEY_E)
-	check(meteor.armed and meteor.prompt.text.contains("Trade Reflect"), "the Meteor stand confirms the Reflect payment explicitly")
+	check(meteor.armed and meteor.prompt.detail.text.contains("Trade Reflect"), "the Meteor stand confirms the Reflect payment explicitly")
 	key(KEY_E)
 	await settle()
 	check(meteor.sold and player.mana_sacrifice == 0 and player.buff_manager.get_buff_level(&"reflect") == 0 and player.buff_manager.get_buff_level(&"meteor") == 1, "the physical Reflect exchange grants Meteor without a mana sacrifice")
@@ -1299,7 +1299,7 @@ func _test_trader_exchange() -> void:
 	check(get_tree().current_scene.get_node("MeteorPedestal").sold and get_tree().current_scene.get_node("SpikePedestal").sold, "Continue restores both red stands as sold")
 	key(KEY_ESCAPE)
 	await settle()
-	click(get_tree().current_scene.get_node("PauseLayer/PauseScene").restart_button)
+	click(get_tree().current_scene.get_node("LevelUI/PauseLayer/PauseScene").restart_button)
 	await get_tree().scene_changed
 	await settle()
 	check(get_tree().current_scene.scene_file_path == FIRST_ROOM and _run_is_fresh(GlobalData.player) and GlobalData.return_room_path.is_empty() and GlobalData.sold_shop_stock.is_empty(), "Restart from the pact chamber clears both shops and starts at the first room")
@@ -1343,7 +1343,7 @@ func _test_fallback_pacts() -> void:
 	await _approach_pedestal(center)
 	key(KEY_E)
 	var first_weapon: WeaponData = center.offer.weapon
-	check(center.armed and center.prompt.text.contains("-1 Max HP") and player.health_sacrifice == 0, "fallback weapon previews the permanent cost before equipping")
+	check(center.armed and center.prompt.detail.text.contains("-1 Max HP") and player.health_sacrifice == 0, "fallback weapon previews the permanent cost before equipping")
 	key(KEY_E)
 	check(center.sold and player.weapon_slots[1] == first_weapon and player.health_sacrifice == 1 and GlobalData.money == 0, "confirmed fallback fills the open slot for max HP")
 	await _approach_pedestal(left)

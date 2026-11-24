@@ -11,7 +11,7 @@ const PACT_COLOR := Color("#ff9eb9")
 
 @onready var item_icon: TextureRect = $ItemIcon
 @onready var price: Label = $Price
-@onready var prompt: Label = $PromptAnchor/Prompt
+@onready var prompt = $Prompt
 @onready var wooden_stand: Sprite2D = $WoodenStand
 @onready var pact_altar: Sprite2D = $PactAltar
 @onready var interact_sfx: AudioStreamPlayer2D = $Interact
@@ -30,7 +30,7 @@ func _ready() -> void:
 	if offer == null:
 		return
 
-	$PromptAnchor.position = prompt_offset
+	prompt.position = prompt_offset
 	_refresh_art()
 	if GlobalData.is_shop_stock_sold(stock_id):
 		_show_sold()
@@ -112,13 +112,14 @@ func _show_prompt() -> void:
 	prompt.visible = offer != null and not sold and is_instance_valid(nearby_player)
 	if not prompt.visible:
 		return
-	prompt.add_theme_color_override("font_color", PACT_COLOR if armed else Color.WHITE)
 	if armed:
-		prompt.text = "%s\n[E] Confirm" % _cost_tag()
+		prompt.set_content("Confirm Pact", _cost_tag())
 	else:
-		prompt.text = "[E] %s" % (offer.display_name() if prompt_name.is_empty() or offer.kind == ShopItemData.Kind.WEAPON else prompt_name)
+		var title := offer.display_name() if prompt_name.is_empty() or offer.kind == ShopItemData.Kind.WEAPON else prompt_name
+		var detail := ""
 		if offer.kind == ShopItemData.Kind.WEAPON:
-			prompt.text += "\n%s | %s" % [offer.description(), "Equip" if nearby_player.weapon_slots.has(null) else "Swap"]
+			detail = "%s  ·  %s" % [offer.description(), "Equip" if nearby_player.weapon_slots.has(null) else "Swap"]
+		prompt.set_content(title, detail)
 
 
 func _show_sold() -> void:
@@ -135,8 +136,7 @@ func _show_sold() -> void:
 
 func _show_error(message: String) -> void:
 	price.show()
-	prompt.text = message
-	prompt.add_theme_color_override("font_color", Color("#ffc49d"))
+	prompt.set_content(message, "", false)
 	error_sfx.play()
 
 

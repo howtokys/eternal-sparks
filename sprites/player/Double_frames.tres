@@ -1,15 +1,25 @@
-[gd_resource type="SpriteFrames" format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://b7hegnobv3isd"]
 
-[ext_resource type="Texture2D" path="res://sprites/player/Double_animation.png" id="1_sheet"]
+[ext_resource type="Texture2D" uid="uid://blj07o31xi8sj" path="res://sprites/player/Double_animation.png" id="1_sheet"]
 
-[sub_resource type="AtlasTexture" id="rest"]
+[sub_resource type="AtlasTexture" id="hurt_snap"]
 atlas = ExtResource("1_sheet")
-region = Rect2(0, 0, 32, 32)
+region = Rect2(128, 0, 32, 32)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="hurt_recover"]
+atlas = ExtResource("1_sheet")
+region = Rect2(160, 0, 32, 32)
 filter_clip = true
 
 [sub_resource type="AtlasTexture" id="bob"]
 atlas = ExtResource("1_sheet")
 region = Rect2(32, 0, 32, 32)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="rest"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 0, 32, 32)
 filter_clip = true
 
 [sub_resource type="AtlasTexture" id="step_front"]
@@ -22,18 +32,25 @@ atlas = ExtResource("1_sheet")
 region = Rect2(96, 0, 32, 32)
 filter_clip = true
 
-[sub_resource type="AtlasTexture" id="hurt_snap"]
-atlas = ExtResource("1_sheet")
-region = Rect2(128, 0, 32, 32)
-filter_clip = true
-
-[sub_resource type="AtlasTexture" id="hurt_recover"]
-atlas = ExtResource("1_sheet")
-region = Rect2(160, 0, 32, 32)
-filter_clip = true
-
 [resource]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("hurt_snap")
+}, {
+"duration": 1.0,
+"texture": SubResource("hurt_recover")
+}, {
+"duration": 1.0,
+"texture": SubResource("bob")
+}, {
+"duration": 1.0,
+"texture": SubResource("rest")
+}],
+"loop": 0,
+"name": &"hurt",
+"speed": 16.0
+}, {
 "frames": [{
 "duration": 2.0,
 "texture": SubResource("rest")
@@ -41,7 +58,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("bob")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle",
 "speed": 3.0
 }, {
@@ -58,24 +75,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("bob")
 }],
-"loop": true,
+"loop": 1,
 "name": &"walk",
 "speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("hurt_snap")
-}, {
-"duration": 1.0,
-"texture": SubResource("hurt_recover")
-}, {
-"duration": 1.0,
-"texture": SubResource("bob")
-}, {
-"duration": 1.0,
-"texture": SubResource("rest")
-}],
-"loop": false,
-"name": &"hurt",
-"speed": 16.0
 }]

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cw64lvjtg5wvo"]
 
 [ext_resource type="Script" uid="uid://dk5xtmglx0vej" path="res://scripts/main_menu.gd" id="1_4u1fl"]
-[ext_resource type="FontFile" uid="uid://cfx0v4v24adie" path="res://fonts/Minecraftia-Regular.ttf" id="2_4u1fl"]
+[ext_resource type="FontVariation" path="res://fonts/minecraftia_centered.tres" id="2_4u1fl"]
 [ext_resource type="Texture2D" uid="uid://bgv35iwlxuhip" path="res://scenes/background_concept.png" id="2_nwme3"]
 [ext_resource type="Texture2D" uid="uid://c0xur5jmwi1ob" path="res://sprites/Main-ui/menu_panel.png" id="3_lptr6"]
 [ext_resource type="Texture2D" uid="uid://be3m7ot7wwnim" path="res://sprites/Main-ui/button_normal.png" id="4_884px"]

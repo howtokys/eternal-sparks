@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" path="res://sprites/ui/frames/pause_buttons.png" id="button_sheet"]
 [ext_resource type="AudioStream" path="res://menu_click.wav" id="click"]
 [ext_resource type="AudioStream" path="res://menu_hover.wav" id="hover"]
+[ext_resource type="FontVariation" path="res://fonts/minecraftia_centered.tres" id="pixel"]
 
 [sub_resource type="StyleBoxTexture" id="panel"]
 texture = ExtResource("gold_frame")
@@ -96,6 +97,7 @@ Button/colors/font_focus_color = Color(1, 0.96, 0.83, 1)
 Button/colors/font_outline_color = Color(0.17, 0.09, 0.075, 1)
 Button/constants/outline_size = 3
 Button/font_sizes/font_size = 13
+Button/fonts/font = ExtResource("pixel")
 
 [node name="PauseScene" type="Control"]
 visible = false
@@ -131,10 +133,12 @@ theme_override_constants/separation = 7
 mouse_filter = 2
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 18
+theme_override_fonts/font = ExtResource("pixel")
 theme_override_colors/font_color = Color(1, 0.80, 0.58, 1)
 theme_override_colors/font_outline_color = Color(0.12, 0.09, 0.12, 1)
 theme_override_constants/outline_size = 4
 text = "PAUSED"
+vertical_alignment = 1
 
 [node name="Resume" type="Button" parent="Center/Panel/Options"]
 unique_name_in_owner = true
