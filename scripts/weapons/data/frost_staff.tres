@@ -20,4 +20,5 @@ projectile_lifetime = 2.0
 element = "frost"
 texture = ExtResource("2_gun")
 projectile_texture = ExtResource("1_hc7ps")
-muzzle_offset = Vector2(21, 0)
+projectile_frames = 4
+muzzle_offset = Vector2(22, 0)

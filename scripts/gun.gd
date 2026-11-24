@@ -5,13 +5,13 @@ extends Sprite2D
 @onready var attack_hitbox: WeaponHitbox = $AttackHitbox
 @onready var player: Node2D = $".."
 const BULLET = preload("uid://bjlscu3tlwgwo")
+const WEAPON_SPARK := preload("res://scripts/weapon_spark.gd")
 const LASER_BEAM = preload("res://scripts/laser_beam.gd")
 const HAMMER_SHOCKWAVE = preload("res://scripts/hammer_shockwave.gd")
 const RECOIL_RECOVERY_SECONDS := 0.1
 
 @export var data: WeaponData
-var muzzle_flash: Sprite2D
-var muzzle_flash_tween: Tween
+var muzzle_flash: WEAPON_SPARK
 var cooldown_remaining: float = 0.0
 var base_position: Vector2
 var swing_rotation_offset: float = 0.0
@@ -43,14 +43,15 @@ func _ready() -> void:
 		return
 
 	texture = data.texture
-	marker_2d.position = data.muzzle_offset
 	base_position = position
 	attack_hitbox.collision_layer = 0
 	attack_hitbox.monitoring = false
 	attack_hitbox.area_entered.connect(_on_hammer_contact)
 	attack_hitbox.collision_mask |= 8
 	attack_hitbox.area_entered.connect(_on_strike_overlap)
-	_create_muzzle_flash()
+	muzzle_flash = WEAPON_SPARK.new()
+	muzzle_flash.name = "MuzzleFlash"
+	marker_2d.add_child(muzzle_flash)
 	_update_weapon_data()
 
 func _on_strike_overlap(area: Area2D) -> void:
@@ -63,7 +64,9 @@ func set_weapon_data(value: WeaponData) -> void:
 
 func cancel_attack() -> void:
 	_stop_laser_beam()
-	hammer_shockwave = null
+	if is_instance_valid(muzzle_flash):
+		muzzle_flash.stop_spark()
+	_finish_hammer_effect()
 	attack_phase = AttackPhase.IDLE
 	attack_in_progress = false
 	attack_elapsed = 0.0
@@ -84,7 +87,7 @@ func _update_weapon_data() -> void:
 		return
 
 	texture = data.texture
-	marker_2d.position = data.muzzle_offset
+	_update_muzzle_position()
 	attack_hitbox.position = data.hitbox_offset
 	attack_hitbox.damage = data.damage
 	attack_hitbox.element = data.element
@@ -99,7 +102,23 @@ func _update_weapon_data() -> void:
 		circle_shape.radius = data.hitbox_radius
 		collision_shape.shape = circle_shape
 
+func _update_muzzle_position() -> void:
+	marker_2d.position = data.muzzle_offset
+	if flip_v:
+		marker_2d.position.y = -marker_2d.position.y
+
+func _aim_at(aim_position: Vector2) -> void:
+	var previous_rotation := global_rotation
+	look_at(aim_position)
+	var turn := absf(angle_difference(previous_rotation, global_rotation))
+	if is_instance_valid(muzzle_flash) and muzzle_flash.visible and turn > PI / 3.0:
+		muzzle_flash.stop_spark()
+	flip_v = global_rotation > PI / 2 or global_rotation < -PI / 2
+	_update_muzzle_position()
+
 func _process(delta: float) -> void:
+	if data == null:
+		return
 	if recoil_offset > 0.0:
 		recoil_offset = move_toward(recoil_offset, 0.0, delta * data.recoil_px / RECOIL_RECOVERY_SECONDS)
 
@@ -107,6 +126,12 @@ func _process(delta: float) -> void:
 		cooldown_remaining = maxf(cooldown_remaining - delta, 0.0)
 	if burst_cooldown_remaining > 0.0:
 		burst_cooldown_remaining = maxf(burst_cooldown_remaining - delta, 0.0)
+
+	_aim_at(get_global_mouse_position())
+	_update_attack_cycle(delta)
+	rotation += swing_rotation_offset
+	position = base_position + Vector2.RIGHT.rotated(rotation) * (poke_position_offset - recoil_offset)
+	_update_hammer_shockwave()
 
 	if burst_shots_left > 0:
 		burst_timer -= delta
@@ -121,18 +146,6 @@ func _process(delta: float) -> void:
 					burst_timer = 0.0
 				else:
 					burst_timer = data.burst_interval
-
-	look_at(get_global_mouse_position())
-
-	if global_rotation > PI / 2 or global_rotation < -PI / 2:
-		flip_v = true
-	else:
-		flip_v = false
-
-	_update_attack_cycle(delta)
-	rotation += swing_rotation_offset
-	position = base_position + Vector2.RIGHT.rotated(rotation) * (poke_position_offset - recoil_offset)
-	_update_hammer_shockwave()
 
 	if trigger_held and data != null:
 		if data.kind == WeaponData.WeaponKind.MELEE:
@@ -153,14 +166,19 @@ func _physics_process(_delta: float) -> void:
 		cooldown_remaining = 1.0 / data.fire_rate
 		recoil_offset = data.recoil_px
 
-	if not is_instance_valid(laser_beam):
+	var starting_beam := not is_instance_valid(laser_beam)
+	if starting_beam:
 		if not damage_tick:
 			return
 		laser_beam = LASER_BEAM.new()
 		laser_beam.top_level = true
 		add_child(laser_beam)
 		laser_beam.start_sound(data.fire_sound)
-	laser_beam.trace(global_position, marker_2d.global_position, global_transform.x.normalized(), data, damage_tick)
+	var muzzle := marker_2d.global_position
+	var direction := global_transform.x.normalized()
+	laser_beam.trace(muzzle - direction * marker_2d.position.x, muzzle, direction, data, damage_tick)
+	if starting_beam:
+		laser_beam.reset_physics_interpolation()
 
 func _stop_laser_beam() -> void:
 	if is_instance_valid(laser_beam):
@@ -169,7 +187,7 @@ func _stop_laser_beam() -> void:
 
 func _update_hammer_shockwave() -> void:
 	if not attack_hitbox.monitoring or data.id != "war_hammer":
-		hammer_shockwave = null
+		_finish_hammer_effect()
 		return
 
 	# Follow the live damage circle until it hits something or the strike ends.
@@ -182,6 +200,11 @@ func _update_hammer_shockwave() -> void:
 	if not hammer_shockwave.locked_on_impact:
 		hammer_shockwave.global_position = hit_shape.global_position
 
+func _finish_hammer_effect() -> void:
+	if is_instance_valid(hammer_shockwave) and not hammer_shockwave.locked_on_impact:
+		hammer_shockwave.finish_miss()
+	hammer_shockwave = null
+
 func _on_hammer_contact(area: Area2D) -> void:
 	if not is_instance_valid(hammer_shockwave) or hammer_shockwave.locked_on_impact:
 		return
@@ -191,22 +214,24 @@ func _on_hammer_contact(area: Area2D) -> void:
 		hammer_shockwave.global_position = hit_shape.global_position
 		hammer_shockwave.locked_on_impact = true
 
-func trigger_pressed() -> void:
+func trigger_pressed(aim_position: Vector2) -> void:
 	if data == null:
 		return
 
 	if data.kind == WeaponData.WeaponKind.MELEE:
-		shoot()
+		shoot(aim_position)
 	elif data.fire_mode == WeaponData.FireMode.SEMI:
-		shoot()
+		shoot(aim_position)
 	elif data.fire_mode == WeaponData.FireMode.BURST:
 		if burst_shots_left == 0 and burst_cooldown_remaining <= 0.0:
-			_start_burst()
+			_start_burst(aim_position)
 
-func shoot() -> void:
-	look_at(get_global_mouse_position())
+func shoot(aim_position := Vector2.INF) -> void:
 	if data == null:
 		return
+	if not aim_position.is_finite():
+		aim_position = get_global_mouse_position()
+	_aim_at(aim_position)
 
 	if data.kind == WeaponData.WeaponKind.MELEE:
 		if attack_in_progress:
@@ -223,12 +248,13 @@ func shoot() -> void:
 	if data.fire_mode in [WeaponData.FireMode.BURST, WeaponData.FireMode.CONTINUOUS_BEAM]:
 		return
 
-	_fire_ranged_shot(false)
+	_fire_ranged_shot(false, aim_position)
 
-func _start_burst() -> void:
+func _start_burst(aim_position: Vector2) -> void:
+	_aim_at(aim_position)
 	burst_shots_left = maxi(data.burst_count, 1)
 	burst_timer = 0.0
-	if not _fire_ranged_shot(true):
+	if not _fire_ranged_shot(true, aim_position):
 		burst_shots_left = 0
 		return
 	burst_shots_left -= 1
@@ -237,7 +263,7 @@ func _start_burst() -> void:
 	else:
 		burst_timer = data.burst_interval
 
-func _fire_ranged_shot(bypass_cooldown: bool) -> bool:
+func _fire_ranged_shot(bypass_cooldown: bool, aim_position := Vector2.INF) -> bool:
 	if cooldown_remaining > 0.0:
 		if not bypass_cooldown:
 			return false
@@ -251,13 +277,19 @@ func _fire_ranged_shot(bypass_cooldown: bool) -> bool:
 		cooldown_remaining = 1.0 / data.fire_rate
 
 	recoil_offset = data.recoil_px
-	_trigger_muzzle_flash()
+	muzzle_flash.play_spark(data.id, false, 0.025)
 	var is_staff := data.kind == WeaponData.WeaponKind.STAFF
-	var base_direction := (get_global_mouse_position() - marker_2d.global_position).normalized()
-	if is_staff:
-		base_direction = global_transform.x.normalized()
+	if not aim_position.is_finite():
+		aim_position = get_global_mouse_position()
+	var base_direction := (aim_position - marker_2d.global_position).normalized()
+	var barrel_direction := global_transform.x.normalized()
+	if is_staff or base_direction.dot(barrel_direction) <= 0.0:
+		# A close cursor can be between the grip and muzzle without changing facing.
+		base_direction = barrel_direction
 	var deadly: int = player.buff_manager.get_buff_level(&"deadly_strike")
 	var pellet_count := maxi(data.pellet_count, 1)
+	var room := get_tree().current_scene
+	var muzzle := marker_2d.global_position
 	for pellet_index in range(pellet_count):
 		var spread_ratio := 0.0
 		if pellet_count > 1:
@@ -270,71 +302,15 @@ func _fire_ranged_shot(bypass_cooldown: bool) -> bool:
 		new_bullet.bounces_left = player.buff_manager.get_buff_level(&"ricochet")
 		if deadly > 0 and randf() < 0.1 * deadly:
 			new_bullet.damage *= 2
-		new_bullet.position = marker_2d.global_position
 		new_bullet.target_position = direction
 		new_bullet.rotation = direction.angle()
-		get_tree().current_scene.add_child(new_bullet)
+		room.add_child(new_bullet)
+		new_bullet.global_position = muzzle
+		new_bullet.reset_physics_interpolation()
 	return true
 
-func _create_muzzle_flash() -> void:
-	muzzle_flash = Sprite2D.new()
-	muzzle_flash.name = "MuzzleFlash"
-	muzzle_flash.visible = false
-	muzzle_flash.z_index = 2
-	var flash_image := Image.create(32, 32, false, Image.FORMAT_RGBA8)
-	flash_image.fill(Color(0.0, 0.0, 0.0, 0.0))
-	for y in range(32):
-		for x in range(32):
-			var offset := Vector2(x, y) - Vector2(16, 16)
-			var distance := offset.length()
-			var pixel_is_flash := distance <= 4.0
-			pixel_is_flash = pixel_is_flash or (
-				offset.x >= 2.0
-				and offset.x <= 14.0
-				and absf(offset.y) <= 2.0
-			)
-			pixel_is_flash = pixel_is_flash or (
-				absf(offset.x) <= 1.0
-				and absf(offset.y) <= 8.0
-			)
-			pixel_is_flash = pixel_is_flash or (
-				absf(absf(offset.x) - absf(offset.y)) <= 1.0
-				and absf(offset.x) <= 6.0
-			)
-			if pixel_is_flash:
-				flash_image.set_pixel(x, y, Color(1.0, 1.0, 0.95, 1.0))
-	muzzle_flash.texture = ImageTexture.create_from_image(flash_image)
-	var material := CanvasItemMaterial.new()
-	material.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
-	muzzle_flash.material = material
-	add_child(muzzle_flash)
-
-func _trigger_muzzle_flash() -> void:
-	if muzzle_flash == null:
-		return
-	if muzzle_flash_tween != null:
-		muzzle_flash_tween.kill()
-	muzzle_flash.position = marker_2d.position
-	muzzle_flash.rotation = randf_range(-0.2, 0.2)
-	var flash_tint := Color(1.0, 0.9, 0.6)
-	if data != null:
-		match data.element:
-			"burn":
-				flash_tint = Color(1.0, 0.6, 0.2)
-			"frost":
-				flash_tint = Color(0.6, 0.85, 1.0)
-			"storm":
-				flash_tint = Color(0.75, 0.5, 1.0)
-	muzzle_flash.modulate = flash_tint
-	muzzle_flash.scale = Vector2.ONE * randf_range(0.65, 0.80)
-	muzzle_flash.visible = true
-	muzzle_flash.modulate.a = 1.0
-	muzzle_flash_tween = create_tween()
-	muzzle_flash_tween.tween_property(muzzle_flash, "modulate:a", 0.0, 0.06)
-	muzzle_flash_tween.tween_callback(func() -> void: muzzle_flash.visible = false)
-
 func _draw() -> void:
-	if data == null or data.kind == WeaponData.WeaponKind.RANGED or data.id == "war_hammer":
+	if data == null or data.kind != WeaponData.WeaponKind.MELEE or data.id == "war_hammer":
 		return
 	if attack_phase != AttackPhase.STRIKE:
 		return

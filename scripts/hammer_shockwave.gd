@@ -13,12 +13,18 @@ var dust_distances := PackedFloat32Array()
 
 func _ready() -> void:
 	z_index = 2
+	physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	# Visual randomness stays separate from gameplay rolls.
 	var random := RandomNumberGenerator.new()
 	random.randomize()
 	for index in range(DUST_COUNT):
 		dust_angles.append(TAU * (index + random.randf_range(-0.35, 0.35)) / DUST_COUNT)
 		dust_distances.append(random.randf_range(0.45, 0.92))
+
+func finish_miss() -> void:
+	var fade := create_tween()
+	fade.tween_property(self, "modulate:a", 0.0, 0.05)
+	fade.tween_callback(queue_free)
 
 func _process(delta: float) -> void:
 	elapsed += delta

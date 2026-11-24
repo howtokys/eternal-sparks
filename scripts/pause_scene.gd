@@ -71,9 +71,11 @@ func _restart_pressed() -> void:
 	play_click_sfx()
 	await click_sfx.finished
 
+	var room := get_tree().current_scene
+	var restart_scene := room.scene_file_path if room.is_in_group("practice_room") else "res://scenes/First_Room.tscn"
 	GlobalData.start_new_run()
 	resume()
-	var result := get_tree().change_scene_to_file("res://scenes/First_Room.tscn")
+	var result := get_tree().change_scene_to_file(restart_scene)
 	if result != OK:
 		leaving_scene = false
 		push_error("Could not restart the run: %s" % error_string(result))

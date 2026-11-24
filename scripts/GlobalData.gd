@@ -158,7 +158,7 @@ func save_game() -> void:
 	if run_finished or not is_instance_valid(player) or player.is_queued_for_deletion():
 		return
 	var scene := get_tree().current_scene
-	if scene == null or scene.scene_file_path.is_empty():
+	if scene == null or scene.scene_file_path.is_empty() or scene.is_in_group("practice_room"):
 		return
 
 	saved_position = player.global_position

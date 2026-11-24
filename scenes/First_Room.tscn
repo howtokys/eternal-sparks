@@ -11,8 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://djh3bo72pjv57" path="res://sprites/chests/Golden_Chest.png" id="9_golden_chest"]
 [ext_resource type="PackedScene" uid="uid://i2xcix43ba4p" path="res://scenes/fireblast_crate.tscn" id="9_of64y"]
 [ext_resource type="PackedScene" uid="uid://b8xqh1sph4580" path="res://scenes/spike.tscn" id="9_uyibl"]
-[ext_resource type="Resource" path="res://Chest_loot/weapon_long_katana.tres" id="11_weapon_long_katana"]
-[ext_resource type="Resource" path="res://Chest_loot/weapon_ember_staff.tres" id="12_weapon_ember_staff"]
 [ext_resource type="PackedScene" path="res://scenes/shop_door.tscn" id="door"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4uy7u"]
@@ -128,12 +126,12 @@ position = Vector2(288, 81)
 [node name="Chest2" parent="Floor" unique_id=787250440 instance=ExtResource("5_01mts")]
 position = Vector2(365, 48)
 closed_texture = ExtResource("8_blue_chest")
-drop = ExtResource("11_weapon_long_katana")
+loot_tier = 1
 
 [node name="Chest3" parent="Floor" unique_id=905900106 instance=ExtResource("5_01mts")]
 position = Vector2(352, 127)
 closed_texture = ExtResource("9_golden_chest")
-drop = ExtResource("12_weapon_ember_staff")
+loot_tier = 2
 
 [node name="Spike" parent="Floor" unique_id=1436312715 instance=ExtResource("9_uyibl")]
 position = Vector2(233, 200)

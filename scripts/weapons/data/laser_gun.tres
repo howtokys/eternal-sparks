@@ -15,4 +15,4 @@ fire_sound = ExtResource("4_fire_sound")
 mana_cost = 2.5
 range_px = 320.0
 texture = ExtResource("3_6sk32")
-muzzle_offset = Vector2(21, 0)
+muzzle_offset = Vector2(22, 0.5)

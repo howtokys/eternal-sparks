@@ -8,10 +8,13 @@ extends StaticBody2D
 @onready var interact_zone: Area2D = $InteractZone
 
 const PICKUP = preload("uid://ddfou1e6ljx0n")
+const WEAPON_LOOT := preload("res://scripts/weapons/weapon_loot.gd")
 const CHEST_SPRITE_SIZE := Vector2(48, 48)
 const LID_ROWS := 26.0
 
 @export var closed_texture: Texture2D
+@export var loot_tier: WEAPON_LOOT.Tier = WEAPON_LOOT.Tier.BROWN
+## Optional fixed reward for a scripted chest.
 @export var drop: ItemData
 @export var open_sound: AudioStream
 
@@ -56,11 +59,8 @@ func _unhandled_input(event: InputEvent) -> void:
 func _open() -> void:
 	if is_open:
 		return
-	if drop == null:
-		push_error("Chest is missing a drop resource.")
-		return
-
 	is_open = true
+	var reward := drop if drop != null else WEAPON_LOOT.roll(loot_tier)
 	Audio.play_sfx(open_sound)
 	prompt.hide()
 	_animate_opening()
@@ -76,7 +76,7 @@ func _open() -> void:
 
 	pickup.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
 	pickup.global_position = global_position + Vector2(0, 18)
-	pickup.data = drop
+	pickup.data = reward
 	pickup.reset_physics_interpolation()
 
 	await get_tree().process_frame

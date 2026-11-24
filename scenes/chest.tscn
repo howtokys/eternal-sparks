@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://cx56wwd8xgibi" path="res://scripts/chest.gd" id="1_chest"]
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="2_shader"]
 [ext_resource type="Texture2D" uid="uid://0bha2me8d6io" path="res://sprites/chests/Brown_Chest.png" id="3_chest_texture"]
-[ext_resource type="Resource" path="res://Chest_loot/weapon_pistol.tres" id="4_weapon_pistol"]
 [ext_resource type="AudioStream" path="res://sounds/chest_open.wav" id="5_open_sound"]
 [ext_resource type="PackedScene" path="res://scenes/interaction_prompt.tscn" id="6_prompt"]
 
@@ -36,7 +35,6 @@ collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_chest")
 closed_texture = ExtResource("3_chest_texture")
-drop = ExtResource("4_weapon_pistol")
 open_sound = ExtResource("5_open_sound")
 
 [node name="Interior" type="Polygon2D" parent="."]

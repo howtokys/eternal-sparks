@@ -1,14 +1,30 @@
 extends Node2D
 
+const WEAPON_SPARK := preload("res://scripts/weapon_spark.gd")
+const ENERGY_STRIP := preload("res://sprites/projectiles/laser_energy_strip.svg")
 const TARGET_MASK := 2
-const BEAM_EDGE := Color("#238aa8")
-const BEAM_INNER := Color("#58dbe9")
-const BEAM_CORE := Color("#e9ffff")
+const ENERGY_SCROLL_SPEED := 85.0
 
 var endpoint: Vector2
 var has_contact: bool = false
+var energy_scroll := 0.0
 var sound: AudioStreamPlayer
 var sound_fade: Tween
+var muzzle_spark := WEAPON_SPARK.new()
+var contact_spark := WEAPON_SPARK.new()
+
+func _ready() -> void:
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+	add_child(muzzle_spark)
+	add_child(contact_spark)
+	muzzle_spark.play_spark("laser_gun", false, 0.045, true)
+	contact_spark.play_spark("laser_gun", true, 0.045, true)
+	contact_spark.hide()
+
+func _process(delta: float) -> void:
+	energy_scroll = fposmod(energy_scroll + ENERGY_SCROLL_SPEED * delta, ENERGY_STRIP.get_width())
+	queue_redraw()
 
 func start_sound(stream: AudioStream) -> void:
 	sound = AudioStreamPlayer.new()
@@ -35,8 +51,14 @@ func trace(origin: Vector2, muzzle: Vector2, direction: Vector2, weapon: WeaponD
 	var hit := get_world_2d().direct_space_state.intersect_ray(query)
 	has_contact = not hit.is_empty()
 	var contact: Vector2 = hit.position if has_contact else limit
-	global_position = contact if (contact - muzzle).dot(direction) < 0.0 else muzzle
+	var blocked_before_muzzle := (contact - muzzle).dot(direction) < 0.0
+	global_position = contact if blocked_before_muzzle else muzzle
 	endpoint = (contact - global_position).round()
+	muzzle_spark.visible = not blocked_before_muzzle
+	muzzle_spark.rotation = direction.angle()
+	contact_spark.position = endpoint
+	contact_spark.rotation = direction.angle()
+	contact_spark.visible = has_contact
 	queue_redraw()
 
 	if not damage_tick or not has_contact:
@@ -53,10 +75,13 @@ func trace(origin: Vector2, muzzle: Vector2, direction: Vector2, weapon: WeaponD
 
 func _draw() -> void:
 	if endpoint != Vector2.ZERO:
-		draw_line(Vector2.ZERO, endpoint, BEAM_EDGE, 5.0)
-		draw_line(Vector2.ZERO, endpoint, BEAM_INNER, 3.0)
-		draw_line(Vector2.ZERO, endpoint, BEAM_CORE, 1.0)
-	draw_rect(Rect2(Vector2(-2, -2), Vector2(4, 4)), BEAM_INNER)
-	if has_contact:
-		draw_rect(Rect2(endpoint - Vector2(2, 2), Vector2(4, 4)), BEAM_INNER)
-		draw_rect(Rect2(endpoint - Vector2.ONE, Vector2(2, 2)), BEAM_CORE)
+		var strip_size := Vector2(endpoint.length(), ENERGY_STRIP.get_height())
+		draw_set_transform(Vector2.ZERO, endpoint.angle())
+		draw_texture_rect_region(
+			ENERGY_STRIP,
+			Rect2(Vector2(0.0, -strip_size.y * 0.5), strip_size),
+			Rect2(Vector2(-floorf(energy_scroll), 0.0), strip_size),
+			Color.WHITE,
+			false,
+			false
+		)

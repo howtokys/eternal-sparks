@@ -230,7 +230,7 @@ func _input(event: InputEvent) -> void:
 		and event.pressed
 		and weapon_switch_lockout <= 0.0
 	):
-		gun.trigger_pressed()
+		gun.trigger_pressed(get_canvas_transform().affine_inverse() * event.position)
 		return
 	if event.is_action_pressed("weapon_slot_1"):
 		switch_weapon(0)
@@ -265,12 +265,7 @@ func equip_weapon(new_data: WeaponData, drop_position := Vector2.INF) -> void:
 	GlobalData.request_save()
 	var dropped_item: ItemData = WEAPON_ITEM_DATA.get(replaced_data.id)
 	if dropped_item == null:
-		# Some weapons, including the starter rifle, have no authored chest pickup.
-		dropped_item = ItemData.new()
-		dropped_item.item_type = ItemData.Type.GUN
-		dropped_item.item_name = replaced_data.display_name
-		dropped_item.item_texture = replaced_data.texture
-		dropped_item.weapon_data = replaced_data
+		dropped_item = ItemData.from_weapon(replaced_data)
 
 	var pickup = PICKUP.instantiate()
 	pickup.data = dropped_item

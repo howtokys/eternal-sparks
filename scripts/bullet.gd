@@ -14,7 +14,12 @@ var _data: WeaponData
 var _is_staff_shot: bool = false
 var _hit_claimed: bool = false
 var _hit_targets: Dictionary[int, bool] = {}
+var _visual_age := 0.0
+var _last_step := 0.0
+const WEAPON_SPARK := preload("res://scripts/weapon_spark.gd")
 const DEFAULT_PROJECTILE_TEXTURE: Texture2D = preload("res://sprites/Bullet.png")
+const STAFF_BOLT_MATERIAL := preload("res://sprites/projectiles/staff_bolt_material.tres")
+const BOLT_FRAME_TIME := 0.035
 var data: WeaponData:
 	get:
 		return _data
@@ -33,6 +38,10 @@ var data: WeaponData:
 			projectile_texture = DEFAULT_PROJECTILE_TEXTURE
 		var sprite := $Sprite2D as Sprite2D
 		sprite.texture = projectile_texture
+		sprite.hframes = maxi(value.projectile_frames, 1)
+		sprite.frame = 0
+		_visual_age = 0.0
+		set_process(sprite.hframes > 1)
 		sprite.modulate = Color.WHITE if _is_staff_shot else _impact_color()
 
 		var collision_shape := $CollisionShape2D as CollisionShape2D
@@ -44,27 +53,34 @@ var data: WeaponData:
 		rectangle_shape.size = value.projectile_hitbox_size
 		if _is_staff_shot:
 			# Anchor the bolt's bright tip over the hitbox. The tapered tail is visual only.
-			sprite.material = null
+			sprite.material = STAFF_BOLT_MATERIAL
 			sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-			sprite.offset.x = 5.0 - projectile_texture.get_width() * 0.5
+			sprite.offset.x = 5.0 - float(projectile_texture.get_width()) / sprite.hframes * 0.5
 		sprite.scale = value.projectile_scale
 
 func _ready() -> void:
 	sweep_walls = bounces_left > 0
+	set_process($Sprite2D.hframes > 1)
 	if hostile:
 		collision_layer = 8
 		collision_mask = 3
 	body_entered.connect(_on_body_entered)
 	despawn()
 
+func _process(delta: float) -> void:
+	_visual_age += delta
+	var sprite := $Sprite2D as Sprite2D
+	sprite.frame = int(_visual_age / BOLT_FRAME_TIME) % sprite.hframes
+
 func _physics_process(delta: float) -> void:
 	var step := target_position * speed * delta
+	_last_step = step.length()
 	if sweep_walls and not step.is_zero_approx():
 		var ray := PhysicsRayQueryParameters2D.create(global_position, global_position + step, 2)
 		var hit := get_world_2d().direct_space_state.intersect_ray(ray)
 		if not hit.is_empty() and _is_wall(hit.collider) and not Vector2(hit.normal).is_zero_approx():
 			if bounces_left == 0:
-				_spawn_impact_burst()
+				_spawn_impact_burst(hit.position)
 				queue_free()
 				return
 			target_position = target_position.bounce(hit.normal)
@@ -102,7 +118,7 @@ func _on_body_entered(body: Node2D) -> void:
 	# Targets accept damage through their hurtboxes. The sweep handles wall ricochets.
 	if body is DungeonPlayer or body.is_in_group("crate") or body.is_in_group("enemy") or (sweep_walls and _is_wall(body)):
 		return
-	claim_target_hit()
+	claim_target_hit(body)
 
 func hit_enemy(enemy: Node2D) -> bool:
 	var target_id := enemy.get_instance_id()
@@ -119,48 +135,37 @@ func hit_enemy(enemy: Node2D) -> bool:
 	rotation = target_position.angle()
 	return true
 
-func claim_target_hit() -> bool:
+func claim_target_hit(body: Node2D = null) -> bool:
 	if hostile or _hit_claimed or is_queued_for_deletion():
 		return false
 	# Several hurtboxes can report the same overlap before queue_free takes effect.
 	_hit_claimed = true
-	_spawn_impact_burst.call_deferred()
+	_spawn_impact_burst.call_deferred(global_position, body)
 	queue_free()
 	return true
 
-func _spawn_impact_burst() -> void:
+func _spawn_impact_burst(at: Vector2, body: Node2D = null) -> void:
 	if _data != null and _data.id in ["laser_gun", "railgun"]:
 		return
-	var particles := GPUParticles2D.new()
-	particles.amount = 8 if _is_staff_shot else 12
-	particles.lifetime = 0.24
-	particles.one_shot = true
-	particles.explosiveness = 1.0
-	particles.global_position = global_position
-
-	var process_material := ParticleProcessMaterial.new()
-	process_material.direction = Vector3(-target_position.x, -target_position.y, 0.0)
-	process_material.spread = 60.0
-	process_material.initial_velocity_min = 40.0
-	process_material.initial_velocity_max = 90.0
-	process_material.gravity = Vector3.ZERO
-	process_material.scale_min = 0.6
-	process_material.scale_max = 1.4
-	process_material.damping_min = 20.0
-	process_material.damping_max = 40.0
-	process_material.color = _impact_color()
-	particles.process_material = process_material
-
-	var particle_gradient := Gradient.new()
-	particle_gradient.colors = PackedColorArray([Color.WHITE, Color.WHITE])
-	var particle_texture := GradientTexture2D.new()
-	particle_texture.gradient = particle_gradient
-	particle_texture.width = 4
-	particle_texture.height = 4
-	particles.texture = particle_texture
-	get_tree().current_scene.add_child(particles)
-	particles.emitting = true
-	particles.finished.connect(particles.queue_free)
+	var room := get_tree().current_scene
+	if room == null:
+		return
+	var spark := WEAPON_SPARK.new()
+	var rifle_shot := _data != null and _data.id == "auto_rifle"
+	if rifle_shot and is_instance_valid(body) and _is_wall(body):
+		# A fast bullet's center can already be inside the wall when overlap fires.
+		var query := PhysicsRayQueryParameters2D.create(
+			at - target_position * (_last_step + 8.0), at + target_position * 8.0, collision_mask
+		)
+		var hit := get_world_2d().direct_space_state.intersect_ray(query)
+		if hit.get("collider") == body:
+			at = hit.position - target_position
+	room.add_child(spark)
+	spark.global_position = at
+	spark.rotation = target_position.angle()
+	spark.reset_physics_interpolation()
+	spark.play_spark(_data.id if _data else "", true, 0.025 if rifle_shot else 0.045)
+	spark.animation.finished.connect(spark.queue_free)
 
 func _impact_color() -> Color:
 	match element:

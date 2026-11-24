@@ -1,0 +1,13 @@
+[gd_resource type="GradientTexture2D" format=3 uid="uid://dfod3t3ob6r84"]
+
+[sub_resource type="Gradient" id="falloff"]
+offsets = PackedFloat32Array(0, 0.4, 1)
+colors = PackedColorArray(1, 1, 1, 0.36, 1, 1, 1, 0.16, 1, 1, 1, 0)
+
+[resource]
+gradient = SubResource("falloff")
+width = 20
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
