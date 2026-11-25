@@ -1,0 +1,314 @@
+[gd_scene format=4 uid="uid://ggo5fis73igr"]
+
+[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_7hp4u"]
+[ext_resource type="Texture2D" uid="uid://bpnvwqs86s6qn" path="res://sprites/Forest_titlesset.png" id="2_h83ob"]
+[ext_resource type="PackedScene" uid="uid://2fvnydut0j2x" path="res://scenes/crate.tscn" id="3_vy8vn"]
+[ext_resource type="PackedScene" uid="uid://i2xcix43ba4p" path="res://scenes/fireblast_crate.tscn" id="4_1untl"]
+[ext_resource type="PackedScene" uid="uid://b8xqh1sph4580" path="res://scenes/spike.tscn" id="5_f7hpu"]
+[ext_resource type="PackedScene" uid="uid://bo312dwsbuf52" path="res://scenes/speed_buff_title.tscn" id="6_hkprr"]
+[ext_resource type="PackedScene" uid="uid://dn0ookbq4conu" path="res://scenes/speed_debuff_title.tscn" id="7_l7adx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fk0ug"]
+shader = ExtResource("1_7hp4u")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vdo4q"]
+texture = ExtResource("2_h83ob")
+11:6/0 = 0
+12:6/0 = 0
+13:6/0 = 0
+14:6/0 = 0
+15:6/0 = 0
+16:6/0 = 0
+17:6/0 = 0
+18:6/0 = 0
+19:6/0 = 0
+20:6/0 = 0
+21:6/0 = 0
+22:6/0 = 0
+23:6/0 = 0
+24:6/0 = 0
+26:6/0 = 0
+11:7/0 = 0
+12:7/0 = 0
+13:7/0 = 0
+14:7/0 = 0
+16:7/0 = 0
+18:7/0 = 0
+19:7/0 = 0
+20:7/0 = 0
+21:7/0 = 0
+22:7/0 = 0
+23:7/0 = 0
+24:7/0 = 0
+25:7/0 = 0
+26:7/0 = 0
+24:8/0 = 0
+25:8/0 = 0
+25:9/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_vri1b"]
+sources/0 = SubResource("TileSetAtlasSource_vdo4q")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4sbp3"]
+texture = ExtResource("2_h83ob")
+texture_region_size = Vector2i(16, 32)
+11:6/0 = 0
+12:6/0 = 0
+13:6/0 = 0
+14:6/0 = 0
+15:6/0 = 0
+16:6/0 = 0
+17:6/0 = 0
+18:6/0 = 0
+19:6/0 = 0
+20:6/0 = 0
+21:6/0 = 0
+22:6/0 = 0
+23:6/0 = 0
+24:6/0 = 0
+26:6/0 = 0
+11:7/0 = 0
+12:7/0 = 0
+13:7/0 = 0
+14:7/0 = 0
+16:7/0 = 0
+18:7/0 = 0
+19:7/0 = 0
+20:7/0 = 0
+21:7/0 = 0
+22:7/0 = 0
+23:7/0 = 0
+24:7/0 = 0
+25:7/0 = 0
+26:7/0 = 0
+24:8/0 = 0
+25:8/0 = 0
+25:9/0 = 0
+23:3/0 = 0
+23:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+22:3/0 = 0
+22:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+26:3/0 = 0
+26:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_lij7q"]
+physics_layer_0/collision_layer = 2
+physics_layer_0/collision_mask = 0
+sources/0 = SubResource("TileSetAtlasSource_4sbp3")
+
+[node name="Room2" type="Node2D" unique_id=447909145]
+material = SubResource("ShaderMaterial_fk0ug")
+
+[node name="Floor" type="TileMapLayer" parent="." unique_id=220162763]
+use_parent_material = true
+tile_map_data = PackedByteArray("AAABAAEAAAAVAAYAAAACAAEAAAAUAAcAAAACAAIAAAASAAcAAAADAAIAAAASAAcAAAAEAAIAAAASAAcAAAAFAAMAAAAVAAYAAAAGAAQAAAAVAAYAAAAHAAUAAAASAAcAAAAIAAYAAAAVAAcAAAAJAAcAAAATAAYAAAAKAAcAAAASAAcAAAALAAgAAAASAAcAAAAMAAkAAAAUAAYAAAANAAoAAAATAAYAAAAOAAoAAAAVAAYAAAAOAAsAAAAUAAYAAAAPAAsAAAAVAAYAAAAQAAsAAAATAAcAAAAQAAwAAAAVAAcAAAAQAA0AAAASAAcAAAARAA0AAAASAAYAAAARAAEAAAAUAAYAAAAQAAEAAAATAAYAAAAPAAEAAAAVAAYAAAAOAAEAAAAUAAcAAAANAAEAAAASAAYAAAAMAAEAAAAUAAcAAAALAAEAAAASAAcAAAAKAAEAAAAVAAYAAAAJAAEAAAATAAcAAAAIAAEAAAAUAAYAAAAHAAEAAAATAAYAAAAGAAEAAAATAAYAAAAFAAEAAAATAAcAAAAEAAEAAAAVAAYAAAADAAEAAAASAAYAAAABAAIAAAATAAYAAAABAAMAAAAVAAYAAAABAAQAAAASAAYAAAABAAUAAAAUAAYAAAABAAYAAAATAAcAAAABAAcAAAATAAYAAAABAAgAAAAVAAYAAAABAAkAAAAVAAYAAAABAAoAAAAUAAcAAAABAAsAAAAUAAYAAAABAAwAAAATAAYAAAACAA0AAAASAAYAAAACAAwAAAAUAAcAAAACAAsAAAATAAcAAAABAA0AAAAUAAYAAAACAAoAAAASAAYAAAACAAkAAAAUAAcAAAACAAgAAAATAAcAAAACAAcAAAAUAAcAAAACAAYAAAATAAYAAAACAAUAAAAUAAYAAAACAAQAAAATAAYAAAACAAMAAAAVAAYAAAADAAMAAAAUAAYAAAADAAQAAAAUAAYAAAADAAUAAAASAAYAAAADAAYAAAAVAAcAAAADAAcAAAATAAYAAAADAAgAAAASAAcAAAADAAkAAAATAAcAAAADAAoAAAASAAcAAAADAAsAAAAUAAcAAAADAAwAAAATAAYAAAADAA0AAAATAAcAAAAEAA0AAAASAAcAAAAEAAwAAAAUAAcAAAAEAAsAAAAVAAcAAAAEAAoAAAAVAAcAAAAEAAkAAAAVAAcAAAAFAAgAAAATAAcAAAAFAAcAAAASAAYAAAAFAAYAAAAVAAYAAAAFAAUAAAAUAAYAAAAFAAQAAAASAAYAAAAEAAMAAAATAAcAAAAEAAQAAAAVAAcAAAAEAAUAAAAUAAcAAAAEAAYAAAATAAcAAAAEAAcAAAAUAAcAAAAEAAgAAAAUAAcAAAAFAAIAAAAVAAYAAAAFAAkAAAASAAYAAAAFAAoAAAATAAYAAAAFAAsAAAASAAcAAAAFAAwAAAASAAYAAAAFAA0AAAAUAAYAAAAGAA0AAAATAAYAAAAGAAwAAAAUAAYAAAAGAAsAAAASAAYAAAAGAAoAAAATAAYAAAAGAAkAAAATAAcAAAAGAAgAAAAVAAYAAAAGAAcAAAASAAcAAAAGAAYAAAAUAAYAAAAGAAUAAAAVAAYAAAAGAAMAAAAVAAcAAAAGAAIAAAATAAcAAAAHAAIAAAAVAAYAAAAHAAMAAAAUAAcAAAAHAAQAAAATAAcAAAAHAAYAAAAVAAYAAAAHAAcAAAASAAYAAAAHAAgAAAAUAAcAAAAHAAkAAAATAAcAAAAHAAoAAAATAAcAAAAHAAsAAAASAAYAAAAHAAwAAAAUAAYAAAAHAA0AAAAVAAYAAAAIAA0AAAASAAcAAAAIAAwAAAAUAAcAAAAIAAsAAAAUAAcAAAAIAAoAAAASAAcAAAAIAAkAAAASAAYAAAAIAAgAAAAUAAcAAAAIAAcAAAASAAcAAAAIAAUAAAATAAcAAAAIAAQAAAAVAAcAAAAIAAMAAAASAAcAAAAIAAIAAAASAAcAAAAJAAIAAAASAAcAAAAJAAMAAAASAAcAAAAJAAQAAAASAAcAAAAJAAUAAAAUAAcAAAAJAAYAAAASAAcAAAAJAAgAAAAUAAYAAAAJAAkAAAASAAYAAAAJAAoAAAATAAcAAAAJAAsAAAAVAAcAAAAJAAwAAAAVAAYAAAAJAA0AAAASAAcAAAAKAA0AAAASAAcAAAAKAAwAAAAVAAcAAAAKAAsAAAAVAAcAAAAKAAoAAAATAAcAAAAKAAkAAAATAAYAAAAKAAgAAAAVAAcAAAAKAAYAAAATAAYAAAAKAAUAAAASAAYAAAAKAAQAAAAUAAYAAAAKAAMAAAATAAYAAAAKAAIAAAASAAYAAAALAAIAAAASAAcAAAALAAMAAAAUAAcAAAALAAQAAAAUAAcAAAALAAUAAAAUAAYAAAALAAYAAAATAAcAAAALAAcAAAAUAAYAAAALAAkAAAASAAcAAAALAAoAAAAVAAcAAAALAAsAAAATAAcAAAALAAwAAAAUAAcAAAALAA0AAAAVAAYAAAAMAA0AAAAUAAYAAAANAA0AAAAVAAcAAAANAAwAAAAUAAcAAAANAAsAAAASAAYAAAANAAkAAAAUAAcAAAANAAgAAAAVAAcAAAANAAcAAAATAAcAAAANAAYAAAATAAcAAAANAAUAAAASAAYAAAAMAAUAAAATAAcAAAAMAAQAAAAUAAcAAAAMAAMAAAAVAAYAAAAMAAIAAAASAAYAAAAMAAYAAAATAAcAAAAMAAcAAAASAAYAAAAMAAgAAAAUAAcAAAAMAAoAAAATAAYAAAAMAAsAAAAVAAcAAAAMAAwAAAASAAcAAAAOAAkAAAATAAcAAAAOAAgAAAATAAYAAAAOAAcAAAASAAcAAAAOAAYAAAAVAAcAAAAOAAUAAAASAAcAAAAOAAQAAAATAAcAAAANAAMAAAAUAAYAAAANAAIAAAAUAAcAAAAOAAIAAAASAAcAAAAOAAMAAAASAAcAAAANAAQAAAASAAYAAAAPAAIAAAAVAAcAAAAQAAIAAAAVAAcAAAARAAIAAAAUAAYAAAARAAMAAAASAAcAAAARAAQAAAAVAAcAAAARAAUAAAAVAAcAAAARAAYAAAASAAcAAAARAAcAAAASAAYAAAARAAgAAAASAAYAAAARAAkAAAAUAAcAAAARAAoAAAAVAAYAAAARAAsAAAAUAAYAAAARAAwAAAAUAAYAAAAPAA0AAAASAAYAAAAOAA0AAAAVAAYAAAAOAAwAAAAVAAcAAAAPAAwAAAATAAcAAAAPAAoAAAASAAYAAAAQAAoAAAATAAYAAAAQAAkAAAAUAAYAAAAPAAkAAAAUAAYAAAAPAAgAAAATAAcAAAAQAAgAAAATAAYAAAAQAAcAAAATAAcAAAAQAAYAAAATAAcAAAAPAAYAAAAVAAcAAAAQAAUAAAAUAAcAAAAPAAUAAAASAAcAAAAQAAQAAAASAAYAAAAPAAQAAAAUAAcAAAAPAAcAAAAVAAYAAAAPAAMAAAAVAAYAAAAQAAMAAAAVAAcAAAA=")
+tile_set = SubResource("TileSet_vri1b")
+
+[node name="Crate9" parent="Floor" unique_id=1469868432 instance=ExtResource("3_vy8vn")]
+position = Vector2(88, 71)
+
+[node name="Crate8" parent="Floor" unique_id=2012149381 instance=ExtResource("3_vy8vn")]
+position = Vector2(72, 71)
+
+[node name="Crate13" parent="Floor" unique_id=2018609019 instance=ExtResource("3_vy8vn")]
+position = Vector2(56, 71)
+
+[node name="Crate14" parent="Floor" unique_id=135514351 instance=ExtResource("3_vy8vn")]
+position = Vector2(104, 71)
+
+[node name="Crate15" parent="Floor" unique_id=1955641742 instance=ExtResource("3_vy8vn")]
+position = Vector2(104, 71)
+
+[node name="Crate16" parent="Floor" unique_id=1739145742 instance=ExtResource("3_vy8vn")]
+position = Vector2(120, 71)
+
+[node name="Crate17" parent="Floor" unique_id=580005701 instance=ExtResource("3_vy8vn")]
+position = Vector2(168, 71)
+
+[node name="Crate18" parent="Floor" unique_id=1169814451 instance=ExtResource("3_vy8vn")]
+position = Vector2(152, 71)
+
+[node name="Crate19" parent="Floor" unique_id=904092741 instance=ExtResource("3_vy8vn")]
+position = Vector2(136, 71)
+
+[node name="Crate20" parent="Floor" unique_id=1636382352 instance=ExtResource("3_vy8vn")]
+position = Vector2(184, 71)
+
+[node name="Crate21" parent="Floor" unique_id=508909869 instance=ExtResource("3_vy8vn")]
+position = Vector2(184, 71)
+
+[node name="Crate22" parent="Floor" unique_id=1928774678 instance=ExtResource("3_vy8vn")]
+position = Vector2(200, 71)
+
+[node name="Crate23" parent="Floor" unique_id=107124447 instance=ExtResource("3_vy8vn")]
+position = Vector2(248, 71)
+
+[node name="Crate26" parent="Floor" unique_id=1195987976 instance=ExtResource("3_vy8vn")]
+position = Vector2(248, 87)
+
+[node name="Crate27" parent="Floor" unique_id=1777999064 instance=ExtResource("3_vy8vn")]
+position = Vector2(248, 103)
+
+[node name="Crate28" parent="Floor" unique_id=429609909 instance=ExtResource("3_vy8vn")]
+position = Vector2(248, 119)
+
+[node name="Crate24" parent="Floor" unique_id=1539934450 instance=ExtResource("3_vy8vn")]
+position = Vector2(232, 71)
+
+[node name="Crate25" parent="Floor" unique_id=1458133095 instance=ExtResource("3_vy8vn")]
+position = Vector2(216, 71)
+
+[node name="Crate2" parent="Floor" unique_id=1062938687 instance=ExtResource("3_vy8vn")]
+position = Vector2(104, 87)
+
+[node name="Crate3" parent="Floor" unique_id=25320086 instance=ExtResource("3_vy8vn")]
+position = Vector2(104, 103)
+
+[node name="Crate6" parent="Floor" unique_id=1159044900 instance=ExtResource("3_vy8vn")]
+position = Vector2(104, 118)
+
+[node name="Crate29" parent="Floor" unique_id=1738848670 instance=ExtResource("3_vy8vn")]
+position = Vector2(104, 135)
+
+[node name="Crate32" parent="Floor" unique_id=1198585838 instance=ExtResource("3_vy8vn")]
+position = Vector2(120, 87)
+
+[node name="Crate33" parent="Floor" unique_id=1434150157 instance=ExtResource("3_vy8vn")]
+position = Vector2(120, 103)
+
+[node name="Fireblast Crate" parent="Floor" unique_id=1676884060 instance=ExtResource("4_1untl")]
+position = Vector2(120, 118)
+
+[node name="Crate35" parent="Floor" unique_id=1932187262 instance=ExtResource("3_vy8vn")]
+position = Vector2(120, 135)
+
+[node name="Crate36" parent="Floor" unique_id=1110587099 instance=ExtResource("3_vy8vn")]
+position = Vector2(136, 87)
+
+[node name="Crate37" parent="Floor" unique_id=1172599383 instance=ExtResource("3_vy8vn")]
+position = Vector2(136, 103)
+
+[node name="Crate38" parent="Floor" unique_id=281996076 instance=ExtResource("3_vy8vn")]
+position = Vector2(136, 118)
+
+[node name="Crate39" parent="Floor" unique_id=77757544 instance=ExtResource("3_vy8vn")]
+position = Vector2(136, 135)
+
+[node name="Crate40" parent="Floor" unique_id=1996649965 instance=ExtResource("3_vy8vn")]
+position = Vector2(152, 87)
+
+[node name="Crate41" parent="Floor" unique_id=1587920975 instance=ExtResource("3_vy8vn")]
+position = Vector2(152, 103)
+
+[node name="Crate42" parent="Floor" unique_id=939259838 instance=ExtResource("3_vy8vn")]
+position = Vector2(152, 118)
+
+[node name="Crate43" parent="Floor" unique_id=136402264 instance=ExtResource("3_vy8vn")]
+position = Vector2(152, 135)
+
+[node name="Crate44" parent="Floor" unique_id=425621472 instance=ExtResource("3_vy8vn")]
+position = Vector2(168, 87)
+
+[node name="Crate45" parent="Floor" unique_id=1729297423 instance=ExtResource("3_vy8vn")]
+position = Vector2(168, 103)
+
+[node name="Crate46" parent="Floor" unique_id=884388988 instance=ExtResource("3_vy8vn")]
+position = Vector2(168, 118)
+
+[node name="Crate47" parent="Floor" unique_id=1819776017 instance=ExtResource("3_vy8vn")]
+position = Vector2(168, 135)
+
+[node name="Crate48" parent="Floor" unique_id=378569160 instance=ExtResource("3_vy8vn")]
+position = Vector2(184, 87)
+
+[node name="Fireblast Crate2" parent="Floor" unique_id=311641864 instance=ExtResource("4_1untl")]
+position = Vector2(184, 103)
+
+[node name="Crate50" parent="Floor" unique_id=1116393213 instance=ExtResource("3_vy8vn")]
+position = Vector2(184, 118)
+
+[node name="Crate51" parent="Floor" unique_id=1638847685 instance=ExtResource("3_vy8vn")]
+position = Vector2(184, 135)
+
+[node name="Crate52" parent="Floor" unique_id=617525970 instance=ExtResource("3_vy8vn")]
+position = Vector2(200, 87)
+
+[node name="Crate53" parent="Floor" unique_id=156835413 instance=ExtResource("3_vy8vn")]
+position = Vector2(200, 103)
+
+[node name="Crate54" parent="Floor" unique_id=2048535586 instance=ExtResource("3_vy8vn")]
+position = Vector2(200, 118)
+
+[node name="Crate55" parent="Floor" unique_id=237284943 instance=ExtResource("3_vy8vn")]
+position = Vector2(200, 135)
+
+[node name="Wall" type="TileMapLayer" parent="Floor" unique_id=832221501]
+use_parent_material = true
+tile_map_data = PackedByteArray("AAAAAAAAAAAWAAMAAAAAAAEAAAAWAAMAAAAAAAIAAAAXAAMAAAAAAAMAAAAWAAMAAAAAAAQAAAAXAAMAAAAAAAUAAAAXAAMAAAAAAAYAAAAWAAMAAAAAAAcAAAAXAAMAAAAAAAgAAAAWAAMAAAAAAAkAAAAXAAMAAAAAAAoAAAAWAAMAAAAAAAsAAAAWAAMAAAAAAAwAAAAWAAMAAAAAAA0AAAAWAAMAAAAAAA4AAAAWAAMAAAABAA4AAAAXAAMAAAACAA4AAAAXAAMAAAADAA4AAAAXAAMAAAAEAA4AAAAXAAMAAAAFAA4AAAAXAAMAAAAGAA4AAAAXAAMAAAAHAA4AAAAWAAMAAAAIAA4AAAAXAAMAAAAJAA4AAAAXAAMAAAAKAA4AAAAXAAMAAAALAA4AAAAXAAMAAAAMAA4AAAAWAAMAAAANAA4AAAAWAAMAAAAOAA4AAAAXAAMAAAAQAA4AAAAXAAMAAAARAA4AAAAXAAMAAAASAA4AAAAXAAMAAAASAAAAAAAXAAMAAAASAAEAAAAWAAMAAAASAAIAAAAXAAMAAAASAAMAAAAWAAMAAAASAAQAAAAXAAMAAAASAAUAAAAXAAMAAAASAAYAAAAWAAMAAAASAAcAAAAXAAMAAAASAAgAAAAXAAMAAAASAAkAAAAWAAMAAAASAAoAAAAXAAMAAAASAAsAAAAXAAMAAAASAAwAAAAWAAMAAAASAA0AAAAXAAMAAAABAAAAAAAWAAMAAAACAAAAAAAXAAMAAAADAAAAAAAXAAMAAAAEAAAAAAAXAAMAAAAFAAAAAAAWAAMAAAAGAAAAAAAWAAMAAAAHAAAAAAAXAAMAAAAIAAAAAAAXAAMAAAAJAAAAAAAXAAMAAAAKAAAAAAAXAAMAAAALAAAAAAAWAAMAAAANAAAAAAAWAAMAAAAOAAAAAAAXAAMAAAAPAAAAAAAWAAMAAAAQAAAAAAAWAAMAAAARAAAAAAAXAAMAAAAMAAAAAAAWAAMAAAANAAUAAAAaAAMAAAAOAAUAAAAaAAMAAAAOAAYAAAAaAAMAAAANAAYAAAAaAAMAAAAEAAUAAAAaAAMAAAAEAAYAAAAaAAMAAAAFAAYAAAAaAAMAAAAFAAUAAAAaAAMAAAAEAAcAAAAaAAMAAAAFAAcAAAAaAAMAAAANAAcAAAAaAAMAAAAOAAcAAAAaAAMAAAADAAEAAAAWAAcAAAAFAAEAAAAWAAcAAAAMAAEAAAAWAAcAAAAPAAEAAAAWAAcAAAAQAAEAAAAWAAcAAAABAA8AAAAWAAcAAAACAA8AAAAWAAcAAAADAA8AAAAWAAcAAAAFAA8AAAAWAAcAAAAGAA8AAAAWAAcAAAAIAA8AAAAWAAcAAAAJAA8AAAAWAAcAAAAKAA8AAAAWAAcAAAAOAA8AAAAWAAcAAAAQAA8AAAAWAAcAAAASAA8AAAAWAAcAAAAAAA8AAAAXAAcAAAAEAA8AAAAXAAcAAAAHAA8AAAAXAAcAAAALAA8AAAAXAAcAAAAMAA8AAAAXAAcAAAANAA8AAAAXAAcAAAAPAA8AAAAXAAcAAAARAA8AAAAXAAcAAAABAAEAAAAXAAcAAAACAAEAAAAXAAcAAAAEAAEAAAAXAAcAAAAGAAEAAAAXAAcAAAANAAEAAAAXAAcAAAAOAAEAAAAXAAcAAAARAAEAAAAXAAcAAAAPAA4AAAAWAAMAAAA=")
+tile_set = SubResource("TileSet_lij7q")
+
+[node name="Crate4" parent="Floor" unique_id=42428558 instance=ExtResource("3_vy8vn")]
+position = Vector2(88, 135)
+
+[node name="Crate5" parent="Floor" unique_id=1097721957 instance=ExtResource("3_vy8vn")]
+position = Vector2(72, 135)
+
+[node name="Crate30" parent="Floor" unique_id=301466649 instance=ExtResource("3_vy8vn")]
+position = Vector2(232, 135)
+
+[node name="Crate56" parent="Floor" unique_id=1901514552 instance=ExtResource("3_vy8vn")]
+position = Vector2(248, 135)
+
+[node name="Crate31" parent="Floor" unique_id=559849738 instance=ExtResource("3_vy8vn")]
+position = Vector2(216, 135)
+
+[node name="Crate7" parent="Floor" unique_id=398270501 instance=ExtResource("3_vy8vn")]
+position = Vector2(56, 87)
+
+[node name="Crate10" parent="Floor" unique_id=1900979842 instance=ExtResource("3_vy8vn")]
+position = Vector2(56, 104)
+
+[node name="Crate11" parent="Floor" unique_id=1155879073 instance=ExtResource("3_vy8vn")]
+position = Vector2(56, 120)
+
+[node name="Crate12" parent="Floor" unique_id=1676451920 instance=ExtResource("3_vy8vn")]
+position = Vector2(56, 135)
+
+[node name="Spike" parent="Floor" unique_id=1436312715 instance=ExtResource("5_f7hpu")]
+position = Vector2(104, 184)
+
+[node name="Spike2" parent="Floor" unique_id=1554747293 instance=ExtResource("5_f7hpu")]
+position = Vector2(120, 184)
+
+[node name="Spike3" parent="Floor" unique_id=500498982 instance=ExtResource("5_f7hpu")]
+position = Vector2(136, 184)
+
+[node name="Spike4" parent="Floor" unique_id=300533834 instance=ExtResource("5_f7hpu")]
+position = Vector2(152, 184)
+
+[node name="Spike5" parent="Floor" unique_id=2010975228 instance=ExtResource("5_f7hpu")]
+position = Vector2(168, 184)
+
+[node name="Spike6" parent="Floor" unique_id=1534975794 instance=ExtResource("5_f7hpu")]
+position = Vector2(184, 184)
+
+[node name="Spike7" parent="Floor" unique_id=271069359 instance=ExtResource("5_f7hpu")]
+position = Vector2(200, 184)
+
+[node name="Speed Buff Title" parent="Floor" unique_id=981664990 instance=ExtResource("6_hkprr")]
+position = Vector2(88, 184)
+
+[node name="Speed Debuff Title" parent="Floor" unique_id=1642271954 instance=ExtResource("7_l7adx")]
+position = Vector2(216, 184)
+
+[node name="ExitNorth" type="Marker2D" parent="." unique_id=1564953691]
+position = Vector2(152, 7)
+
+[node name="ExitWest" type="Marker2D" parent="." unique_id=2001337402]
+position = Vector2(8, 119)
+
+[node name="ExitSouth" type="Marker2D" parent="." unique_id=359596777]
+position = Vector2(153, 233)
+
+[node name="ExitEast" type="Marker2D" parent="." unique_id=799295744]
+position = Vector2(296, 119)

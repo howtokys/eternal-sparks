@@ -9,9 +9,9 @@ enum Stat { HEALTH, SHIELD, MANA }
 
 const MINIMUM_HEALTH := 2
 const MINIMUM_SHIELD := 1
-const MINIMUM_MANA := 50
+const MINIMUM_MANA :	= 50
 
-const SPEED = 150.0
+const SPEED = 500.0
 const PICKUP = preload("uid://ddfou1e6ljx0n")
 const WEAPON_ITEM_DATA := {
 	"pistol": preload("res://Chest_loot/weapon_pistol.tres"),
