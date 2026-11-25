@@ -105,7 +105,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAXAAYAAAABAAAAAAAWAAMAAAACAAAAAAAWAAM
 tile_set = SubResource("TileSet_fk0ug")
 
 [node name="Start" type="Marker2D" parent="." unique_id=1793689158]
-position = Vector2(25, 55)
+position = Vector2(16, 56)
 
 [node name="End" type="Marker2D" parent="." unique_id=1404218339]
-position = Vector2(313, 55)
+position = Vector2(320, 56)

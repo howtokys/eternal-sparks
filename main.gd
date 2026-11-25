@@ -4,83 +4,142 @@ extends Node2D
 @export var room_scenes: Array[PackedScene]
 @export var corridor_scene: PackedScene
 @export var room_count: int = 5
-@export var room_spacing: float = 1000.0
 
 var rooms: Array[Node2D] = []
 var used_exits: Dictionary = {}
-
-const DIRECTIONS = [
-	Vector2.RIGHT,
-	Vector2.LEFT,
-	Vector2.UP,
-	Vector2.DOWN
-]
+var rooms_left: int
+var used_room_scenes: Array[PackedScene] = []
 
 func _ready() -> void:
 	generate()
 
 func generate() -> void:
+	rooms_left = room_count
+	
 	var start = start_room.instantiate()
 	add_child(start)
 	start.global_position = Vector2.ZERO
 	rooms.append(start)
-	print("Start room placed")
+	print("=== START ROOM SPAWNED ===")
 	
-	for i in room_count:
-		var scene = room_scenes[randi() % room_scenes.size()]
-		var room = scene.instantiate()
-		add_child(room)
-		
-		var placed = false
-		for attempt in 40:
-			var parent = rooms[randi() % rooms.size()]
-			var dir = DIRECTIONS[randi() % DIRECTIONS.size()]
-			
-			var exit_a = get_any_free_exit(parent)
-			if exit_a == null:
-				continue
-			
-			room.global_position = parent.global_position + dir * room_spacing
-			rooms.append(room)
-			
-			if connect_rooms(parent, room, exit_a, dir):
-				placed = true
-				break
-		
-		if not placed:
-			print("Could not place room ", i)
-			room.queue_free()
+	spawn_from_room(start, true)
+	
+func spawn_from_room(room: Node2D, is_start: bool = false) -> void:
+	if rooms_left <= 0:
+		return
+	
+	var free_exits = get_free_exits(room)
+	print("Room ", room.name, " has ", free_exits.size(), " free exits")
+	if free_exits.is_empty():
+		return
+	
+	var max_to_use = 1 if is_start else mini(mini(3, free_exits.size()), rooms_left)
+	var to_use = randi_range(1, max_to_use)
+	free_exits.shuffle()
+	
+	var new_rooms: Array[Node2D] = []
+	
+	for i in to_use:
+		if rooms_left <= 0:
+			break
+		var new_room = spawn_corridor_and_room(room, free_exits[i])
+		if new_room:
+			new_rooms.append(new_room)
+	
+	for new_room in new_rooms:
+		spawn_from_room(new_room, false)
 
-func connect_rooms(a: Node2D, b: Node2D, exit_a: Node2D, dir: Vector2) -> bool:
-	var exit_b = get_any_free_exit(b)
-	if exit_b == null:
-		print("No free exit on ", b.name)
-		return false
+func spawn_corridor_and_room(parent_room: Node2D, exit: Node2D) -> Node2D:
+	if rooms_left <= 0:
+		return null
 	
-	used_exits[exit_a] = true
-	used_exits[exit_b] = true
+	print("\n--- Connecting from ", parent_room.name, " exit: ", exit.name, " ---")
 	
-	if corridor_scene == null:
-		print("ERROR: corridor_scene is not assigned")
-		return false
-	
+	# 1. Spawn corridor
 	var corridor = corridor_scene.instantiate()
 	add_child(corridor)
 	
-	var mid = (exit_a.global_position + exit_b.global_position) / 2.0
-	corridor.global_position = mid
+	var c_start = corridor.get_node_or_null("Start")
+	var c_end = corridor.get_node_or_null("End")
+	if c_start == null or c_end == null:
+		push_error("Corridor missing Start or End")
+		corridor.queue_free()
+		return null
 	
-	# Cardinal rotation only
-	if abs(dir.x) > abs(dir.y):
-		corridor.rotation = 0 if dir.x > 0 else PI
-	else:
-		corridor.rotation = PI / 2 if dir.y > 0 else -PI / 2
+	# 2. Rotate corridor based on which exit we're connecting from
+	match exit.name:
+		"ExitEast":
+			corridor.rotation = 0
+		"ExitWest":
+			corridor.rotation = PI
+		"ExitSouth":
+			corridor.rotation = PI / 2
+		"ExitNorth":
+			corridor.rotation = -PI / 2
+		_:
+			print("Unknown exit name: ", exit.name)
+			corridor.queue_free()
+			return null
 	
-	print("Connected ", a.name, " → ", b.name, " | corridor at ", mid)
-	return true
+	print("Corridor rotated for ", exit.name)
+	
+	# 3. Align corridor Start marker to the exit
+	corridor.global_position += exit.global_position - c_start.global_position
+	print("Corridor Start aligned to ", exit.name)
+	
+	used_exits[exit] = true
+	
+	# 4. Pick an unused room scene
+	var available_scenes: Array[PackedScene] = []
+	for scene in room_scenes:
+		if not used_room_scenes.has(scene):
+			available_scenes.append(scene)
+	
+	if available_scenes.is_empty():
+		print("ERROR: No unused room scenes left")
+		corridor.queue_free()
+		return null
+	
+	var scene = available_scenes[randi() % available_scenes.size()]
+	used_room_scenes.append(scene)
+	
+	var new_room = scene.instantiate()
+	add_child(new_room)
+	
+	# 5. Find the opposite exit on the new room
+	var opposite_name = get_opposite_exit_name(exit.name)
+	var room_exit = new_room.get_node_or_null(opposite_name)
+	
+	if room_exit == null or used_exits.has(room_exit):
+		print("ERROR: New room missing free ", opposite_name)
+		new_room.queue_free()
+		return null
+	
+	print("Aligning to ", opposite_name, " on new room")
+	
+	# 6. Align the opposite exit to the corridor's End marker
+	new_room.global_position += c_end.global_position - room_exit.global_position
+	print("Room ", opposite_name, " aligned to corridor End")
+	
+	used_exits[room_exit] = true
+	rooms.append(new_room)
+	rooms_left -= 1
+	
+	print("=== ROOM PLACED ===")
+	
+	return new_room
 
-func get_any_free_exit(room: Node2D) -> Node2D:
+func get_opposite_exit_name(exit_name: String) -> String:
+	match exit_name:
+		"ExitNorth": return "ExitSouth"
+		"ExitSouth": return "ExitNorth"
+		"ExitEast": return "ExitWest"
+		"ExitWest": return "ExitEast"
+		_: return ""
+
+func get_free_exits(room: Node2D) -> Array[Node2D]:
+	var result: Array[Node2D] = []
 	for child in room.get_children():
 		if child.name.begins_with("Exit") and not used_exits.has(child):
-			return child
-	return null
+			result.append(child)
+	return result
