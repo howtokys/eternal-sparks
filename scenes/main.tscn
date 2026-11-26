@@ -3,10 +3,24 @@
 [ext_resource type="Script" uid="uid://bufy3o1fgocyj" path="res://main.gd" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://1xuvbs2gbes2" path="res://scenes/starting_room.tscn" id="2_85g3d"]
 [ext_resource type="PackedScene" uid="uid://7bt14cef2iml" path="res://scenes/room_1.tscn" id="3_choun"]
-[ext_resource type="PackedScene" uid="uid://bq0u4qknjylfm" path="res://scenes/corridor.tscn" id="8_jkv2x"]
+[ext_resource type="PackedScene" uid="uid://ggo5fis73igr" path="res://scenes/room_2.tscn" id="4_ya4ey"]
+[ext_resource type="PackedScene" uid="uid://davgxpl8frjq8" path="res://scenes/room_3.tscn" id="5_eb6dy"]
+[ext_resource type="PackedScene" uid="uid://bjiusaxmu4e80" path="res://scenes/room_4.tscn" id="6_trceg"]
+[ext_resource type="PackedScene" uid="uid://cda4hks7x533x" path="res://scenes/room_5.tscn" id="7_a8y0u"]
+[ext_resource type="PackedScene" uid="uid://bq0u4qknjylfm" path="res://scenes/corridor_right.tscn" id="8_jkv2x"]
+[ext_resource type="PackedScene" uid="uid://ccgbh2v7veud" path="res://scenes/corridor_left.tscn" id="9_jkv2x"]
+[ext_resource type="PackedScene" uid="uid://dqyl585frshqs" path="res://scenes/corridor_up.tscn" id="10_jbj1t"]
+[ext_resource type="PackedScene" uid="uid://cvww5xxhah0dh" path="res://scenes/corridor_down.tscn" id="11_muem4"]
+[ext_resource type="PackedScene" uid="uid://cupqhmob1i0ul" path="res://scenes/gate_horizontal.tscn" id="12_trceg"]
+[ext_resource type="PackedScene" uid="uid://e2lssmfagh2i" path="res://scenes/gate_vertical.tscn" id="13_a8y0u"]
 
 [node name="Main" type="Node2D" unique_id=1064216575]
 script = ExtResource("1_o5qli")
 start_room = ExtResource("2_85g3d")
-room_scenes = Array[PackedScene]([ExtResource("3_choun")])
-corridor_scene = ExtResource("8_jkv2x")
+room_scenes = Array[PackedScene]([ExtResource("3_choun"), ExtResource("4_ya4ey"), ExtResource("5_eb6dy"), ExtResource("6_trceg"), ExtResource("7_a8y0u")])
+corridor_right = ExtResource("8_jkv2x")
+corridor_left = ExtResource("9_jkv2x")
+corridor_up = ExtResource("10_jbj1t")
+corridor_down = ExtResource("11_muem4")
+gate_horizontal = ExtResource("12_trceg")
+gate_vertical = ExtResource("13_a8y0u")

@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://e2lssmfagh2i"]
+
+[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_22a7c"]
+[ext_resource type="Script" uid="uid://c5vdnmimg546b" path="res://scenes/gate.gd" id="1_b2xai"]
+[ext_resource type="Texture2D" uid="uid://dseye3s45wu2o" path="res://sprites/gate vertical.png" id="2_b2xai"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_55g8h"]
+size = Vector2(16, 96)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_55g8h"]
+shader = ExtResource("1_22a7c")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_58we8"]
+atlas = ExtResource("2_b2xai")
+region = Rect2(0, 0, 16, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b2xai"]
+atlas = ExtResource("2_b2xai")
+region = Rect2(16, 0, 16, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vri1b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_58we8")
+}],
+"loop": 0,
+"name": &"close",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b2xai")
+}],
+"loop": 0,
+"name": &"open",
+"speed": 5.0
+}]
+
+[node name="Gate Vertical" type="StaticBody2D" unique_id=208848]
+script = ExtResource("1_b2xai")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=136782472]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_55g8h")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1709754470]
+material = SubResource("ShaderMaterial_55g8h")
+position = Vector2(0, -7.995)
+sprite_frames = SubResource("SpriteFrames_vri1b")
+animation = &"close"
+
+[node name="Left" type="Marker2D" parent="." unique_id=487848890]
+position = Vector2(-8, 0)
+
+[node name="Right" type="Marker2D" parent="." unique_id=1941450267]
+position = Vector2(8, 0)
