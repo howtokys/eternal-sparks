@@ -17,42 +17,46 @@ func _ready() -> void:
 func _on_hurt_box_area_entered(area: Area2D) -> void:
 	if is_broken:
 		return
-	if area is Bullet or area.is_in_group("enemy_attack"):
-		call_deferred("_break_crate", area)
+	if area is Bullet:
+		if area.claim_target_hit():
+			break_from_impact()
+	elif area is WeaponHitbox:
+		if area.claim_target_hit(self):
+			break_from_impact()
+	elif area.is_in_group("enemy_attack"):
+		break_from_impact()
 
-func _break_crate(area: Area2D) -> void:
+func _break_crate() -> void:
 	if is_broken:
 		return
 	is_broken = true
-	
+
 	collision_shape_2d.set_deferred("disabled", true)
 	hurt_box.set_deferred("monitoring", false)
+	hurt_box.set_deferred("collision_layer", 0)
 	sprite_2d.hide()
-	
+
 	for i in spike_count:
 		var angle = (TAU / spike_count) * i
 		var dir = Vector2(cos(angle), sin(angle))
-		
+
 		var spike = ICE_SPIKE.instantiate()
 		spike.visible = false
 		spike.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
-		
+
 		get_tree().current_scene.add_child(spike)
 		spike.global_position = global_position
 		spike.reset_physics_interpolation()
-		
+
 		spike.status_effect = status_effect
 		spike.setup(dir)
 		spike.visible = true
-		
-	if is_instance_valid(area):
-		area.queue_free()
-	
+
 	await get_tree().create_timer(0.1).timeout
 	queue_free()
+
+func break_from_impact() -> void:
+	_break_crate.call_deferred()
+
 func break_from_explosion() -> void:
-	if is_broken:
-		return
-	_break_crate(null)
-	
-	
+	break_from_impact()

@@ -1,23 +1,21 @@
 [gd_scene format=4 uid="uid://b0kxg3lsn0gcc"]
 
+[ext_resource type="PackedScene" path="res://scenes/dungeon_backdrop.tscn" id="backdrop"]
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_34jtn"]
-[ext_resource type="Texture2D" uid="uid://bpnvwqs86s6qn" path="res://sprites/Forest_titlesset.png" id="2_bkx3g"]
+[ext_resource type="Texture2D" uid="uid://bpnvwqs86s6qn" path="res://sprites/tilesets/Forest_titlesset.png" id="2_bkx3g"]
 [ext_resource type="PackedScene" uid="uid://2fvnydut0j2x" path="res://scenes/crate.tscn" id="3_4uy7u"]
 [ext_resource type="PackedScene" uid="uid://i7k6bn7tac3d" path="res://scenes/Player.tscn" id="3_bkx3g"]
 [ext_resource type="PackedScene" uid="uid://brqcsjo4rg7ls" path="res://scenes/enemy.tscn" id="4_m1l7b"]
 [ext_resource type="PackedScene" uid="uid://csy4bgetfo0uy" path="res://scenes/chest.tscn" id="5_01mts"]
-[ext_resource type="PackedScene" uid="uid://5daivydu6730" path="res://scenes/HUD.tscn" id="6_f24qu"]
-[ext_resource type="PackedScene" uid="uid://bnh34ybbgfyg6" path="res://scenes/Pause_scene.tscn" id="7_pause"]
+[ext_resource type="PackedScene" path="res://scenes/combat_level_ui.tscn" id="6_level_ui"]
 [ext_resource type="Texture2D" uid="uid://cwj75ou4okqco" path="res://sprites/chests/Blue_Chest.png" id="8_blue_chest"]
 [ext_resource type="Texture2D" uid="uid://djh3bo72pjv57" path="res://sprites/chests/Golden_Chest.png" id="9_golden_chest"]
 [ext_resource type="PackedScene" uid="uid://i2xcix43ba4p" path="res://scenes/fireblast_crate.tscn" id="9_of64y"]
 [ext_resource type="PackedScene" uid="uid://b8xqh1sph4580" path="res://scenes/spike.tscn" id="9_uyibl"]
-[ext_resource type="Resource" path="res://Chest_loot/weapon_long_katana.tres" id="11_weapon_long_katana"]
-[ext_resource type="Resource" path="res://Chest_loot/weapon_ember_staff.tres" id="12_weapon_ember_staff"]
-[ext_resource type="PackedScene" uid="uid://bo312dwsbuf52" path="res://scenes/speed_buff_title.tscn" id="17_t8ghs"]
-[ext_resource type="PackedScene" uid="uid://dn0ookbq4conu" path="res://scenes/speed_debuff_title.tscn" id="18_3ibaw"]
 [ext_resource type="PackedScene" path="res://scenes/shop_door.tscn" id="door"]
-[ext_resource type="PackedScene" uid="uid://dld3t64b8xu2r" path="res://scenes/BuffSelection.tscn" id="starting_picker"]
+[ext_resource type="PackedScene" path="res://scenes/speed_buff_title.tscn" id="speed_up"]
+[ext_resource type="PackedScene" path="res://scenes/speed_debuff_title.tscn" id="speed_down"]
+[ext_resource type="PackedScene" path="res://scenes/ice_crate.tscn" id="ice_crate"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4uy7u"]
 shader = ExtResource("1_34jtn")
@@ -84,16 +82,6 @@ sources/0 = SubResource("TileSetAtlasSource_4uy7u")
 
 [node name="Node2D" type="Node2D" unique_id=1757316080]
 
-[node name="Abyss" type="CanvasLayer" parent="." unique_id=1332623715]
-layer = -10
-
-[node name="Backdrop" type="ColorRect" parent="Abyss" unique_id=434731195]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-color = Color(0.027, 0.047, 0.067, 1)
-
 [node name="Floor" type="TileMapLayer" parent="." unique_id=2128642942]
 material = SubResource("ShaderMaterial_4uy7u")
 tile_map_data = PackedByteArray("AAAFAAQAAAASAAYAAAAFAAUAAAAVAAcAAAAIAAEAAAAVAAcAAAAHAAEAAAATAAYAAAAFAAIAAAATAAYAAAAIAAQAAAATAAYAAAAJAAQAAAATAAcAAAAKAAQAAAAVAAcAAAALAAQAAAATAAYAAAAMAAQAAAASAAcAAAANAAQAAAAUAAYAAAAOAAQAAAATAAYAAAAPAAQAAAAVAAcAAAAQAAQAAAATAAcAAAARAAQAAAASAAcAAAAMAAcAAAAUAAcAAAAIAAcAAAASAAYAAAANAAcAAAASAAcAAAAOAAcAAAATAAYAAAAPAAcAAAASAAcAAAARAAcAAAASAAYAAAATAAYAAAASAAYAAAATAAUAAAASAAYAAAASAAQAAAASAAcAAAARAAUAAAAUAAcAAAAQAAUAAAAUAAcAAAAPAAUAAAASAAYAAAAOAAUAAAATAAcAAAAOAAYAAAASAAYAAAAMAAYAAAATAAYAAAALAAYAAAASAAYAAAAJAAYAAAATAAYAAAAIAAYAAAAVAAcAAAAHAAcAAAATAAcAAAAHAAgAAAATAAYAAAAGAAkAAAASAAcAAAAHAAkAAAATAAcAAAAHAAoAAAASAAcAAAAIAAoAAAASAAcAAAAJAAoAAAAVAAcAAAAKAAkAAAASAAcAAAAOAAsAAAAUAAcAAAALAAkAAAASAAYAAAAJAAgAAAAUAAYAAAAJAAcAAAATAAYAAAAKAAcAAAATAAcAAAANAAgAAAASAAcAAAAMAAgAAAATAAYAAAAJAAkAAAAVAAcAAAAJAAsAAAAUAAcAAAAKAAoAAAATAAYAAAAIAAgAAAAVAAcAAAAFAAkAAAASAAYAAAAGAAgAAAASAAYAAAAGAAcAAAATAAYAAAAHAAYAAAASAAcAAAAJAAUAAAATAAcAAAAKAAUAAAASAAYAAAALAAUAAAASAAcAAAAMAAUAAAASAAcAAAANAAUAAAASAAYAAAAQAAcAAAAUAAcAAAASAAkAAAASAAYAAAARAAIAAAATAAcAAAAQAAIAAAASAAcAAAAQAAEAAAAUAAcAAAAPAAEAAAAUAAYAAAAHAA0AAAAVAAcAAAAIAA0AAAASAAYAAAAJAA0AAAAUAAcAAAAKAA0AAAASAAYAAAALAA0AAAASAAYAAAAMAA0AAAAUAAYAAAANAA0AAAATAAYAAAAOAA0AAAAUAAYAAAAPAA0AAAASAAYAAAAQAA0AAAASAAYAAAARAA0AAAASAAYAAAASAA0AAAASAAYAAAATAA0AAAASAAYAAAALAAwAAAAUAAYAAAAMAAwAAAAUAAcAAAANAAwAAAAUAAYAAAAOAAwAAAATAAcAAAAPAAwAAAATAAYAAAAQAAwAAAATAAcAAAARAAwAAAATAAYAAAALAAoAAAAUAAcAAAAMAAoAAAATAAYAAAANAAoAAAATAAYAAAANAAsAAAAVAAcAAAAPAAkAAAAUAAYAAAAQAAkAAAATAAYAAAARAAkAAAASAAcAAAATAAkAAAATAAcAAAATAAoAAAASAAYAAAATAAsAAAATAAcAAAAUAAsAAAATAAYAAAAUAAoAAAAUAAcAAAAVAAkAAAATAAYAAAAVAAgAAAASAAcAAAAVAAcAAAAVAAcAAAAVAAYAAAAVAAcAAAAVAAUAAAASAAcAAAAWAAYAAAAUAAcAAAAXAAYAAAASAAYAAAAXAAcAAAASAAYAAAAXAAgAAAAUAAcAAAAXAAkAAAAVAAcAAAAWAAkAAAAUAAcAAAAWAAoAAAAUAAYAAAAWAAsAAAATAAYAAAAWAAwAAAATAAYAAAAVAAwAAAASAAcAAAACAAIAAAASAAYAAAADAAIAAAATAAcAAAAEAAMAAAASAAYAAAAGAAQAAAASAAYAAAAHAAQAAAATAAYAAAAHAAUAAAAUAAcAAAAIAAUAAAASAAcAAAAKAAYAAAATAAYAAAALAAcAAAASAAcAAAABAAMAAAASAAYAAAABAAQAAAAUAAcAAAABAAUAAAAVAAcAAAABAAYAAAAVAAcAAAABAAcAAAATAAcAAAABAAgAAAASAAcAAAABAAkAAAAVAAcAAAABAAoAAAATAAYAAAABAAsAAAATAAYAAAABAAwAAAATAAYAAAABAA0AAAASAAcAAAABAA4AAAAUAAcAAAACAA4AAAATAAYAAAACAA0AAAASAAcAAAACAAwAAAATAAYAAAACAAsAAAATAAcAAAACAAoAAAASAAYAAAACAAkAAAASAAcAAAACAAgAAAASAAYAAAACAAcAAAATAAYAAAACAAYAAAATAAYAAAACAAUAAAASAAcAAAACAAQAAAAUAAcAAAACAAMAAAASAAcAAAADAAMAAAATAAcAAAADAAQAAAAVAAcAAAADAAUAAAAVAAcAAAADAAYAAAASAAcAAAADAAcAAAAVAAcAAAADAAgAAAAVAAcAAAADAAkAAAATAAYAAAADAAoAAAASAAYAAAADAAsAAAASAAcAAAADAAwAAAAVAAcAAAADAA0AAAATAAYAAAADAA4AAAASAAYAAAAEAA4AAAASAAYAAAAEAA0AAAASAAYAAAAEAAwAAAATAAcAAAAEAAsAAAAUAAcAAAAEAAoAAAASAAcAAAAEAAkAAAATAAcAAAAEAAgAAAASAAYAAAAEAAcAAAATAAYAAAAEAAYAAAATAAcAAAAEAAUAAAATAAcAAAAEAAQAAAAUAAcAAAAEAAIAAAAUAAcAAAAGAAIAAAASAAYAAAAHAAIAAAATAAYAAAAHAAMAAAASAAcAAAAIAAMAAAATAAYAAAAOAAkAAAASAAcAAAAPAAoAAAASAAcAAAAQAAoAAAATAAYAAAARAAgAAAASAAYAAAARAAYAAAASAAcAAAAQAAMAAAAVAAcAAAAPAAMAAAATAAYAAAAOAAMAAAAUAAYAAAATAAEAAAASAAYAAAATAAIAAAAVAAcAAAAUAAIAAAATAAYAAAAUAAMAAAAUAAcAAAAUAAQAAAASAAYAAAAUAAUAAAAVAAcAAAAUAAYAAAATAAYAAAAUAAcAAAASAAYAAAAUAAgAAAAUAAcAAAAUAAkAAAATAAYAAAAUAAwAAAATAAYAAAAVAA0AAAASAAYAAAAVAA4AAAATAAcAAAAWAA4AAAASAAYAAAAYAAEAAAASAAcAAAAYAAIAAAAUAAYAAAAXAAIAAAASAAYAAAAXAAMAAAASAAYAAAAWAAMAAAASAAYAAAAWAAQAAAAVAAcAAAAFAAMAAAAVAAcAAAAFAAYAAAATAAYAAAAFAAcAAAATAAcAAAAFAAgAAAASAAcAAAAFAAoAAAATAAcAAAAFAAsAAAAVAAcAAAAFAAwAAAATAAcAAAAFAA0AAAASAAYAAAAFAA4AAAATAAcAAAAGAAMAAAASAAcAAAAGAAUAAAAVAAcAAAAGAAYAAAASAAYAAAAGAAoAAAATAAYAAAAGAAsAAAAVAAcAAAAGAAwAAAAUAAcAAAAGAA0AAAASAAcAAAAGAA4AAAAVAAcAAAAHAAsAAAATAAcAAAAHAAwAAAASAAcAAAAHAA4AAAASAAcAAAAIAAIAAAATAAYAAAAIAAkAAAAVAAcAAAAIAAsAAAATAAYAAAAIAAwAAAATAAYAAAAIAA4AAAASAAcAAAAJAAEAAAATAAYAAAAJAAIAAAATAAYAAAAJAAMAAAAUAAYAAAAJAAwAAAAUAAcAAAAJAA4AAAASAAYAAAAKAAEAAAASAAYAAAAKAAIAAAASAAYAAAAKAAMAAAATAAYAAAAKAAgAAAASAAYAAAAKAAsAAAATAAYAAAAKAAwAAAASAAYAAAAKAA4AAAATAAcAAAALAAEAAAAVAAcAAAALAAIAAAAUAAcAAAALAAMAAAAUAAcAAAALAAgAAAASAAcAAAALAAsAAAASAAcAAAALAA4AAAAUAAcAAAAMAAEAAAASAAcAAAAMAAIAAAAUAAYAAAAMAAMAAAASAAYAAAAMAAkAAAASAAcAAAAMAAsAAAASAAcAAAAMAA4AAAAUAAcAAAANAAEAAAASAAcAAAANAAIAAAASAAcAAAANAAMAAAATAAYAAAANAAYAAAAVAAcAAAANAAkAAAASAAYAAAANAA4AAAATAAYAAAAOAAEAAAASAAYAAAAOAAIAAAASAAYAAAAOAAgAAAASAAcAAAAOAAoAAAAVAAcAAAAOAA4AAAAUAAYAAAAPAAIAAAASAAYAAAAPAAYAAAASAAYAAAAPAAgAAAASAAcAAAAPAAsAAAASAAcAAAAPAA4AAAASAAcAAAAQAAYAAAASAAYAAAAQAAgAAAATAAYAAAAQAAsAAAAVAAcAAAAQAA4AAAATAAYAAAARAAEAAAATAAYAAAARAAMAAAASAAYAAAARAAoAAAATAAYAAAARAAsAAAAUAAcAAAARAA4AAAASAAYAAAASAAEAAAASAAcAAAASAAIAAAAVAAYAAAASAAMAAAAUAAcAAAASAAUAAAAUAAYAAAASAAYAAAATAAYAAAASAAcAAAAVAAcAAAASAAgAAAATAAYAAAASAAoAAAATAAcAAAASAAsAAAASAAYAAAASAAwAAAAVAAcAAAASAA4AAAATAAYAAAATAAMAAAAUAAcAAAATAAQAAAASAAYAAAATAAcAAAAUAAYAAAATAAgAAAATAAcAAAATAAwAAAASAAcAAAATAA4AAAASAAYAAAAUAAEAAAAVAAcAAAAUAA0AAAASAAYAAAAUAA4AAAASAAYAAAAVAAEAAAAVAAcAAAAVAAIAAAASAAcAAAAVAAMAAAAVAAcAAAAVAAQAAAATAAYAAAAVAAoAAAAVAAcAAAAVAAsAAAATAAYAAAAWAAEAAAASAAcAAAAWAAIAAAATAAYAAAAWAAUAAAATAAYAAAAWAAcAAAASAAcAAAAWAAgAAAATAAcAAAAWAA0AAAASAAYAAAAXAAEAAAASAAcAAAAXAAQAAAAVAAcAAAAXAAUAAAASAAcAAAAXAAoAAAASAAYAAAAXAAsAAAASAAcAAAAXAAwAAAASAAYAAAAXAA0AAAATAAYAAAAXAA4AAAAUAAcAAAAYAAMAAAATAAcAAAAYAAQAAAATAAYAAAAYAAUAAAATAAYAAAAYAAYAAAASAAcAAAAYAAcAAAASAAcAAAAYAAgAAAATAAYAAAAYAAkAAAASAAcAAAAYAAoAAAATAAcAAAAYAAsAAAAUAAcAAAAYAAwAAAASAAYAAAAYAA0AAAAUAAcAAAAYAA4AAAATAAcAAAAFAAEAAAAVAAcAAAAGAAEAAAASAAYAAAACAAEAAAASAAYAAAADAAEAAAASAAYAAAAEAAEAAAASAAYAAAABAAIAAAAUAAcAAAABAAEAAAASAAYAAAAIAP3/AAAUAAYAAAAJAP3/AAASAAYAAAAKAP3/AAATAAYAAAAIAP7/AAASAAYAAAAJAP7/AAATAAYAAAAKAP7/AAAUAAYAAAAIAP//AAATAAYAAAAJAP//AAAUAAYAAAAKAP//AAASAAYAAAAIAAAAAAAUAAYAAAAJAAAAAAASAAYAAAAKAAAAAAATAAYAAAA=")
@@ -140,12 +128,12 @@ position = Vector2(288, 81)
 [node name="Chest2" parent="Floor" unique_id=787250440 instance=ExtResource("5_01mts")]
 position = Vector2(365, 48)
 closed_texture = ExtResource("8_blue_chest")
-drop = ExtResource("11_weapon_long_katana")
+loot_tier = 1
 
 [node name="Chest3" parent="Floor" unique_id=905900106 instance=ExtResource("5_01mts")]
 position = Vector2(352, 127)
 closed_texture = ExtResource("9_golden_chest")
-drop = ExtResource("12_weapon_ember_staff")
+loot_tier = 2
 
 [node name="Spike" parent="Floor" unique_id=1436312715 instance=ExtResource("9_uyibl")]
 position = Vector2(233, 200)
@@ -162,6 +150,9 @@ position = Vector2(217, 215)
 [node name="Fireblast Crate" parent="Floor" unique_id=1676884060 instance=ExtResource("9_of64y")]
 position = Vector2(198, 158)
 
+[node name="Enemy" parent="Floor" unique_id=353923736 instance=ExtResource("4_m1l7b")]
+position = Vector2(271, 205)
+
 [node name="Enemy2" parent="Floor" unique_id=1539313703 instance=ExtResource("4_m1l7b")]
 position = Vector2(88, 205)
 
@@ -170,6 +161,9 @@ position = Vector2(40, 194)
 
 [node name="Enemy4" parent="Floor" unique_id=1501043710 instance=ExtResource("4_m1l7b")]
 position = Vector2(99, 169)
+
+[node name="Enemy5" parent="Floor" unique_id=2123220394 instance=ExtResource("4_m1l7b")]
+position = Vector2(186, 189)
 
 [node name="Crate11" parent="Floor" unique_id=786757067 instance=ExtResource("3_4uy7u")]
 position = Vector2(112, 130)
@@ -210,21 +204,27 @@ position = Vector2(166, 159)
 [node name="Crate23" parent="Floor" unique_id=1555904169 instance=ExtResource("3_4uy7u")]
 position = Vector2(154, 186)
 
-[node name="Speed Buff Title" parent="Floor" unique_id=981664990 instance=ExtResource("17_t8ghs")]
+[node name="SpeedBoostTile" parent="Floor" instance=ExtResource("speed_up")]
 position = Vector2(296, 184)
 
-[node name="Speed Debuff Title" parent="Floor" unique_id=1642271954 instance=ExtResource("18_3ibaw")]
-position = Vector2(312, 184)
+[node name="SlowTile" parent="Floor" instance=ExtResource("speed_down")]
+position = Vector2(328, 184)
+
+[node name="IceCrate" parent="Floor" instance=ExtResource("ice_crate")]
+position = Vector2(264, 88)
+
+[node name="IceCrate2" parent="Floor" instance=ExtResource("ice_crate")]
+position = Vector2(344, 162)
 
 [node name="PactReturnSpawn" type="Marker2D" parent="." unique_id=1346886233]
 position = Vector2(175, 32)
 
 [node name="PactEntrance" parent="." unique_id=339607982 instance=ExtResource("door")]
-modulate = Color(1, 0.6, 0.68, 1)
 position = Vector2(198, 26)
 destination = "res://scenes/mysterious_shop_room.tscn"
 return_spawn = NodePath("PactReturnSpawn")
-prompt_text = "E: Pact chamber"
+prompt_text = "Pact Chamber"
+stairs_tint = Color(1, 0.72, 0.77, 1)
 
 [node name="ShopReturnSpawn" type="Marker2D" parent="." unique_id=633458607]
 position = Vector2(147, 22)
@@ -233,21 +233,11 @@ position = Vector2(147, 22)
 position = Vector2(152, -38)
 destination = "res://scenes/shop_room.tscn"
 return_spawn = NodePath("ShopReturnSpawn")
-prompt_text = "E: Enter shop"
+prompt_text = "Enter Shop"
 
 [node name="Player" parent="." unique_id=963569076 instance=ExtResource("3_bkx3g")]
-position = Vector2(246, 126)
+position = Vector2(141.86137, 48.54605)
 
-[node name="CanvasLayer" parent="." unique_id=1979618489 instance=ExtResource("6_f24qu")]
+[node name="LevelUI" parent="." unique_id=1306261088 instance=ExtResource("6_level_ui")]
 
-[node name="PauseLayer" type="CanvasLayer" parent="." unique_id=2023426115]
-layer = 2
-
-[node name="PauseScene" parent="PauseLayer" unique_id=2119414718 instance=ExtResource("7_pause")]
-layout_mode = 3
-anchors_preset = 15
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="BuffSelection" parent="PauseLayer" unique_id=990198275 instance=ExtResource("starting_picker")]
-layout_mode = 3
+[node name="DungeonBackdrop" parent="." instance=ExtResource("backdrop")]

@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/level_ui.tscn" id="ui"]
+[ext_resource type="PackedScene" path="res://scenes/BuffSelection.tscn" id="picker"]
+
+[node name="LevelUI" instance=ExtResource("ui")]
+
+[node name="BuffSelection" parent="PauseLayer" instance=ExtResource("picker")]
+layout_mode = 3

@@ -1,0 +1,78 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/interaction_prompt.gd" id="prompt"]
+[ext_resource type="FontVariation" path="res://fonts/minecraftia_centered.tres" id="pixel"]
+
+[sub_resource type="StyleBoxFlat" id="plate"]
+content_margin_left = 2.0
+content_margin_top = 1.0
+content_margin_right = 2.0
+content_margin_bottom = 1.0
+bg_color = Color(0.055, 0.048, 0.075, 0.84)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_left = 1
+corner_radius_bottom_right = 1
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="key"]
+content_margin_left = 1.0
+content_margin_right = 1.0
+bg_color = Color(0.29, 0.21, 0.15, 0.95)
+anti_aliasing = false
+
+[node name="Prompt" type="CenterContainer"]
+visible = false
+z_index = 3
+texture_filter = 1
+offset_top = -19.0
+offset_bottom = -19.0
+use_top_left = true
+scale = Vector2(0.7, 0.7)
+mouse_filter = 2
+script = ExtResource("prompt")
+
+[node name="Plate" type="PanelContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("plate")
+
+[node name="Content" type="VBoxContainer" parent="Plate"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 1
+
+[node name="Row" type="HBoxContainer" parent="Plate/Content"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Key" type="Label" parent="Plate/Content/Row"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.79, 0.48, 1)
+theme_override_fonts/font = ExtResource("pixel")
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("key")
+text = "E"
+vertical_alignment = 1
+
+[node name="Title" type="Label" parent="Plate/Content/Row"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.91, 0.76, 1)
+theme_override_fonts/font = ExtResource("pixel")
+theme_override_font_sizes/font_size = 8
+text = "Open Chest"
+vertical_alignment = 1
+
+[node name="Detail" type="Label" parent="Plate/Content"]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.80, 0.72, 0.63, 1)
+theme_override_fonts/font = ExtResource("pixel")
+theme_override_font_sizes/font_size = 8
+horizontal_alignment = 1
+vertical_alignment = 1

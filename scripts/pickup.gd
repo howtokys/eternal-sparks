@@ -9,37 +9,32 @@ var _data: ItemData
 		_update_visual()
 
 @onready var sprite_2d: Sprite2D = $Sprite2D
-@onready var label: Label = $Label
+@onready var prompt = $Prompt
 
 var player_in_range: Node2D = null
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
-	
-	if label:
-		label.hide()
-	
 	_update_visual()
 
 func _update_visual() -> void:
 	if data and is_instance_valid(sprite_2d):
 		sprite_2d.texture = data.item_texture
 		sprite_2d.centered = true 
-	if data and is_instance_valid(label):
-		label.text = data.item_name
+	if data and is_instance_valid(prompt):
+		prompt.set_content(data.item_name)
+		prompt.visible = is_instance_valid(player_in_range)
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = body
-		if label:
-			label.show()
+		prompt.visible = data != null
 			
 func _on_body_exited(body: Node2D) -> void:
 	if body == player_in_range:
 		player_in_range = null
-		if label:
-			label.hide()
+		prompt.hide()
 			
 func _unhandled_input(event: InputEvent) -> void:
 	if player_in_range and not is_queued_for_deletion() and event.is_action_pressed("interact"):

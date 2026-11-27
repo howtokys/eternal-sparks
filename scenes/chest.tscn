@@ -3,7 +3,9 @@
 [ext_resource type="Script" uid="uid://cx56wwd8xgibi" path="res://scripts/chest.gd" id="1_chest"]
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="2_shader"]
 [ext_resource type="Texture2D" uid="uid://0bha2me8d6io" path="res://sprites/chests/Brown_Chest.png" id="3_chest_texture"]
-[ext_resource type="Resource" path="res://Chest_loot/weapon_pistol.tres" id="4_weapon_pistol"]
+[ext_resource type="AudioStream" path="res://sounds/chest_open.wav" id="5_open_sound"]
+[ext_resource type="PackedScene" path="res://scenes/interaction_prompt.tscn" id="6_prompt"]
+[ext_resource type="Texture2D" path="res://sprites/effects/chest_open_sparks.svg" id="7_sparks"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_chest"]
 shader = ExtResource("2_shader")
@@ -14,16 +16,45 @@ size = Vector2(28, 23)
 [sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
 radius = 28.0
 
-[node name="Chest" type="StaticBody2D" unique_id=474090461]
+[sub_resource type="Gradient" id="Gradient_glow"]
+offsets = PackedFloat32Array(0, 0.45, 1)
+colors = PackedColorArray(1, 0.85, 0.55, 0.52, 1, 0.67, 0.31, 0.21, 1, 0.49, 0.15, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_glow"]
+gradient = SubResource("Gradient_glow")
+width = 64
+height = 64
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_glow"]
+blend_mode = 1
+
+[node name="Chest" type="StaticBody2D" unique_id=474090461 groups=["chest"]]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_chest")
 closed_texture = ExtResource("3_chest_texture")
-drop = ExtResource("4_weapon_pistol")
+open_sound = ExtResource("5_open_sound")
+
+[node name="Interior" type="Polygon2D" parent="."]
+visible = false
+color = Color(0.29, 0.19, 0.16, 1)
+polygon = PackedVector2Array(-14, 3, -14, -4, -11, -8, 11, -8, 14, -4, 14, 3)
+
+[node name="Cavity" type="Polygon2D" parent="Interior"]
+color = Color(0.085, 0.063, 0.078, 1)
+polygon = PackedVector2Array(-12, 1, -12, -3, -10, -6, 10, -6, 12, -3, 12, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1361591342]
 material = SubResource("ShaderMaterial_chest")
 texture = ExtResource("3_chest_texture")
+
+[node name="Lid" type="Sprite2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_chest")
+region_enabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1671523405]
 position = Vector2(0, 1.5)
@@ -37,13 +68,21 @@ metadata/_edit_group_ = true
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_interact")
 
-[node name="Label" type="Label" parent="." unique_id=449370675]
-offset_left = -16.0
+[node name="Prompt" parent="." instance=ExtResource("6_prompt")]
 offset_top = -23.0
-offset_right = 16.0
-offset_bottom = -18.0
-theme_override_font_sizes/font_size = 5
-vertical_alignment = 1
+offset_bottom = -23.0
 
 [node name="Glow" type="Sprite2D" parent="." unique_id=329366845]
 show_behind_parent = true
+material = SubResource("CanvasItemMaterial_glow")
+position = Vector2(0, 2)
+scale = Vector2(0.94, 0.70)
+texture = SubResource("GradientTexture2D_glow")
+
+[node name="OpeningSparks" type="Sprite2D" parent="."]
+visible = false
+z_index = 2
+texture_filter = 1
+position = Vector2(0, -8)
+texture = ExtResource("7_sparks")
+hframes = 5

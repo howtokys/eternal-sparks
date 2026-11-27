@@ -16,6 +16,7 @@ enum FireMode {
 	SEMI,
 	BURST,
 	BEAM,
+	CONTINUOUS_BEAM,
 }
 
 @export var id: String = ""
@@ -27,6 +28,9 @@ enum FireMode {
 @export var burst_cooldown: float = 0.25
 @export var damage: int = 1
 @export var fire_rate: float = 1.0
+@export var recoil_px: float = 0.0
+@export var fire_sound: AudioStream
+@export var play_sound_on_strike: bool = false
 @export var mana_cost: float = 0.0
 @export var projectile_speed: int = 0
 @export var projectile_lifetime: float = 0.0
@@ -38,7 +42,9 @@ enum FireMode {
 @export var element: String = ""
 @export var texture: Texture2D
 @export var projectile_texture: Texture2D
+@export var projectile_frames: int = 1
 @export var projectile_scale: Vector2 = Vector2(1, 1)
+@export var projectile_hitbox_size: Vector2 = Vector2(8, 5)
 @export var muzzle_offset: Vector2
 @export var hitbox_offset: Vector2
 @export var hitbox_radius: float = 0.0

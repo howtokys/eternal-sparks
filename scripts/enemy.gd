@@ -47,12 +47,13 @@ func _on_detection_body_exited(body: Node2D) -> void:
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
 	if area is Bullet:
-		if area.hostile:
+		if not area.hit_enemy(self):
 			return
 		take_damage(area.damage)  # ← use take_damage so it stacks
 		_apply_weapon_effect(area)
-		area.hit_enemy(self)
 	elif area.is_in_group("enemy_attack") and "damage" in area:
+		if area is WeaponHitbox and not area.claim_target_hit(self):
+			return
 		take_damage(area.damage)
 		_apply_weapon_effect(area)
 		if "knockback" in area and area.knockback > 0.0:
@@ -70,14 +71,14 @@ func _on_attack_body_exited(body: Node2D) -> void:
 
 # Move toward the player only after detection and stop at attack range.
 func _physics_process(_delta: float) -> void:
-	
+
 	var status = get_node_or_null("StatusEffectComponent")
 	if status and status.has_effect(&"freeze"):
 		velocity = Vector2.ZERO
 		move_and_slide()
 		return
-	
-	
+
+
 	_update_weapon_effects(_delta)
 	if not is_instance_valid(player):
 		player = get_tree().get_first_node_in_group("player")
@@ -97,12 +98,6 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func attack_player() -> void:
-	var player_hurt_box := player.get_node_or_null("HurtBox") as Area2D
-
-	if player_hurt_box == null:
-		print("Enemy attack failed: Player HurtBox not found")
-		return
-
 	print("Enemy attacking player")
 	player.take_damage(contact_damage)
 	attack_timer.start()
@@ -159,7 +154,7 @@ func _on_enemy_died() -> void:
 	death_handled = true
 	if not room_path.is_empty():
 		GlobalData.record_enemy_defeat(room_path, spawn_path)
-		
+
 	GlobalData.drop_money(global_position, 1.0) #60% to drop coin
 	GlobalData.drop_mana(global_position, 1.0)  # same 30% chance
 	queue_free()

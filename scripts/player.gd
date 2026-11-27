@@ -9,7 +9,9 @@ enum Stat { HEALTH, SHIELD, MANA }
 
 const MINIMUM_HEALTH := 2
 const MINIMUM_SHIELD := 1
-const MINIMUM_MANA :	= 50
+const MINIMUM_MANA := 50
+const LEGACY_BASE_MANA := 200.0
+const MANA_REGEN_DELAY := 0.75
 
 const SPEED = 500.0
 const PICKUP = preload("uid://ddfou1e6ljx0n")
@@ -29,7 +31,7 @@ const WEAPON_ITEM_DATA := {
 @export var shield_recharge_delay: float = 5.0
 
 @export_group("Mana")
-@export var max_mana: float = 200.0
+@export var max_mana: float = 100.0
 @export var mana_regen_rate: float = 5.0
 
 var current_shield: int
@@ -142,6 +144,7 @@ func capture_run_state() -> Dictionary:
 		"life_progress": life_progress,
 		"shield": current_shield,
 		"mana": current_mana,
+		"base_max_mana": base_max_mana,
 		"health_sacrifice": health_sacrifice,
 		"shield_sacrifice": shield_sacrifice,
 		"mana_sacrifice": mana_sacrifice,
@@ -172,7 +175,10 @@ func _restore_run_state(state: Dictionary) -> void:
 	_restore_weapons(state)
 	health_sacrifice = clampi(int(GlobalData.read_number(state, "health_sacrifice", 0)), 0, maxi(0, base_max_health - MINIMUM_HEALTH))
 	shield_sacrifice = clampi(int(GlobalData.read_number(state, "shield_sacrifice", 0)), 0, maxi(0, base_max_shield - MINIMUM_SHIELD))
-	mana_sacrifice = clampi(int(GlobalData.read_number(state, "mana_sacrifice", 0)), 0, maxi(0, floori(base_max_mana - MINIMUM_MANA)))
+	# Old checkpoints used a 200-mana base and stored only the remaining mana and sacrifice.
+	var saved_base_mana := maxf(1.0, GlobalData.read_number(state, "base_max_mana", LEGACY_BASE_MANA))
+	var mana_scale := maxf(1.0, base_max_mana) / saved_base_mana
+	mana_sacrifice = clampi(roundi(GlobalData.read_number(state, "mana_sacrifice", 0) * mana_scale), 0, maxi(0, floori(base_max_mana - MINIMUM_MANA)))
 	buff_manager.restore_run_buffs(state.get("buffs", []))
 	meteor_remaining = clampf(GlobalData.read_number(state, "meteor_remaining", METEOR_PERIOD), 0, METEOR_PERIOD)
 	meteor_kills = clampi(int(GlobalData.read_number(state, "meteor_kills", 0)), 0, 4)
@@ -183,8 +189,8 @@ func _restore_run_state(state: Dictionary) -> void:
 	health_component.current_health = clampi(
 		int(GlobalData.read_number(state, "health", health_component.max_health)), 1, health_component.max_health)
 	_set_shield(int(GlobalData.read_number(state, "shield", max_shield)), max_shield)
-	_set_mana(GlobalData.read_number(state, "mana", max_mana), max_mana)
-	mana_regen_delay = clampf(GlobalData.read_number(state, "mana_regen_delay", 0), 0.0, 0.75)
+	_set_mana(GlobalData.read_number(state, "mana", max_mana / mana_scale) * mana_scale, max_mana)
+	mana_regen_delay = clampf(GlobalData.read_number(state, "mana_regen_delay", 0), 0.0, MANA_REGEN_DELAY)
 	var recharge := clampf(GlobalData.read_number(state, "shield_recharge_remaining", 0), 0.0, shield_recharge_delay)
 	if recharge > 0:
 		shield_timer.start(recharge)
@@ -198,16 +204,10 @@ func _process(delta: float) -> void:
 		weapon_switch_lockout = maxf(weapon_switch_lockout - delta, 0.0)
 	gun.trigger_held = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 
+	var regen_time := maxf(delta - mana_regen_delay, 0.0)
 	mana_regen_delay = maxf(mana_regen_delay - delta, 0.0)
-
-	var total_mana_regen: float = mana_regen_rate + buff_manager.get_mana_regen_bonus()
-	
-	#regenerate mana without exceeding maximum capacity 
-	if mana_regen_delay <= 0.0 and current_mana < max_mana:
-		restore_mana(total_mana_regen * delta)
-	# Passive mana regen
-	#if current_mana < max_mana:
-		#current_mana = min(current_mana + mana_regen_rate * delta, max_mana)
+	if regen_time > 0.0 and current_mana < max_mana:
+		restore_mana((mana_regen_rate + buff_manager.get_mana_regen_bonus()) * regen_time)
 
 #func _physics_process(_delta: float) -> void:
 	#var input_direction: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -219,21 +219,21 @@ func _physics_process(_delta: float) -> void:
 	var status = get_node_or_null("StatusEffectComponent")
 	if status and status.has_effect(&"freeze"):
 		velocity = Vector2.ZERO
-		move_and_slide()	
+		move_and_slide()
 		return
-	
+
 	if temp_speed_time_left > 0.0:
 		temp_speed_time_left -= _delta
 		if temp_speed_time_left <= 0.0:
 			temp_speed_multiplier = 1.0
-	
+
 	var input_direction: Vector2 = Input.get_vector(
 		"move_left",
 		"move_right",
 		"move_up",
 		"move_down"
 	)
-	
+
 	var final_speed = SPEED * buff_manager.get_speed_multiplier() * temp_speed_multiplier
 	velocity = input_direction * final_speed
 	move_and_slide()
@@ -246,7 +246,7 @@ func _input(event: InputEvent) -> void:
 		and event.pressed
 		and weapon_switch_lockout <= 0.0
 	):
-		gun.trigger_pressed()
+		gun.trigger_pressed(get_canvas_transform().affine_inverse() * event.position)
 		return
 	if event.is_action_pressed("weapon_slot_1"):
 		switch_weapon(0)
@@ -281,12 +281,7 @@ func equip_weapon(new_data: WeaponData, drop_position := Vector2.INF) -> void:
 	GlobalData.request_save()
 	var dropped_item: ItemData = WEAPON_ITEM_DATA.get(replaced_data.id)
 	if dropped_item == null:
-		# Some weapons, including the starter rifle, have no authored chest pickup.
-		dropped_item = ItemData.new()
-		dropped_item.item_type = ItemData.Type.GUN
-		dropped_item.item_name = replaced_data.display_name
-		dropped_item.item_texture = replaced_data.texture
-		dropped_item.weapon_data = replaced_data
+		dropped_item = ItemData.from_weapon(replaced_data)
 
 	var pickup = PICKUP.instantiate()
 	pickup.data = dropped_item
@@ -317,6 +312,8 @@ func take_damage(amount: int) -> void:
 	var absorbed := mini(amount, current_shield)
 	_set_shield(current_shield - absorbed, max_shield)
 	amount -= absorbed
+	if amount == 0:
+		$AnimatedSprite2D.react_to_damage()
 
 	if amount > 0:
 		health_component.take_damage(amount)
@@ -405,7 +402,7 @@ func use_mana(cost: float) -> bool:
 	if current_mana >= cost:
 		_set_mana(current_mana - cost, max_mana)
 		if cost > 0.0:
-			mana_regen_delay = 0.75
+			mana_regen_delay = MANA_REGEN_DELAY
 		return true
 	return false
 

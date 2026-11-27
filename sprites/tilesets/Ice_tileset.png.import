@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bpnvwqs86s6qn"
-path="res://.godot/imported/Forest_titlesset.png-e46a222e33cf3509674e19a0d7fd60cc.ctex"
+uid="uid://qyy0rq7j7bxh"
+path="res://.godot/imported/Ice_tileset.png-9c920968ee7ff1d5df9d2c0a1bf86a59.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/Forest_titlesset.png"
-dest_files=["res://.godot/imported/Forest_titlesset.png-e46a222e33cf3509674e19a0d7fd60cc.ctex"]
+source_file="res://sprites/tilesets/Ice_tileset.png"
+dest_files=["res://.godot/imported/Ice_tileset.png-9c920968ee7ff1d5df9d2c0a1bf86a59.ctex"]
 
 [params]
 

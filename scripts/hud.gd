@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Control
 
 @onready var health_bar: ProgressBar = %HealthBar
 @onready var shield_bar: ProgressBar = %ShieldBar

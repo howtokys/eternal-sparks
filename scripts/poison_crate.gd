@@ -5,6 +5,7 @@ extends StaticBody2D
 @onready var hurt_box: Area2D = $HurtBox
 
 const GAS_CLOUD = preload("uid://b3p5nwjj5sfyf")
+const BREAK_SOUND = preload("res://sounds/poison_crate_break.wav")
 
 var is_broken: bool = false
 
@@ -14,13 +15,14 @@ func _ready() -> void:
 func _on_hurt_box_area_entered(area: Area2D) -> void:
 	if is_broken:
 		return
-	if area is Bullet:
+	if area is Bullet and area.claim_target_hit():
 		call_deferred("_break_crate", area)
 
 func _break_crate(area: Area2D) -> void:
 	if is_broken:
 		return
 	is_broken = true
+	Audio.play_world_sfx(BREAK_SOUND, global_position, randf_range(0.95, 1.05))
 	
 	var hit_direction = Vector2.RIGHT
 	if area and "target_position" in area:
@@ -28,6 +30,7 @@ func _break_crate(area: Area2D) -> void:
 	
 	collision.set_deferred("disabled", true)
 	hurt_box.set_deferred("monitoring", false)
+	hurt_box.set_deferred("collision_layer", 0)
 	sprite_2d.hide()
 	
 	var gas = GAS_CLOUD.instantiate()
@@ -47,7 +50,7 @@ func _break_crate(area: Area2D) -> void:
 	await get_tree().create_timer(0.1).timeout
 	queue_free()
 	
-func break_from_explosion() -> void:
+func break_from_impact() -> void:
 	if is_broken:
 		return
 	_break_crate(null)

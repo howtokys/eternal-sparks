@@ -148,7 +148,7 @@ func drop_money(pos: Vector2, chance: float) -> void:
 func drop_mana(pos: Vector2, chance: float) -> void:
 	if randf() > chance:
 		return
-	
+
 	# Same weighted chances as coins
 	var roll = randf()
 	var count: int
@@ -162,7 +162,7 @@ func drop_mana(pos: Vector2, chance: float) -> void:
 		count = 4
 	else:
 		count = 5
-	
+
 	for i in count:
 		var drop = MANA_PARTICLE.instantiate()
 		var offset = Vector2(randf_range(-10, 10), randf_range(-10, 10))
@@ -186,7 +186,7 @@ func save_game() -> void:
 	if run_finished or not is_instance_valid(player) or player.is_queued_for_deletion():
 		return
 	var scene := get_tree().current_scene
-	if scene == null or scene.scene_file_path.is_empty():
+	if scene == null or scene.scene_file_path.is_empty() or scene.is_in_group("practice_room"):
 		return
 
 	saved_position = player.global_position

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dld3t64b8xu2r"]
 
 [ext_resource type="Script" path="res://scenes/buff_selection.gd" id="script"]
-[ext_resource type="FontFile" path="res://fonts/Minecraftia-Regular.ttf" id="pixel"]
+[ext_resource type="FontVariation" path="res://fonts/minecraftia_centered.tres" id="pixel"]
 [ext_resource type="Texture2D" path="res://sprites/dungeon_tileset/dungeon_tiles.png" id="tiles"]
 [ext_resource type="AtlasTexture" path="res://sprites/ui/frames/gold_panel.tres" id="gold_frame"]
 [ext_resource type="AudioStream" path="res://menu_hover.wav" id="hover"]
@@ -70,6 +70,7 @@ theme_override_colors/font_color = Color(1, 0.84, 0.58, 1)
 theme_override_colors/font_outline_color = Color(0.12, 0.09, 0.12, 1)
 theme_override_constants/outline_size = 3
 text = "Choose a starting buff"
+vertical_alignment = 1
 
 [node name="RightBanner" type="TextureRect" parent="Center/Panel/Body/Header"]
 mouse_filter = 2

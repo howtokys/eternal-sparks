@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cyfu3ebks221y" path="res://scripts/weapons/weapon_data.gd" id="1_weapon_data"]
 [ext_resource type="Texture2D" uid="uid://cbsaec34pe6q7" path="res://sprites/test_weapons/Sprite_Assault_Rifle_Pro+.png" id="2_gun"]
 [ext_resource type="Texture2D" uid="uid://dl4fuihtisroc" path="res://sprites/projectiles/auto_rifle_bullet.png" id="3_bullet"]
+[ext_resource type="AudioStream" uid="uid://clmhiqi3xly5o" path="res://sounds/fire_auto_rifle.wav" id="4_fire_sound"]
 
 [resource]
 script = ExtResource("1_weapon_data")
@@ -10,10 +11,13 @@ id = "auto_rifle"
 display_name = "Auto Rifle"
 fire_mode = 1
 fire_rate = 8.0
-mana_cost = 1.0
-projectile_speed = 450
+recoil_px = 2.0
+fire_sound = ExtResource("4_fire_sound")
+mana_cost = 1.5
+projectile_speed = 560
 projectile_lifetime = 2.0
 texture = ExtResource("2_gun")
 projectile_texture = ExtResource("3_bullet")
 projectile_scale = Vector2(0.65, 0.65)
-muzzle_offset = Vector2(21, 0)
+projectile_hitbox_size = Vector2(9, 4)
+muzzle_offset = Vector2(22, -2.5)

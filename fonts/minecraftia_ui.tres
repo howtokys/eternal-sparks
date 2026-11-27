@@ -1,8 +1,14 @@
-[gd_resource type="FontVariation" format=3]
+[gd_resource type="FontVariation" format=3 uid="uid://c3bopwdxhqq03"]
 
-[ext_resource type="FontFile" path="res://fonts/Minecraftia-Regular.ttf" id="minecraftia"]
+[ext_resource type="FontFile" uid="uid://cfx0v4v24adie" path="res://fonts/Minecraftia-Regular.ttf" id="minecraftia"]
 
 [resource]
 base_font = ExtResource("minecraftia")
+variation_opentype = {
+0: 1
+}
+opentype_features = {
+1667329140: 0
+}
 spacing_top = -2
 spacing_bottom = -2

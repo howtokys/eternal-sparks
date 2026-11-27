@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="16" viewBox="0 0 120 16">
+  <g transform="translate(0,0)">
+    <path fill="#1b4c71" d="M3 7h9V6h6v4h-6V9H3z"/>
+    <path fill="#4594c4" d="M8 7h8V6h2v4h-2V9H8z"/>
+    <path fill="#8ae7ef" d="M10 8h9v1h-9z"/>
+    <path fill="#efffff" d="M9 4h2v2H9zM15 11h3v1h-3z"/>
+    <path fill="#1b4c71" d="M18 8h2V6h2V4h4v2h2v4h-2v2h-4v-2h-2v-1h-2z"/>
+    <path fill="#4594c4" d="M19 8h2V6h2V5h2v1h2v4h-2v1h-2v-1h-2V9h-2z"/>
+    <path fill="#8ae7ef" d="M21 8h2V6h2v1h2v2h-2v1h-2V9h-2z"/>
+    <path fill="#efffff" d="M24 7h2v2h-2z"/>
+  </g>
+  <g transform="translate(30,0)">
+    <path fill="#1b4c71" d="M2 9h7V8h5V6h4v4h-3v1H8v-1H2z"/>
+    <path fill="#4594c4" d="M7 9h6V8h5v1h-5v1H7z"/>
+    <path fill="#8ae7ef" d="M14 7h5v1h-5z"/>
+    <path fill="#efffff" d="M5 5h3v1H5zM11 12h2v2h-2z"/>
+    <path fill="#1b4c71" d="M18 8h2V6h2V4h4v2h2v4h-2v2h-4v-2h-2v-1h-2z"/>
+    <path fill="#4594c4" d="M19 8h2V6h2V5h2v1h2v4h-2v1h-2v-1h-2V9h-2z"/>
+    <path fill="#8ae7ef" d="M21 8h2V6h2v1h2v2h-2v1h-2V9h-2z"/>
+    <path fill="#efffff" d="M24 7h2v2h-2z"/>
+  </g>
+  <g transform="translate(60,0)">
+    <path fill="#1b4c71" d="M4 7h5V5h4v2h4v1h2v2h-6v-1H4z"/>
+    <path fill="#4594c4" d="M8 7h4V6h1v1h3v2h-3V8H8z"/>
+    <path fill="#8ae7ef" d="M13 8h6v1h-6z"/>
+    <path fill="#efffff" d="M2 9h2v1H2zM8 11h3v1H8zM16 4h1v2h-1z"/>
+    <path fill="#1b4c71" d="M18 8h2V6h2V4h4v2h2v4h-2v2h-4v-2h-2v-1h-2z"/>
+    <path fill="#4594c4" d="M19 8h2V6h2V5h2v1h2v4h-2v1h-2v-1h-2V9h-2z"/>
+    <path fill="#8ae7ef" d="M21 8h2V6h2v1h2v2h-2v1h-2V9h-2z"/>
+    <path fill="#efffff" d="M24 7h2v2h-2z"/>
+  </g>
+  <g transform="translate(90,0)">
+    <path fill="#1b4c71" d="M1 8h6v1h5V7h6v4h-4v1h-3v-2H6V9H1z"/>
+    <path fill="#4594c4" d="M7 9h6V8h5v2h-6v1h-1v-1H7z"/>
+    <path fill="#8ae7ef" d="M15 8h5v1h-5z"/>
+    <path fill="#efffff" d="M5 6h2v1H5zM9 13h2v1H9z"/>
+    <path fill="#1b4c71" d="M18 8h2V6h2V4h4v2h2v4h-2v2h-4v-2h-2v-1h-2z"/>
+    <path fill="#4594c4" d="M19 8h2V6h2V5h2v1h2v4h-2v1h-2v-1h-2V9h-2z"/>
+    <path fill="#8ae7ef" d="M21 8h2V6h2v1h2v2h-2v1h-2V9h-2z"/>
+    <path fill="#efffff" d="M24 7h2v2h-2z"/>
+  </g>
+</svg>

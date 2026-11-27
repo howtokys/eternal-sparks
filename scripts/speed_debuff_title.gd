@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var speed_multiplier: float = 0.5   
+@export var speed_multiplier: float = 0.5
 @export var duration: float = 5.0
 
 func _ready() -> void:

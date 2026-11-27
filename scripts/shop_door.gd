@@ -4,12 +4,14 @@ extends Area2D
 @export var arrival_marker: NodePath
 @export var return_spawn: NodePath
 @export var use_return_route := false
-@export var prompt_text := "E: Leave shop"
+@export var prompt_text := "Leave Shop"
+@export var stairs_tint := Color.WHITE
 
-@onready var prompt: Label = $Prompt
+@onready var prompt = $Prompt
 
 func _ready() -> void:
-	prompt.text = prompt_text
+	prompt.set_content(prompt_text)
+	$Stairs.self_modulate = stairs_tint
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
 
