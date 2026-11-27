@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://co6vvqo75frn5"]
 
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_lt3m8"]
-[ext_resource type="Texture2D" uid="uid://bpnvwqs86s6qn" path="res://sprites/Forest_titlesset.png" id="2_hl331"]
+[ext_resource type="Texture2D" uid="uid://bpnvwqs86s6qn" path="res://sprites/tilesets/Forest_titlesset.png" id="2_hl331"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vri1b"]
 shader = ExtResource("1_lt3m8")
@@ -21,7 +21,9 @@ texture_region_size = Vector2i(16, 8)
 20:12/0 = 0
 21:12/0 = 0
 22:12/0 = 0
+22:12/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -4, 8, -4, 8, 4, -8, 4)
 23:12/0 = 0
+23:12/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -4, 8, -4, 8, 4, -8, 4)
 24:12/0 = 0
 26:12/0 = 0
 11:13/0 = 0
@@ -38,6 +40,7 @@ texture_region_size = Vector2i(16, 8)
 22:13/0 = 0
 22:13/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -4, 8, -4, 8, 4, -8, 4)
 23:13/0 = 0
+23:13/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -4, 8, -4, 8, 4, -8, 4)
 24:13/0 = 0
 26:13/0 = 0
 11:14/0 = 0
