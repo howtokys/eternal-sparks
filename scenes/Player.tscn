@@ -53,7 +53,7 @@ position = Vector2(7, 4)
 data = ExtResource("7_bruh7")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1614490843]
-zoom = Vector2(1.7, 1.7)
+zoom = Vector2(1.505, 1.505)
 position_smoothing_enabled = true
 
 [node name="HealthComponent" type="Node2D" parent="." unique_id=1253734305]

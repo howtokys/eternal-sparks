@@ -10,6 +10,7 @@ extends Node2D
 @export var gate_vertical: PackedScene
 @export var wall_horizontal: PackedScene
 @export var wall_vertical: PackedScene
+@export var enemy_scene: PackedScene
 @export var room_count: int = 5
 
 
@@ -28,11 +29,11 @@ func generate() -> void:
 	add_child(start)
 	start.global_position = Vector2.ZERO
 	rooms.append(start)
-	print("=== START ROOM SPAWNED ===")
 	
 	spawn_from_room(start, true)
 	for room in rooms:
 		fill_unused_exits(room)
+	setup_room_gates()
 	
 func spawn_from_room(room: Node2D, is_start: bool = false) -> void:
 	if rooms_left <= 0:
@@ -88,8 +89,6 @@ func spawn_corridor_and_room(parent_room: Node2D, exit: Node2D) -> Node2D:
 	add_child(corridor)
 	
 	if exit.name == "ExitNorth":
-		print("=== Corridor tree ===")
-		corridor.print_tree_pretty()
 		corridor.z_index = parent_room.z_index - 1
 	
 	var c_start = corridor.get_node_or_null("Start")
@@ -99,11 +98,8 @@ func spawn_corridor_and_room(parent_room: Node2D, exit: Node2D) -> Node2D:
 		corridor.queue_free()
 		return null
 	
-	print("Using corridor for ", exit.name)
-	
 	# 2. Align corridor Start marker to the exit
 	corridor.global_position += exit.global_position - c_start.global_position
-	print("Corridor Start aligned to ", exit.name)
 	
 	# 3. Try a few unused room scenes for this exit
 	var available_scenes: Array[PackedScene] = []
@@ -137,6 +133,8 @@ func spawn_corridor_and_room(parent_room: Node2D, exit: Node2D) -> Node2D:
 		candidate.global_position += c_end.global_position - candidate_exit.global_position
 		
 		var room_rect = get_bounds_rect(candidate)
+		print(candidate.name, " bounds: ", get_bounds_rect(candidate))
+		
 		if overlaps_existing(room_rect):
 			print("Attempt ", attempt + 1, " overlapped, trying next room")
 			candidate.queue_free()
@@ -159,23 +157,20 @@ func spawn_corridor_and_room(parent_room: Node2D, exit: Node2D) -> Node2D:
 	rooms.append(new_room)
 	rooms_left -= 1
 	
-	# Optional: north corridor wall z-index stuff (keep if you still need it)
 	if exit.name == "ExitNorth":
 		var base_z = parent_room.z_index - 1
 		corridor.z_index = base_z
 		var wall = corridor.get_node("Floor/Wall")
 		wall.z_index = base_z
-		
 		var first = corridor.get_node("Floor/Wall/FinalWallFirstHalf")
 		first.z_index = new_room.z_index + 1
 		var second = corridor.get_node("Floor/Wall/FinalWallFirstHalf/FinalWallSecondHalf")
 		second.z_index = new_room.z_index + 1
-		print("FinalWallSecondHalf z: ", second.z_index, " | New room z: ", new_room.z_index)
 	
 	# Spawn gates
 	spawn_gate_on_exit(parent_room, exit)
 	spawn_gate_on_exit(new_room, room_exit)
-	
+	spawn_enemies_in_room(new_room)
 	print("=== ROOM PLACED ===")
 	return new_room
 
@@ -317,3 +312,89 @@ func overlaps_existing(rect: Rect2) -> bool:
 			return true
 	# Also check previously placed corridors if you store them
 	return false
+
+func setup_room_gates() -> void:
+	print("=== SETUP ROOM GATES ===")
+	for room in rooms:
+		print("Checking room: ", room.name)
+		var area = room.get_node_or_null("Area2D")
+		if area == null:
+			print("  No Area2D")
+			continue
+		
+		var gates: Array = []
+		var enemies: Array = []
+		for child in room.get_children():
+			if child.is_in_group("gate"):
+				gates.append(child)
+				print("  Found gate: ", child.name)
+			elif child.is_in_group("enemy"):
+				enemies.append(child)
+				print("  Found enemy: ", child.name)
+		
+		print("  Gates: ", gates.size(), " | Enemies: ", enemies.size())
+		
+		# Start every gate open
+		for gate in gates:
+			if gate.has_method("set_closed"):
+				gate.set_closed(false)
+		
+		if enemies.is_empty():
+			print("  Skipping (no enemies)")
+			continue
+		
+		var state = {
+			"player_inside": false,
+			"enemies": enemies,
+			"gates": gates
+		}
+		
+		area.body_entered.connect(func(body):
+			print("Body entered: ", body.name, " groups: ", body.get_groups())
+			if body.is_in_group("player"):
+				print("  -> Player entered room")
+				state.player_inside = true
+				_update_room_gates(state)
+		)
+		area.body_exited.connect(func(body):
+			if body.is_in_group("player"):
+				print("  -> Player left room")
+				state.player_inside = false
+				_update_room_gates(state)
+		)
+		
+		for enemy in enemies:
+			var hc = enemy.get_node_or_null("HealthComponent")
+			if hc and hc.has_signal("died"):
+				hc.died.connect(func():
+					state.enemies.erase(enemy)
+					print("Enemy died. Remaining: ", state.enemies.size())
+					_update_room_gates(state)
+				)
+
+func _update_room_gates(state: Dictionary) -> void:
+	var should_close = state.player_inside and state.enemies.size() > 0
+	print("Updating gates. player_inside=", state.player_inside, " enemies=", state.enemies.size(), " -> close=", should_close)
+	for gate in state.gates:
+		if is_instance_valid(gate) and gate.has_method("set_closed"):
+			gate.set_closed(should_close)
+		else:
+			print("  Gate invalid or missing set_closed: ", gate)
+
+
+func spawn_enemies_in_room(room: Node2D) -> void:
+	var spawn_spot = room.get_node_or_null("SpawnSpot")
+	if spawn_spot == null:
+		return
+	
+	var markers = spawn_spot.get_children()
+	if markers.is_empty():
+		return
+	
+	markers.shuffle()
+	var count = randi_range(2, mini(8, markers.size()))
+	
+	for i in count:
+		var enemy = enemy_scene.instantiate()
+		room.add_child(enemy)
+		enemy.global_position = markers[i].global_position

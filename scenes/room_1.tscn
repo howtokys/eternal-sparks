@@ -1,12 +1,12 @@
 [gd_scene format=4 uid="uid://7bt14cef2iml"]
 
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_4ikea"]
-[ext_resource type="Texture2D" uid="uid://bpnvwqs86s6qn" path="res://sprites/Forest_titlesset.png" id="2_is5ow"]
+[ext_resource type="Texture2D" uid="uid://bpnvwqs86s6qn" path="res://sprites/tilesets/Forest_titlesset.png" id="2_is5ow"]
 [ext_resource type="PackedScene" uid="uid://i2xcix43ba4p" path="res://scenes/fireblast_crate.tscn" id="3_bq48c"]
 [ext_resource type="PackedScene" uid="uid://2fvnydut0j2x" path="res://scenes/crate.tscn" id="4_yutty"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fk0ug"]
-size = Vector2(240, 256)
+size = Vector2(209, 207)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lij7q"]
 shader = ExtResource("1_4ikea")
@@ -103,12 +103,9 @@ sources/0 = SubResource("TileSetAtlasSource_7hvcc")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1371425627]
 collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1359946042]
-position = Vector2(120, 120)
+position = Vector2(120.5, 120.5)
 shape = SubResource("RectangleShape2D_fk0ug")
 
 [node name="Floor" type="TileMapLayer" parent="." unique_id=137711734]
@@ -172,6 +169,29 @@ position = Vector2(40, 32)
 
 [node name="Crate16" parent="Floor" unique_id=1437960054 instance=ExtResource("4_yutty")]
 position = Vector2(40, 48)
+
+[node name="SpawnSpot" type="Node2D" parent="." unique_id=1606420472]
+
+[node name="1" type="Marker2D" parent="SpawnSpot" unique_id=1844728421]
+position = Vector2(49, 96)
+
+[node name="2" type="Marker2D" parent="SpawnSpot" unique_id=853510250]
+position = Vector2(62, 178)
+
+[node name="3" type="Marker2D" parent="SpawnSpot" unique_id=1305568909]
+position = Vector2(195, 149)
+
+[node name="4" type="Marker2D" parent="SpawnSpot" unique_id=832885999]
+position = Vector2(175, 54)
+
+[node name="5" type="Marker2D" parent="SpawnSpot" unique_id=1541716230]
+position = Vector2(183, 88)
+
+[node name="6" type="Marker2D" parent="SpawnSpot" unique_id=1753283963]
+position = Vector2(57, 133)
+
+[node name="7" type="Marker2D" parent="SpawnSpot" unique_id=201101440]
+position = Vector2(117, 195)
 
 [node name="ExitNorth" type="Marker2D" parent="." unique_id=2028356763]
 position = Vector2(120, 0)

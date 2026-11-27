@@ -70,7 +70,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_omfkm"]
 size = Vector2(16, 8)
 
-[node name="Gate Vertical" type="Node2D" unique_id=1565323892]
+[node name="Gate Vertical" type="Node2D" unique_id=1565323892 groups=["gate"]]
 script = ExtResource("1_b2xai")
 
 [node name="Left" type="Marker2D" parent="." unique_id=487848890]
@@ -80,16 +80,20 @@ position = Vector2(-8, 12)
 position = Vector2(8, 12)
 
 [node name="UpHalf" type="StaticBody2D" parent="." unique_id=1398392568]
+collision_layer = 2
+collision_mask = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UpHalf" unique_id=2043988903]
 material = SubResource("ShaderMaterial_b2xai")
 sprite_frames = SubResource("SpriteFrames_fk0ug")
-animation = &"open"
+animation = &"close"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UpHalf" unique_id=1327132568]
 shape = SubResource("RectangleShape2D_kt8k7")
 
 [node name="BottomHalf" type="StaticBody2D" parent="." unique_id=1695792956]
+collision_layer = 2
+collision_mask = 0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BottomHalf" unique_id=43574589]
 material = SubResource("ShaderMaterial_58we8")
