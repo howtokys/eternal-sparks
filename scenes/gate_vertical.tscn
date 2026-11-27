@@ -4,21 +4,51 @@
 [ext_resource type="Script" uid="uid://c5vdnmimg546b" path="res://scenes/gate.gd" id="1_b2xai"]
 [ext_resource type="Texture2D" uid="uid://dseye3s45wu2o" path="res://sprites/gate vertical.png" id="2_b2xai"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_55g8h"]
-size = Vector2(16, 96)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b2xai"]
+shader = ExtResource("1_22a7c")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_55g8h"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_b2xai"]
+atlas = ExtResource("2_b2xai")
+region = Rect2(0, 0, 16, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kt8k7"]
+atlas = ExtResource("2_b2xai")
+region = Rect2(16, 0, 16, 88)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fk0ug"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b2xai")
+}],
+"loop": 0,
+"name": &"close",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kt8k7")
+}],
+"loop": 0,
+"name": &"open",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kt8k7"]
+size = Vector2(16, 88)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_58we8"]
 shader = ExtResource("1_22a7c")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_58we8"]
 atlas = ExtResource("2_b2xai")
-region = Rect2(0, 0, 16, 96)
+region = Rect2(0, 88, 16, 8)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_b2xai"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_omfkm"]
 atlas = ExtResource("2_b2xai")
-region = Rect2(16, 0, 16, 96)
+region = Rect2(16, 88, 16, 8)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_vri1b"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_55g8h"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -30,28 +60,43 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_b2xai")
+"texture": SubResource("AtlasTexture_omfkm")
 }],
 "loop": 0,
 "name": &"open",
 "speed": 5.0
 }]
 
-[node name="Gate Vertical" type="StaticBody2D" unique_id=208848]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_omfkm"]
+size = Vector2(16, 8)
+
+[node name="Gate Vertical" type="Node2D" unique_id=1565323892]
 script = ExtResource("1_b2xai")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=136782472]
-position = Vector2(0, -8)
-shape = SubResource("RectangleShape2D_55g8h")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1709754470]
-material = SubResource("ShaderMaterial_55g8h")
-position = Vector2(0, -7.995)
-sprite_frames = SubResource("SpriteFrames_vri1b")
-animation = &"close"
-
 [node name="Left" type="Marker2D" parent="." unique_id=487848890]
-position = Vector2(-8, 0)
+position = Vector2(-8, 12)
 
 [node name="Right" type="Marker2D" parent="." unique_id=1941450267]
-position = Vector2(8, 0)
+position = Vector2(8, 12)
+
+[node name="UpHalf" type="StaticBody2D" parent="." unique_id=1398392568]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UpHalf" unique_id=2043988903]
+material = SubResource("ShaderMaterial_b2xai")
+sprite_frames = SubResource("SpriteFrames_fk0ug")
+animation = &"open"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UpHalf" unique_id=1327132568]
+shape = SubResource("RectangleShape2D_kt8k7")
+
+[node name="BottomHalf" type="StaticBody2D" parent="." unique_id=1695792956]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BottomHalf" unique_id=43574589]
+material = SubResource("ShaderMaterial_58we8")
+position = Vector2(0, 48)
+sprite_frames = SubResource("SpriteFrames_55g8h")
+animation = &"open"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomHalf" unique_id=1381362304]
+position = Vector2(0, 48)
+shape = SubResource("RectangleShape2D_omfkm")

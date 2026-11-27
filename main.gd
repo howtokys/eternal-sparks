@@ -8,6 +8,8 @@ extends Node2D
 @export var corridor_down: PackedScene
 @export var gate_horizontal: PackedScene
 @export var gate_vertical: PackedScene
+@export var wall_horizontal: PackedScene
+@export var wall_vertical: PackedScene
 @export var room_count: int = 5
 
 
@@ -29,6 +31,8 @@ func generate() -> void:
 	print("=== START ROOM SPAWNED ===")
 	
 	spawn_from_room(start, true)
+	for room in rooms:
+		fill_unused_exits(room)
 	
 func spawn_from_room(room: Node2D, is_start: bool = false) -> void:
 	if rooms_left <= 0:
@@ -54,7 +58,7 @@ func spawn_from_room(room: Node2D, is_start: bool = false) -> void:
 	
 	for new_room in new_rooms:
 		spawn_from_room(new_room, false)
-
+	
 func spawn_corridor_and_room(parent_room: Node2D, exit: Node2D) -> Node2D:
 	if rooms_left <= 0:
 		return null
@@ -75,11 +79,11 @@ func spawn_corridor_and_room(parent_room: Node2D, exit: Node2D) -> Node2D:
 		_:
 			print("Unknown exit name: ", exit.name)
 			return null
-
+	
 	if corridor_scene == null:
 		push_error("Missing corridor scene for ", exit.name)
 		return null
-
+	
 	var corridor = corridor_scene.instantiate()
 	add_child(corridor)
 	
@@ -87,29 +91,21 @@ func spawn_corridor_and_room(parent_room: Node2D, exit: Node2D) -> Node2D:
 		print("=== Corridor tree ===")
 		corridor.print_tree_pretty()
 		corridor.z_index = parent_room.z_index - 1
-			
+	
 	var c_start = corridor.get_node_or_null("Start")
 	var c_end = corridor.get_node_or_null("End")
 	if c_start == null or c_end == null:
 		push_error("Corridor missing Start or End")
 		corridor.queue_free()
 		return null
-
+	
 	print("Using corridor for ", exit.name)
-
-	# 2. Align corridor Start marker to the exit (no rotation needed)
-	corridor.global_position += exit.global_position - c_start.global_position
-	print("Corridor Start aligned to ", exit.name)
-
-	used_exits[exit] = true
 	
-	# 3. Align corridor Start marker to the exit
+	# 2. Align corridor Start marker to the exit
 	corridor.global_position += exit.global_position - c_start.global_position
 	print("Corridor Start aligned to ", exit.name)
 	
-	used_exits[exit] = true
-	
-	# 4. Pick an unused room scene
+	# 3. Try a few unused room scenes for this exit
 	var available_scenes: Array[PackedScene] = []
 	for scene in room_scenes:
 		if not used_room_scenes.has(scene):
@@ -120,30 +116,53 @@ func spawn_corridor_and_room(parent_room: Node2D, exit: Node2D) -> Node2D:
 		corridor.queue_free()
 		return null
 	
-	var scene = available_scenes[randi() % available_scenes.size()]
-	used_room_scenes.append(scene)
+	available_scenes.shuffle()
+	var max_attempts = mini(3, available_scenes.size())
+	var new_room: Node2D = null
+	var room_exit: Node2D = null
 	
-	var new_room = scene.instantiate()
-	add_child(new_room)
+	for attempt in max_attempts:
+		var scene = available_scenes[attempt]
+		var candidate = scene.instantiate()
+		add_child(candidate)
+		
+		var opposite_name = get_opposite_exit_name(exit.name)
+		var candidate_exit = candidate.get_node_or_null(opposite_name)
+		
+		if candidate_exit == null:
+			candidate.queue_free()
+			continue
+		
+		# Align candidate to corridor end
+		candidate.global_position += c_end.global_position - candidate_exit.global_position
+		
+		var room_rect = get_bounds_rect(candidate)
+		if overlaps_existing(room_rect):
+			print("Attempt ", attempt + 1, " overlapped, trying next room")
+			candidate.queue_free()
+			continue
+		
+		# Success
+		new_room = candidate
+		room_exit = candidate_exit
+		used_room_scenes.append(scene)
+		break
 	
-	# 5. Find the opposite exit on the new room
-	var opposite_name = get_opposite_exit_name(exit.name)
-	var room_exit = new_room.get_node_or_null(opposite_name)
-	
-	if room_exit == null or used_exits.has(room_exit):
-		print("ERROR: New room missing free ", opposite_name)
-		new_room.queue_free()
+	if new_room == null:
+		print("All attempts failed for ", exit.name)
+		corridor.queue_free()
 		return null
 	
-	print("Aligning to ", opposite_name, " on new room")
+	# Mark exits as used only on success
+	used_exits[exit] = true
+	used_exits[room_exit] = true
+	rooms.append(new_room)
+	rooms_left -= 1
 	
-	# 6. Align the opposite exit to the corridor's End marker
-	new_room.global_position += c_end.global_position - room_exit.global_position
-	print("Room ", opposite_name, " aligned to corridor End")
-	
+	# Optional: north corridor wall z-index stuff (keep if you still need it)
 	if exit.name == "ExitNorth":
 		var base_z = parent_room.z_index - 1
-		corridor.z_index = base_z		
+		corridor.z_index = base_z
 		var wall = corridor.get_node("Floor/Wall")
 		wall.z_index = base_z
 		
@@ -152,31 +171,12 @@ func spawn_corridor_and_room(parent_room: Node2D, exit: Node2D) -> Node2D:
 		var second = corridor.get_node("Floor/Wall/FinalWallFirstHalf/FinalWallSecondHalf")
 		second.z_index = new_room.z_index + 1
 		print("FinalWallSecondHalf z: ", second.z_index, " | New room z: ", new_room.z_index)
-			
-	# Check overlap with existing rooms
-	print("New room rect: ", get_room_rect(new_room))
-	print("Start room rect: ", get_room_rect(rooms[0]))
 	
-	var room_rect = get_bounds_rect(new_room)
-	var corridor_rect = get_bounds_rect(corridor)
-
-	if overlaps_existing(room_rect) or overlaps_existing(corridor_rect):
-		print("Overlap detected, rejecting")
-		new_room.queue_free()
-		corridor.queue_free()
-		return null
-	
-
-	used_exits[room_exit] = true
-	rooms.append(new_room)
-	rooms_left -= 1
-	
-	# Spawn gates on both exits that now have a corridor
+	# Spawn gates
 	spawn_gate_on_exit(parent_room, exit)
 	spawn_gate_on_exit(new_room, room_exit)
 	
 	print("=== ROOM PLACED ===")
-	
 	return new_room
 
 func get_opposite_exit_name(exit_name: String) -> String:
@@ -244,16 +244,59 @@ func spawn_gate_on_exit(room: Node2D, exit: Node2D) -> void:
 	
 	gate.global_position += exit.global_position - marker.global_position
 	
-	# Play close animation
-	var anim = gate.get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
-	if anim and anim.sprite_frames.has_animation("close"):
-		anim.play("close")
-	
-	# Vertical gate sits one below the previous room
+	var bottom_half = gate.get_node_or_null("BottomHalf")
+	if bottom_half:
+		bottom_half.z_index = room.z_index - 1
+
 	if is_vertical:
-		gate.z_index = room.z_index + 1
+		gate.z_index = room.z_index
 	
 	print("Gate placed on ", exit.name)
+
+func fill_unused_exits(room: Node2D) -> void:
+	for exit in get_free_exits(room):
+		var wall_scene: PackedScene
+		var marker_name: String
+		
+		match exit.name:
+			"ExitNorth":
+				wall_scene = wall_horizontal
+				marker_name = "Top"   
+			"ExitSouth":
+				wall_scene = wall_horizontal
+				marker_name = "Bottom"      # Top of wall aligns to ExitSouth
+			"ExitWest":
+				wall_scene = wall_vertical
+				marker_name = "Left"     # Left of wall aligns to ExitWest
+			"ExitEast":
+				wall_scene = wall_vertical
+				marker_name = "Right"    # Right of wall aligns to ExitEast
+			_:
+				continue
+		
+		if wall_scene == null:
+			continue
+		
+		var wall = wall_scene.instantiate()
+		room.add_child(wall)
+		
+		var marker = wall.get_node_or_null(marker_name)
+		if marker == null:
+			wall.queue_free()
+			continue
+		
+		wall.global_position += exit.global_position - marker.global_position
+		# Vertical wall z-index
+		if exit.name == "ExitWest" or exit.name == "ExitEast":
+			wall.z_as_relative = false
+			wall.z_index = room.z_index + 1
+			
+			var bottom_half = wall.get_node_or_null("Wall/TopHalf/BottomHalf")
+			if bottom_half:
+				bottom_half.z_as_relative = false
+				bottom_half.z_index = room.z_index
+		print("Wall placed on ", room.name, " / ", exit.name)
+	
 
 func get_bounds_rect(node: Node2D) -> Rect2:
 	var shape_node = node.get_node_or_null("Area2D/CollisionShape2D") as CollisionShape2D

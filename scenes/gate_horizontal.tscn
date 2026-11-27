@@ -10,9 +10,9 @@ size = Vector2(80, 32)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_55g8h"]
 shader = ExtResource("1_xwxio")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wi8tm"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jlm2j"]
 atlas = ExtResource("3_hudsw")
-region = Rect2(0, 0, 80, 38)
+region = Rect2(0, 0, 80, 39)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hudsw"]
 atlas = ExtResource("3_hudsw")
@@ -22,7 +22,7 @@ region = Rect2(80, 0, 80, 38)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wi8tm")
+"texture": SubResource("AtlasTexture_jlm2j")
 }],
 "loop": 0,
 "name": &"close",
@@ -47,10 +47,10 @@ shape = SubResource("RectangleShape2D_vri1b")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1709754470]
 material = SubResource("ShaderMaterial_55g8h")
 sprite_frames = SubResource("SpriteFrames_fk0ug")
-animation = &"close"
+animation = &"open"
 
 [node name="Top" type="Marker2D" parent="." unique_id=487848890]
-position = Vector2(0, -3)
+position = Vector2(0, -3.005)
 
 [node name="Bottom" type="Marker2D" parent="." unique_id=1941450267]
-position = Vector2(0, 13)
+position = Vector2(0, 12.995)

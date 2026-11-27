@@ -13,6 +13,8 @@
 [ext_resource type="PackedScene" uid="uid://cvww5xxhah0dh" path="res://scenes/corridor_down.tscn" id="11_muem4"]
 [ext_resource type="PackedScene" uid="uid://cupqhmob1i0ul" path="res://scenes/gate_horizontal.tscn" id="12_trceg"]
 [ext_resource type="PackedScene" uid="uid://e2lssmfagh2i" path="res://scenes/gate_vertical.tscn" id="13_a8y0u"]
+[ext_resource type="PackedScene" uid="uid://b46tw881g8tps" path="res://scenes/wall_horizontal.tscn" id="14_jkv2x"]
+[ext_resource type="PackedScene" uid="uid://co6vvqo75frn5" path="res://scenes/wall_vertical.tscn" id="15_jbj1t"]
 
 [node name="Main" type="Node2D" unique_id=1064216575]
 script = ExtResource("1_o5qli")
@@ -24,3 +26,5 @@ corridor_up = ExtResource("10_jbj1t")
 corridor_down = ExtResource("11_muem4")
 gate_horizontal = ExtResource("12_trceg")
 gate_vertical = ExtResource("13_a8y0u")
+wall_horizontal = ExtResource("14_jkv2x")
+wall_vertical = ExtResource("15_jbj1t")
