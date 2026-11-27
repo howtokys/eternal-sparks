@@ -21,6 +21,7 @@ size = Vector2(12.125, 9)
 size = Vector2(13, 22)
 
 [node name="Player" type="CharacterBody2D" unique_id=353923736 groups=["player"]]
+z_index = 1
 collision_mask = 2
 script = ExtResource("1_7xf34")
 

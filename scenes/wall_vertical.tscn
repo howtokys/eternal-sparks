@@ -1,0 +1,98 @@
+[gd_scene format=4 uid="uid://co6vvqo75frn5"]
+
+[ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_lt3m8"]
+[ext_resource type="Texture2D" uid="uid://bpnvwqs86s6qn" path="res://sprites/tilesets/Forest_titlesset.png" id="2_hl331"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vri1b"]
+shader = ExtResource("1_lt3m8")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hl331"]
+texture = ExtResource("2_hl331")
+texture_region_size = Vector2i(16, 8)
+11:12/0 = 0
+12:12/0 = 0
+13:12/0 = 0
+14:12/0 = 0
+15:12/0 = 0
+16:12/0 = 0
+17:12/0 = 0
+18:12/0 = 0
+19:12/0 = 0
+20:12/0 = 0
+21:12/0 = 0
+22:12/0 = 0
+22:12/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -4, 8, -4, 8, 4, -8, 4)
+23:12/0 = 0
+23:12/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -4, 8, -4, 8, 4, -8, 4)
+24:12/0 = 0
+26:12/0 = 0
+11:13/0 = 0
+12:13/0 = 0
+13:13/0 = 0
+14:13/0 = 0
+15:13/0 = 0
+16:13/0 = 0
+17:13/0 = 0
+18:13/0 = 0
+19:13/0 = 0
+20:13/0 = 0
+21:13/0 = 0
+22:13/0 = 0
+22:13/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -4, 8, -4, 8, 4, -8, 4)
+23:13/0 = 0
+23:13/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -4, 8, -4, 8, 4, -8, 4)
+24:13/0 = 0
+26:13/0 = 0
+11:14/0 = 0
+12:14/0 = 0
+13:14/0 = 0
+14:14/0 = 0
+16:14/0 = 0
+18:14/0 = 0
+19:14/0 = 0
+20:14/0 = 0
+21:14/0 = 0
+22:14/0 = 0
+23:14/0 = 0
+24:14/0 = 0
+25:14/0 = 0
+26:14/0 = 0
+11:15/0 = 0
+12:15/0 = 0
+13:15/0 = 0
+14:15/0 = 0
+16:15/0 = 0
+18:15/0 = 0
+19:15/0 = 0
+20:15/0 = 0
+21:15/0 = 0
+22:15/0 = 0
+23:15/0 = 0
+24:15/0 = 0
+25:15/0 = 0
+26:15/0 = 0
+24:16/0 = 0
+25:16/0 = 0
+25:17/0 = 0
+25:18/0 = 0
+25:19/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_hl331"]
+tile_size = Vector2i(16, 8)
+physics_layer_0/collision_layer = 2
+physics_layer_0/collision_mask = 0
+sources/0 = SubResource("TileSetAtlasSource_hl331")
+
+[node name="Wall Vertical" type="Node2D" unique_id=1969744363]
+material = SubResource("ShaderMaterial_vri1b")
+
+[node name="Wall" type="TileMapLayer" parent="." unique_id=826372124]
+use_parent_material = true
+tile_map_data = PackedByteArray("AAAAAAcAAAAXAA0AAAAAAAYAAAAXAAwAAAAAAAUAAAAXAA0AAAAAAAQAAAAXAAwAAAAAAAMAAAAWAA0AAAAAAAIAAAAWAAwAAAAAAAEAAAAXAA0AAAAAAAAAAAAXAAwAAAAAAP//AAAXAA0AAAAAAP7/AAAXAAwAAAA=")
+tile_set = SubResource("TileSet_hl331")
+
+[node name="Left" type="Marker2D" parent="." unique_id=599845428]
+position = Vector2(0, 32)
+
+[node name="Right" type="Marker2D" parent="." unique_id=837857610]
+position = Vector2(16, 32)

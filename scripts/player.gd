@@ -13,7 +13,7 @@ const MINIMUM_MANA := 50
 const LEGACY_BASE_MANA := 200.0
 const MANA_REGEN_DELAY := 0.75
 
-const SPEED = 150.0
+const SPEED = 500.0
 const PICKUP = preload("uid://ddfou1e6ljx0n")
 const WEAPON_ITEM_DATA := {
 	"pistol": preload("res://Chest_loot/weapon_pistol.tres"),
