@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://ggo5fis73igr"]
 
 [ext_resource type="Shader" uid="uid://ea2nhax00dy6" path="res://Shaders/smooth_pixels.gdshader" id="1_7hp4u"]
-[ext_resource type="Texture2D" uid="uid://bpnvwqs86s6qn" path="res://sprites/Forest_titlesset.png" id="2_h83ob"]
+[ext_resource type="Texture2D" uid="uid://bpnvwqs86s6qn" path="res://sprites/tilesets/Forest_titlesset.png" id="2_h83ob"]
 [ext_resource type="PackedScene" uid="uid://2fvnydut0j2x" path="res://scenes/crate.tscn" id="3_vy8vn"]
 [ext_resource type="PackedScene" uid="uid://i2xcix43ba4p" path="res://scenes/fireblast_crate.tscn" id="4_1untl"]
 [ext_resource type="PackedScene" uid="uid://b8xqh1sph4580" path="res://scenes/spike.tscn" id="5_f7hpu"]
@@ -12,7 +12,7 @@
 shader = ExtResource("1_7hp4u")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fk0ug"]
-size = Vector2(304, 256)
+size = Vector2(271, 207)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vdo4q"]
 texture = ExtResource("2_h83ob")
@@ -104,12 +104,9 @@ material = SubResource("ShaderMaterial_fk0ug")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1845305696]
 collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=451370342]
-position = Vector2(152, 120)
+position = Vector2(152.5, 120.5)
 shape = SubResource("RectangleShape2D_fk0ug")
 
 [node name="Floor" type="TileMapLayer" parent="." unique_id=220162763]
@@ -118,165 +115,186 @@ tile_map_data = PackedByteArray("AAABAAEAAAAVAAYAAAACAAEAAAAUAAcAAAACAAIAAAASAAc
 tile_set = SubResource("TileSet_vri1b")
 
 [node name="Crate9" parent="Floor" unique_id=1469868432 instance=ExtResource("3_vy8vn")]
-position = Vector2(88, 71)
+position = Vector2(88, 72)
 
 [node name="Crate8" parent="Floor" unique_id=2012149381 instance=ExtResource("3_vy8vn")]
-position = Vector2(72, 71)
+position = Vector2(72, 72)
+
+[node name="Crate34" parent="Floor" unique_id=137249221 instance=ExtResource("3_vy8vn")]
+position = Vector2(72, 88)
+
+[node name="Crate49" parent="Floor" unique_id=1072144747 instance=ExtResource("3_vy8vn")]
+position = Vector2(88, 88)
 
 [node name="Crate13" parent="Floor" unique_id=2018609019 instance=ExtResource("3_vy8vn")]
-position = Vector2(56, 71)
+position = Vector2(56, 72)
 
 [node name="Crate14" parent="Floor" unique_id=135514351 instance=ExtResource("3_vy8vn")]
-position = Vector2(104, 71)
-
-[node name="Crate15" parent="Floor" unique_id=1955641742 instance=ExtResource("3_vy8vn")]
-position = Vector2(104, 71)
+position = Vector2(104, 72)
 
 [node name="Crate16" parent="Floor" unique_id=1739145742 instance=ExtResource("3_vy8vn")]
-position = Vector2(120, 71)
+position = Vector2(120, 72)
 
 [node name="Crate17" parent="Floor" unique_id=580005701 instance=ExtResource("3_vy8vn")]
-position = Vector2(168, 71)
+position = Vector2(168, 72)
 
 [node name="Crate18" parent="Floor" unique_id=1169814451 instance=ExtResource("3_vy8vn")]
-position = Vector2(152, 71)
+position = Vector2(152, 72)
 
 [node name="Crate19" parent="Floor" unique_id=904092741 instance=ExtResource("3_vy8vn")]
-position = Vector2(136, 71)
+position = Vector2(136, 72)
 
 [node name="Crate20" parent="Floor" unique_id=1636382352 instance=ExtResource("3_vy8vn")]
-position = Vector2(184, 71)
-
-[node name="Crate21" parent="Floor" unique_id=508909869 instance=ExtResource("3_vy8vn")]
-position = Vector2(184, 71)
+position = Vector2(184, 72)
 
 [node name="Crate22" parent="Floor" unique_id=1928774678 instance=ExtResource("3_vy8vn")]
-position = Vector2(200, 71)
+position = Vector2(200, 72)
 
 [node name="Crate23" parent="Floor" unique_id=107124447 instance=ExtResource("3_vy8vn")]
-position = Vector2(248, 71)
+position = Vector2(248, 72)
 
 [node name="Crate26" parent="Floor" unique_id=1195987976 instance=ExtResource("3_vy8vn")]
-position = Vector2(248, 87)
+position = Vector2(248, 88)
 
 [node name="Crate27" parent="Floor" unique_id=1777999064 instance=ExtResource("3_vy8vn")]
-position = Vector2(248, 103)
+position = Vector2(248, 104)
 
 [node name="Crate28" parent="Floor" unique_id=429609909 instance=ExtResource("3_vy8vn")]
-position = Vector2(248, 119)
+position = Vector2(248, 120)
 
 [node name="Crate24" parent="Floor" unique_id=1539934450 instance=ExtResource("3_vy8vn")]
-position = Vector2(232, 71)
+position = Vector2(232, 72)
+
+[node name="Crate61" parent="Floor" unique_id=2032142536 instance=ExtResource("3_vy8vn")]
+position = Vector2(232, 88)
 
 [node name="Crate25" parent="Floor" unique_id=1458133095 instance=ExtResource("3_vy8vn")]
-position = Vector2(216, 71)
+position = Vector2(216, 72)
+
+[node name="Crate60" parent="Floor" unique_id=690961061 instance=ExtResource("3_vy8vn")]
+position = Vector2(216, 88)
 
 [node name="Crate2" parent="Floor" unique_id=1062938687 instance=ExtResource("3_vy8vn")]
-position = Vector2(104, 87)
+position = Vector2(104, 88)
 
 [node name="Crate3" parent="Floor" unique_id=25320086 instance=ExtResource("3_vy8vn")]
-position = Vector2(104, 103)
+position = Vector2(104, 104)
 
 [node name="Crate6" parent="Floor" unique_id=1159044900 instance=ExtResource("3_vy8vn")]
-position = Vector2(104, 119)
+position = Vector2(104, 120)
 
 [node name="Crate29" parent="Floor" unique_id=1738848670 instance=ExtResource("3_vy8vn")]
-position = Vector2(104, 135)
+position = Vector2(104, 136)
 
 [node name="Crate32" parent="Floor" unique_id=1198585838 instance=ExtResource("3_vy8vn")]
-position = Vector2(120, 87)
+position = Vector2(120, 88)
 
 [node name="Crate33" parent="Floor" unique_id=1434150157 instance=ExtResource("3_vy8vn")]
-position = Vector2(120, 103)
+position = Vector2(120, 104)
 
 [node name="Fireblast Crate" parent="Floor" unique_id=1676884060 instance=ExtResource("4_1untl")]
-position = Vector2(120, 119)
+position = Vector2(120, 120)
 
 [node name="Crate35" parent="Floor" unique_id=1932187262 instance=ExtResource("3_vy8vn")]
-position = Vector2(120, 135)
+position = Vector2(120, 136)
 
 [node name="Crate36" parent="Floor" unique_id=1110587099 instance=ExtResource("3_vy8vn")]
-position = Vector2(136, 87)
+position = Vector2(136, 88)
 
 [node name="Crate37" parent="Floor" unique_id=1172599383 instance=ExtResource("3_vy8vn")]
-position = Vector2(136, 103)
+position = Vector2(136, 104)
 
 [node name="Crate38" parent="Floor" unique_id=281996076 instance=ExtResource("3_vy8vn")]
-position = Vector2(136, 119)
+position = Vector2(136, 120)
 
 [node name="Crate39" parent="Floor" unique_id=77757544 instance=ExtResource("3_vy8vn")]
-position = Vector2(136, 135)
+position = Vector2(136, 136)
 
 [node name="Crate40" parent="Floor" unique_id=1996649965 instance=ExtResource("3_vy8vn")]
-position = Vector2(152, 87)
+position = Vector2(152, 88)
 
 [node name="Crate41" parent="Floor" unique_id=1587920975 instance=ExtResource("3_vy8vn")]
-position = Vector2(152, 103)
+position = Vector2(152, 104)
 
 [node name="Crate42" parent="Floor" unique_id=939259838 instance=ExtResource("3_vy8vn")]
-position = Vector2(152, 119)
+position = Vector2(152, 120)
 
 [node name="Crate43" parent="Floor" unique_id=136402264 instance=ExtResource("3_vy8vn")]
-position = Vector2(152, 135)
+position = Vector2(152, 136)
 
 [node name="Crate44" parent="Floor" unique_id=425621472 instance=ExtResource("3_vy8vn")]
-position = Vector2(168, 87)
+position = Vector2(168, 88)
 
 [node name="Crate45" parent="Floor" unique_id=1729297423 instance=ExtResource("3_vy8vn")]
-position = Vector2(168, 103)
+position = Vector2(168, 104)
 
 [node name="Crate46" parent="Floor" unique_id=884388988 instance=ExtResource("3_vy8vn")]
-position = Vector2(168, 119)
+position = Vector2(168, 120)
 
 [node name="Crate47" parent="Floor" unique_id=1819776017 instance=ExtResource("3_vy8vn")]
-position = Vector2(168, 135)
-
-[node name="Crate48" parent="Floor" unique_id=378569160 instance=ExtResource("3_vy8vn")]
-position = Vector2(184, 87)
+position = Vector2(168, 136)
 
 [node name="Fireblast Crate2" parent="Floor" unique_id=311641864 instance=ExtResource("4_1untl")]
-position = Vector2(184, 103)
+position = Vector2(184, 88)
 
 [node name="Crate50" parent="Floor" unique_id=1116393213 instance=ExtResource("3_vy8vn")]
-position = Vector2(184, 119)
+position = Vector2(184, 104)
 
 [node name="Crate51" parent="Floor" unique_id=1638847685 instance=ExtResource("3_vy8vn")]
-position = Vector2(184, 135)
+position = Vector2(184, 120)
+
+[node name="Crate57" parent="Floor" unique_id=1053440709 instance=ExtResource("3_vy8vn")]
+position = Vector2(184, 136)
 
 [node name="Crate52" parent="Floor" unique_id=617525970 instance=ExtResource("3_vy8vn")]
-position = Vector2(200, 87)
+position = Vector2(200, 88)
 
 [node name="Crate53" parent="Floor" unique_id=156835413 instance=ExtResource("3_vy8vn")]
-position = Vector2(200, 103)
+position = Vector2(200, 104)
 
 [node name="Crate54" parent="Floor" unique_id=2048535586 instance=ExtResource("3_vy8vn")]
-position = Vector2(200, 119)
+position = Vector2(200, 120)
 
 [node name="Crate55" parent="Floor" unique_id=237284943 instance=ExtResource("3_vy8vn")]
-position = Vector2(200, 135)
+position = Vector2(200, 136)
 
 [node name="Wall" type="TileMapLayer" parent="Floor" unique_id=832221501]
 use_parent_material = true
-tile_map_data = PackedByteArray("AAAAAAAAAAAWAAMAAAAAAAEAAAAWAAMAAAAAAAIAAAAXAAMAAAAAAAMAAAAWAAMAAAAAAAQAAAAXAAMAAAAAAAoAAAAWAAMAAAAAAAsAAAAWAAMAAAAAAAwAAAAWAAMAAAAAAA0AAAAWAAMAAAAAAA4AAAAWAAMAAAABAA4AAAAXAAMAAAACAA4AAAAXAAMAAAADAA4AAAAXAAMAAAAEAA4AAAAXAAMAAAAFAA4AAAAXAAMAAAAGAA4AAAAXAAMAAAAMAA4AAAAWAAMAAAANAA4AAAAWAAMAAAAOAA4AAAAXAAMAAAAQAA4AAAAXAAMAAAARAA4AAAAXAAMAAAASAA4AAAAXAAMAAAASAAAAAAAXAAMAAAASAAEAAAAWAAMAAAASAAIAAAAXAAMAAAASAAMAAAAWAAMAAAASAAQAAAAXAAMAAAASAAoAAAAXAAMAAAASAAsAAAAXAAMAAAASAAwAAAAWAAMAAAASAA0AAAAXAAMAAAABAAAAAAAWAAMAAAACAAAAAAAXAAMAAAADAAAAAAAXAAMAAAAEAAAAAAAXAAMAAAAFAAAAAAAWAAMAAAAGAAAAAAAWAAMAAAANAAAAAAAWAAMAAAAOAAAAAAAXAAMAAAAPAAAAAAAWAAMAAAAQAAAAAAAWAAMAAAARAAAAAAAXAAMAAAAMAAAAAAAWAAMAAAANAAUAAAAaAAMAAAAOAAUAAAAaAAMAAAAOAAYAAAAaAAMAAAANAAYAAAAaAAMAAAAEAAUAAAAaAAMAAAAEAAYAAAAaAAMAAAAFAAYAAAAaAAMAAAAFAAUAAAAaAAMAAAAEAAcAAAAaAAMAAAAFAAcAAAAaAAMAAAANAAcAAAAaAAMAAAAOAAcAAAAaAAMAAAADAAEAAAAWAAcAAAAFAAEAAAAWAAcAAAAMAAEAAAAWAAcAAAAPAAEAAAAWAAcAAAAQAAEAAAAWAAcAAAABAA8AAAAWAAcAAAACAA8AAAAWAAcAAAADAA8AAAAWAAcAAAAFAA8AAAAWAAcAAAAGAA8AAAAWAAcAAAAIAA8AAAAWAAcAAAAJAA8AAAAWAAcAAAAKAA8AAAAWAAcAAAAOAA8AAAAWAAcAAAAQAA8AAAAWAAcAAAASAA8AAAAWAAcAAAAAAA8AAAAXAAcAAAAEAA8AAAAXAAcAAAAHAA8AAAAXAAcAAAALAA8AAAAXAAcAAAAMAA8AAAAXAAcAAAANAA8AAAAXAAcAAAAPAA8AAAAXAAcAAAARAA8AAAAXAAcAAAABAAEAAAAXAAcAAAACAAEAAAAXAAcAAAAEAAEAAAAXAAcAAAAGAAEAAAAXAAcAAAANAAEAAAAXAAcAAAAOAAEAAAAXAAcAAAARAAEAAAAXAAcAAAAPAA4AAAAWAAMAAAA=")
+tile_map_data = PackedByteArray("AAAAAAAAAAAWAAMAAAAAAAEAAAAWAAMAAAAAAAIAAAAXAAMAAAAAAAMAAAAWAAMAAAAAAAQAAAAXAAMAAAAAAAoAAAAWAAMAAAAAAAsAAAAWAAMAAAAAAAwAAAAWAAMAAAAAAA0AAAAWAAMAAAAAAA4AAAAWAAMAAAABAA4AAAAXAAMAAAACAA4AAAAXAAMAAAADAA4AAAAXAAMAAAAEAA4AAAAXAAMAAAAFAA4AAAAXAAMAAAAGAA4AAAAXAAMAAAAMAA4AAAAWAAMAAAANAA4AAAAWAAMAAAAOAA4AAAAXAAMAAAAQAA4AAAAXAAMAAAARAA4AAAAXAAMAAAASAA4AAAAXAAMAAAASAAAAAAAXAAMAAAASAAEAAAAWAAMAAAASAAIAAAAXAAMAAAASAAMAAAAWAAMAAAASAAQAAAAXAAMAAAASAAoAAAAXAAMAAAASAAsAAAAXAAMAAAASAAwAAAAWAAMAAAASAA0AAAAXAAMAAAABAAAAAAAWAAMAAAACAAAAAAAXAAMAAAADAAAAAAAXAAMAAAAEAAAAAAAXAAMAAAAFAAAAAAAWAAMAAAAGAAAAAAAWAAMAAAANAAAAAAAWAAMAAAAOAAAAAAAXAAMAAAAPAAAAAAAWAAMAAAAQAAAAAAAWAAMAAAARAAAAAAAXAAMAAAAMAAAAAAAWAAMAAAAOAAYAAAAaAAMAAAANAAYAAAAaAAMAAAADAAEAAAAWAAcAAAAFAAEAAAAWAAcAAAAMAAEAAAAWAAcAAAAPAAEAAAAWAAcAAAAQAAEAAAAWAAcAAAABAA8AAAAWAAcAAAACAA8AAAAWAAcAAAADAA8AAAAWAAcAAAAFAA8AAAAWAAcAAAAGAA8AAAAWAAcAAAAIAA8AAAAWAAcAAAAJAA8AAAAWAAcAAAAKAA8AAAAWAAcAAAAOAA8AAAAWAAcAAAAQAA8AAAAWAAcAAAASAA8AAAAWAAcAAAAAAA8AAAAXAAcAAAAEAA8AAAAXAAcAAAAHAA8AAAAXAAcAAAALAA8AAAAXAAcAAAAMAA8AAAAXAAcAAAANAA8AAAAXAAcAAAAPAA8AAAAXAAcAAAARAA8AAAAXAAcAAAABAAEAAAAXAAcAAAACAAEAAAAXAAcAAAAEAAEAAAAXAAcAAAAGAAEAAAAXAAcAAAANAAEAAAAXAAcAAAAOAAEAAAAXAAcAAAARAAEAAAAXAAcAAAAPAA4AAAAWAAMAAAAEAAYAAAAaAAMAAAAFAAYAAAAaAAMAAAA=")
 tile_set = SubResource("TileSet_lij7q")
 
 [node name="Crate4" parent="Floor" unique_id=42428558 instance=ExtResource("3_vy8vn")]
-position = Vector2(88, 135)
+position = Vector2(88, 120)
+
+[node name="Crate15" parent="Floor" unique_id=1016121233 instance=ExtResource("3_vy8vn")]
+position = Vector2(88, 136)
 
 [node name="Crate5" parent="Floor" unique_id=1097721957 instance=ExtResource("3_vy8vn")]
-position = Vector2(72, 135)
+position = Vector2(72, 120)
+
+[node name="Crate21" parent="Floor" unique_id=1614529797 instance=ExtResource("3_vy8vn")]
+position = Vector2(72, 136)
 
 [node name="Crate30" parent="Floor" unique_id=301466649 instance=ExtResource("3_vy8vn")]
-position = Vector2(232, 135)
+position = Vector2(232, 120)
+
+[node name="Crate48" parent="Floor" unique_id=1607053228 instance=ExtResource("3_vy8vn")]
+position = Vector2(232, 136)
+
+[node name="Crate58" parent="Floor" unique_id=745326909 instance=ExtResource("3_vy8vn")]
+position = Vector2(232, 136)
 
 [node name="Crate56" parent="Floor" unique_id=1901514552 instance=ExtResource("3_vy8vn")]
-position = Vector2(248, 135)
+position = Vector2(248, 136)
 
 [node name="Crate31" parent="Floor" unique_id=559849738 instance=ExtResource("3_vy8vn")]
-position = Vector2(216, 135)
+position = Vector2(216, 120)
+
+[node name="Crate59" parent="Floor" unique_id=556875604 instance=ExtResource("3_vy8vn")]
+position = Vector2(216, 136)
 
 [node name="Crate7" parent="Floor" unique_id=398270501 instance=ExtResource("3_vy8vn")]
-position = Vector2(56, 87)
+position = Vector2(56, 88)
 
 [node name="Crate10" parent="Floor" unique_id=1900979842 instance=ExtResource("3_vy8vn")]
 position = Vector2(56, 104)
@@ -285,7 +303,7 @@ position = Vector2(56, 104)
 position = Vector2(56, 120)
 
 [node name="Crate12" parent="Floor" unique_id=1676451920 instance=ExtResource("3_vy8vn")]
-position = Vector2(56, 135)
+position = Vector2(56, 136)
 
 [node name="Spike" parent="Floor" unique_id=1436312715 instance=ExtResource("5_f7hpu")]
 position = Vector2(104, 184)
@@ -314,6 +332,12 @@ position = Vector2(88, 184)
 [node name="Speed Debuff Title" parent="Floor" unique_id=1642271954 instance=ExtResource("7_l7adx")]
 position = Vector2(216, 184)
 
+[node name="Speed Buff Title2" parent="Floor" unique_id=78173487 instance=ExtResource("6_hkprr")]
+position = Vector2(72, 184)
+
+[node name="Speed Debuff Title2" parent="Floor" unique_id=1602862364 instance=ExtResource("7_l7adx")]
+position = Vector2(232, 184)
+
 [node name="ExitNorth" type="Marker2D" parent="." unique_id=1564953691]
 position = Vector2(152, 0)
 
@@ -325,3 +349,26 @@ position = Vector2(152, 240)
 
 [node name="ExitEast" type="Marker2D" parent="." unique_id=799295744]
 position = Vector2(304, 120)
+
+[node name="SpawnSpot" type="Node2D" parent="." unique_id=1711953579]
+
+[node name="1" type="Marker2D" parent="SpawnSpot" unique_id=546943061]
+position = Vector2(33, 115)
+
+[node name="2" type="Marker2D" parent="SpawnSpot" unique_id=2046034325]
+position = Vector2(272, 112)
+
+[node name="3" type="Marker2D" parent="SpawnSpot" unique_id=2090535244]
+position = Vector2(61, 163)
+
+[node name="4" type="Marker2D" parent="SpawnSpot" unique_id=1861324822]
+position = Vector2(116, 43)
+
+[node name="5" type="Marker2D" parent="SpawnSpot" unique_id=1372110740]
+position = Vector2(260, 190)
+
+[node name="6" type="Marker2D" parent="SpawnSpot" unique_id=629735973]
+position = Vector2(50, 203)
+
+[node name="7" type="Marker2D" parent="SpawnSpot" unique_id=51221072]
+position = Vector2(201, 38)

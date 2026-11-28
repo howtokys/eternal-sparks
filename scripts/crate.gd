@@ -44,8 +44,8 @@ func _break_crate(area: Area2D) -> void:
 	hurt_box.set_deferred("collision_layer", 0)
 	sprite_2d.hide()
 	
-	# Sample the main color from the sprite texture
-	var base_color = Color(0.55, 0.35, 0.17) # hardcoded	
+	#Sample the main color from the sprite texture
+	var base_color = Color(0.55, 0.35, 0.17) #hardcoded	
 	if sprite_2d.texture:
 		var img = sprite_2d.texture.get_image()
 		if img:

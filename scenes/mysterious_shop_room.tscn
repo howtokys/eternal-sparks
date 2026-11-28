@@ -1,33 +1,18 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cr4c30ekuoyg3"]
 
+[ext_resource type="Script" uid="uid://cyfu3ebks221y" path="res://scripts/weapons/weapon_data.gd" id="6_dxcos"]
 [ext_resource type="PackedScene" path="res://scenes/shop_room_base.tscn" id="base"]
-[ext_resource type="PackedScene" path="res://scenes/shop_pedestal.tscn" id="stand"]
-[ext_resource type="Texture2D" path="res://sprites/trader/mysterious_trader_idle.png" id="mystic_art"]
-[ext_resource type="Script" path="res://scripts/mysterious_trader.gd" id="mystic_script"]
-[ext_resource type="Resource" path="res://scripts/Shop/spike_guard.tres" id="spikes"]
+[ext_resource type="Resource" uid="uid://43chvxdnurbr" path="res://scripts/weapons/data/ember_staff.tres" id="ember_staff"]
+[ext_resource type="Resource" uid="uid://cqe1yap5l45ll" path="res://scripts/weapons/data/frost_staff.tres" id="frost_staff"]
 [ext_resource type="Resource" path="res://scripts/Shop/meteor.tres" id="meteor"]
-
 [ext_resource type="Resource" path="res://scripts/Shop/movement_surge.tres" id="movement"]
-
-[ext_resource type="Resource" path="res://scripts/weapons/data/ember_staff.tres" id="ember_staff"]
-[ext_resource type="Resource" path="res://scripts/weapons/data/frost_staff.tres" id="frost_staff"]
-[ext_resource type="Resource" path="res://scripts/weapons/data/storm_staff.tres" id="storm_staff"]
-[ext_resource type="Resource" path="res://scripts/weapons/data/spear.tres" id="spear"]
-[ext_resource type="Resource" path="res://scripts/weapons/data/war_hammer.tres" id="war_hammer"]
-
-[sub_resource type="CircleShape2D" id="greet_range"]
-radius = 49.0
-
-[sub_resource type="Gradient" id="crimson"]
-colors = PackedColorArray(0.66, 0.07, 0.18, 0.60, 0.42, 0.04, 0.11, 0)
-
-[sub_resource type="GradientTexture2D" id="aura"]
-gradient = SubResource("crimson")
-width = 48
-height = 48
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(1, 0.5)
+[ext_resource type="Texture2D" uid="uid://dyydd4boi2ly5" path="res://sprites/trader/mysterious_trader_idle.png" id="mystic_art"]
+[ext_resource type="Script" uid="uid://dtxdkumoni8w4" path="res://scripts/mysterious_trader.gd" id="mystic_script"]
+[ext_resource type="Resource" uid="uid://dbo3l35tyehh" path="res://scripts/weapons/data/spear.tres" id="spear"]
+[ext_resource type="Resource" path="res://scripts/Shop/spike_guard.tres" id="spikes"]
+[ext_resource type="PackedScene" path="res://scenes/shop_pedestal.tscn" id="stand"]
+[ext_resource type="Resource" uid="uid://bs8ns3gm0t15b" path="res://scripts/weapons/data/storm_staff.tres" id="storm_staff"]
+[ext_resource type="Resource" uid="uid://csshrxe0odk2c" path="res://scripts/weapons/data/war_hammer.tres" id="war_hammer"]
 
 [sub_resource type="AtlasTexture" id="mystic_0"]
 atlas = ExtResource("mystic_art")
@@ -62,9 +47,52 @@ atlas = ExtResource("mystic_art")
 region = Rect2(308, 0, 44, 78)
 
 [sub_resource type="SpriteFrames" id="mystic_idle"]
-animations = [{"name": &"idle", "speed": 20.0, "loop": true, "frames": [{"duration": 1.0, "texture": SubResource("mystic_0")}, {"duration": 1.0, "texture": SubResource("mystic_1")}, {"duration": 1.0, "texture": SubResource("mystic_2")}, {"duration": 1.0, "texture": SubResource("mystic_3")}, {"duration": 1.0, "texture": SubResource("mystic_4")}, {"duration": 1.0, "texture": SubResource("mystic_5")}, {"duration": 1.0, "texture": SubResource("mystic_6")}, {"duration": 1.0, "texture": SubResource("mystic_7")}]}]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("mystic_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("mystic_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("mystic_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("mystic_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("mystic_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("mystic_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("mystic_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("mystic_7")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 20.0
+}]
 
-[node name="MysteriousShopRoom" instance=ExtResource("base")]
+[sub_resource type="Gradient" id="crimson"]
+colors = PackedColorArray(0.66, 0.07, 0.18, 0.6, 0.42, 0.04, 0.11, 0)
+
+[sub_resource type="GradientTexture2D" id="aura"]
+gradient = SubResource("crimson")
+width = 48
+height = 48
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="CircleShape2D" id="greet_range"]
+radius = 49.0
+
+[node name="MysteriousShopRoom" unique_id=233590515 instance=ExtResource("base")]
 
 [node name="Dungeon" parent="." index="1"]
 self_modulate = Color(0.79, 0.52, 0.64, 1)
@@ -81,11 +109,12 @@ light_color = Color(1, 0.28, 0.44, 1)
 [node name="Doorway" parent="." index="3"]
 arrival_marker = NodePath("PactReturnSpawn")
 
-[node name="PactPedestal" parent="." instance=ExtResource("stand")]
+[node name="PactPedestal" parent="." index="7" unique_id=943560087 instance=ExtResource("stand")]
 position = Vector2(12, 102)
 offer = ExtResource("movement")
 stock_id = &"first_room.movement_surge"
-[node name="MysteriousTrader" type="AnimatedSprite2D" parent="."]
+
+[node name="MysteriousTrader" type="AnimatedSprite2D" parent="." index="8" unique_id=1494460283]
 texture_filter = 1
 position = Vector2(88, 55)
 scale = Vector2(0.5, 0.5)
@@ -93,46 +122,45 @@ sprite_frames = SubResource("mystic_idle")
 animation = &"idle"
 autoplay = "idle"
 script = ExtResource("mystic_script")
-fallback_weapons = [ExtResource("ember_staff"), ExtResource("frost_staff"), ExtResource("storm_staff"), ExtResource("spear"), ExtResource("war_hammer")]
+fallback_weapons = Array[ExtResource("6_dxcos")]([ExtResource("ember_staff"), ExtResource("frost_staff"), ExtResource("storm_staff"), ExtResource("spear"), ExtResource("war_hammer")])
 
-[node name="Glow" type="Sprite2D" parent="MysteriousTrader"]
+[node name="Glow" type="Sprite2D" parent="MysteriousTrader" index="0" unique_id=1339221363]
 show_behind_parent = true
 scale = Vector2(2, 2)
 texture = SubResource("aura")
 
-[node name="Proximity" type="Area2D" parent="MysteriousTrader"]
+[node name="Proximity" type="Area2D" parent="MysteriousTrader" index="1" unique_id=555269071]
 position = Vector2(0, 26)
 scale = Vector2(2, 2)
 collision_layer = 0
 monitorable = false
 
-[node name="Range" type="CollisionShape2D" parent="MysteriousTrader/Proximity"]
+[node name="Range" type="CollisionShape2D" parent="MysteriousTrader/Proximity" index="0" unique_id=499723913]
 shape = SubResource("greet_range")
 
-[node name="Greeting" type="Label" parent="MysteriousTrader"]
+[node name="Greeting" type="Label" parent="MysteriousTrader" index="2" unique_id=1614668821]
 visible = false
 z_index = 5
-offset_left = -90
-offset_top = -68
-offset_right = 90
-horizontal_alignment = 1
-mouse_filter = 2
+offset_left = -90.0
+offset_top = -68.0
+offset_right = 90.0
 theme_override_colors/font_color = Color(1, 0.76, 0.8, 1)
 theme_override_colors/font_outline_color = Color(0.09, 0.03, 0.06, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 14
 text = "All gifts take."
+horizontal_alignment = 1
 
-[node name="SpikePedestal" parent="." instance=ExtResource("stand")]
+[node name="SpikePedestal" parent="." index="9" unique_id=1790444281 instance=ExtResource("stand")]
 position = Vector2(88, 102)
-prompt_name = "Spike Guard"
 offer = ExtResource("spikes")
 stock_id = &"shop_room.spike_guard"
+prompt_name = "Spike Guard"
 prompt_offset = Vector2(0, -31)
 
-[node name="MeteorPedestal" parent="." instance=ExtResource("stand")]
+[node name="MeteorPedestal" parent="." index="10" unique_id=1751734599 instance=ExtResource("stand")]
 position = Vector2(164, 102)
-prompt_name = "Meteor"
 offer = ExtResource("meteor")
 stock_id = &"shop_room.meteor"
+prompt_name = "Meteor"
 prompt_offset = Vector2(0, -31)
