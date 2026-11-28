@@ -314,72 +314,97 @@ func overlaps_existing(rect: Rect2) -> bool:
 	return false
 
 func setup_room_gates() -> void:
-	print("=== SETUP ROOM GATES ===")
 	for room in rooms:
-		print("Checking room: ", room.name)
 		var area = room.get_node_or_null("Area2D")
 		if area == null:
-			print("  No Area2D")
 			continue
 		
 		var gates: Array = []
-		var enemies: Array = []
+		var all_enemies: Array = []
 		for child in room.get_children():
 			if child.is_in_group("gate"):
 				gates.append(child)
-				print("  Found gate: ", child.name)
 			elif child.is_in_group("enemy"):
-				enemies.append(child)
-				print("  Found enemy: ", child.name)
+				all_enemies.append(child)
 		
-		print("  Gates: ", gates.size(), " | Enemies: ", enemies.size())
-		
-		# Start every gate open
 		for gate in gates:
 			if gate.has_method("set_closed"):
 				gate.set_closed(false)
 		
-		if enemies.is_empty():
-			print("  Skipping (no enemies)")
+		if all_enemies.is_empty():
 			continue
+		
+		var half = ceili(all_enemies.size() / 2.0)
+		var wave1 = all_enemies.slice(0, half)
+		var wave2 = all_enemies.slice(half)
+		
+		# Disable wave 2 only. Wave 1 stays active (pre-spawned)
+		for e in wave2:
+			e.process_mode = Node.PROCESS_MODE_DISABLED
+			e.hide()
 		
 		var state = {
 			"player_inside": false,
-			"enemies": enemies,
-			"gates": gates
+			"gates": gates,
+			"wave1": wave1,
+			"wave2": wave2,
+			"current_wave": 1,
+			"remaining": all_enemies.size(),
+			"wave1_dead": 0
 		}
 		
-		area.body_entered.connect(func(body):
-			print("Body entered: ", body.name, " groups: ", body.get_groups())
+		area.body_entered.connect(func(body, s = state):
 			if body.is_in_group("player"):
-				print("  -> Player entered room")
-				state.player_inside = true
-				_update_room_gates(state)
+				s.player_inside = true
+				_update_room_gates(s)
 		)
-		area.body_exited.connect(func(body):
+		area.body_exited.connect(func(body, s = state):
 			if body.is_in_group("player"):
-				print("  -> Player left room")
-				state.player_inside = false
-				_update_room_gates(state)
+				s.player_inside = false
+				_update_room_gates(s)
 		)
 		
-		for enemy in enemies:
+		for enemy in all_enemies:
 			var hc = enemy.get_node_or_null("HealthComponent")
 			if hc and hc.has_signal("died"):
-				hc.died.connect(func():
-					state.enemies.erase(enemy)
-					print("Enemy died. Remaining: ", state.enemies.size())
-					_update_room_gates(state)
+				hc.died.connect(func(s = state, e = enemy):
+					s.remaining -= 1
+					if e in s.wave1:
+						s.wave1_dead += 1
+						if s.wave1_dead >= s.wave1.size() and s.current_wave == 1:
+							s.current_wave = 2
+							for next in s.wave2:
+								if is_instance_valid(next):
+									next.process_mode = Node.PROCESS_MODE_INHERIT
+									next.show()
+					_update_room_gates(s)
 				)
 
+func _activate_wave(state: Dictionary, wave_num: int) -> void:
+	state.current_wave = wave_num
+	var wave = state.wave1 if wave_num == 1 else state.wave2
+	for enemy in wave:
+		if is_instance_valid(enemy):
+			enemy.process_mode = Node.PROCESS_MODE_INHERIT
+			enemy.show()
+			if enemy.has_method("set_physics_process"):
+				enemy.set_physics_process(true)
+
+func _check_wave_clear(state: Dictionary) -> void:
+	if state.current_wave == 1:
+		var wave1_alive = false
+		for e in state.wave1:
+			if is_instance_valid(e) and e.process_mode != Node.PROCESS_MODE_DISABLED:
+				wave1_alive = true
+				break
+		if not wave1_alive and not state.wave2.is_empty():
+			_activate_wave(state, 2)
+
 func _update_room_gates(state: Dictionary) -> void:
-	var should_close = state.player_inside and state.enemies.size() > 0
-	print("Updating gates. player_inside=", state.player_inside, " enemies=", state.enemies.size(), " -> close=", should_close)
+	var should_close = state.player_inside and state.remaining > 0
 	for gate in state.gates:
 		if is_instance_valid(gate) and gate.has_method("set_closed"):
 			gate.set_closed(should_close)
-		else:
-			print("  Gate invalid or missing set_closed: ", gate)
 
 
 func spawn_enemies_in_room(room: Node2D) -> void:
@@ -392,7 +417,7 @@ func spawn_enemies_in_room(room: Node2D) -> void:
 		return
 	
 	markers.shuffle()
-	var count = randi_range(2, mini(8, markers.size()))
+	var count = randi_range(5, mini(8, markers.size()))
 	
 	for i in count:
 		var enemy = enemy_scene.instantiate()

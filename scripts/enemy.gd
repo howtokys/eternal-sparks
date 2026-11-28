@@ -15,7 +15,7 @@ signal attack_requested(target: Node2D)
 @onready var attack_range: Area2D = $AttackRange
 @onready var reset_timer: Timer = $HitCountResetTimer
 @onready var attack_timer: Timer = $AttackTimer
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var sprite: Sprite2D = $Sprite2D	
 @onready var health_component: HealthComponent = $HealthComponent
 
 const DAMAGE_NUMBER = preload("uid://bscrltn1af1bx")
